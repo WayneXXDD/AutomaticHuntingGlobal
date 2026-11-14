@@ -72,7 +72,18 @@ try {
     }
     if (@($names | Where-Object { $_ -match '(^|/)(Dalamud|FFXIVClientStructs|Lumina|InteropGenerator)\.' }).Count) { throw 'Package contains Global host libraries.' }
 } finally { $verified.Dispose() }
+if ($version -eq [version]'2.4.5.4') {
+    $previousArchive = Join-Path $work 'AutomaticHunting-2.4.5.3.zip'
+    Invoke-WebRequest -Uri 'https://github.com/WayneXXDD/AutomaticHuntingGlobal/releases/download/v2.4.5.3/AutomaticHunting.zip' -OutFile $previousArchive
+    if ((Get-FileHash -LiteralPath $previousArchive -Algorithm SHA256).Hash.ToLowerInvariant() -cne 'bbc46356abe744d8959c6765634cc6f54c83d1b20b548883fc322df3b10063cb') {
+        throw 'Regression package checksum changed.'
+    }
+    dotnet run --project tools/VerifyPluginResources/VerifyPluginResources.csproj -c Release -p:NuGetAudit=false -- $previousArchive (Join-Path $env:GITHUB_WORKSPACE 'src') --expect-missing-name-resource
+    if ($LASTEXITCODE -ne 0) { throw 'The previous resource failure was not reproduced.' }
+}
+dotnet run --project tools/VerifyPluginResources/VerifyPluginResources.csproj -c Release -p:NuGetAudit=false -- $archive (Join-Path $env:GITHUB_WORKSPACE 'src')
+if ($LASTEXITCODE -ne 0) { throw 'The packaged plugin is missing or corrupting its startup resources.' }
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='compatibility, Traditional Chinese display, search, identity and glyph checks'; gameTested=$false} |
+[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='compatibility, display, search, identity, glyph and packaged resource regression checks'; gameTested=$false} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $distribution 'build-info.json') -Encoding utf8
 Write-Output "Verified Global package $version; SHA256 $hash"
