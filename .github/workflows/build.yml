@@ -1,0 +1,51 @@
+name: Build and publish Global plugin
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+      - 'manifest/**'
+      - '.github/scripts/Build-Global.ps1'
+      - '.github/scripts/Publish-Global.ps1'
+      - '.github/workflows/build.yml'
+      - 'NOTICE.md'
+permissions:
+  contents: read
+concurrency:
+  group: automatic-hunting-global-publish
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Validate build scripts
+        shell: pwsh
+        run: |
+          foreach ($name in @('Build-Global.ps1','Publish-Global.ps1')) {
+            $errors = $null
+            [void][Management.Automation.Language.Parser]::ParseFile((Join-Path .github/scripts $name), [ref]$null, [ref]$errors)
+            if ($errors) { throw ($errors | Out-String) }
+          }
+      - name: Test, compile, and verify Global package
+        shell: pwsh
+        run: ./.github/scripts/Build-Global.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AutomaticHuntingGlobal
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
+      - name: Publish verified download
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./.github/scripts/Publish-Global.ps1
