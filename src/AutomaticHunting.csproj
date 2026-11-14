@@ -10,6 +10,7 @@
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Deterministic>true</Deterministic>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
     <DalamudLibPath Condition="'$(DalamudLibPath)' == ''">$(DALAMUD_LIB_PATH)/</DalamudLibPath>
   </PropertyGroup>

@@ -2640,7 +2640,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		else
 		{
 			PrintEcho($"进入多线地图(terr={arg0}): 等待稳定后切换到1线开始打A怪");
-			Method_61(1);
+			_ = Method_61(1);
 		}
 	}
 
@@ -2727,7 +2727,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 		});
 		PrintEcho("正在切换副本线: " + field_158);
-		Method_65(num);
+		_ = Method_65(num);
 	}
 
 	private async Task Method_65(int arg0)
@@ -5429,7 +5429,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void StartTargetHpMonitor()
 	{
-		Method_177();
+		_ = Method_177();
 	}
 
 	public void LoadDrPresets()
@@ -5469,7 +5469,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		Method_176();
 		GlobalCommands.Process($"/ahglobal instance {num}");
 		PrintEcho($"正在切换到 {num} 线 (/ahglobal instance {num})");
-		Method_65(num);
+		_ = Method_65(num);
 	}
 
 	private void Method_176()
@@ -5762,7 +5762,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void SummonMount()
 	{
-		Method_186();
+		_ = Method_186();
 	}
 
 	private async Task Method_186()

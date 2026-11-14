@@ -44,14 +44,14 @@ internal static class GlobalGameData
     internal static Dictionary<string, string[]> BuildAetheryteNames()
     {
         var aetherytes = AutomaticHunting.DataManager.GetExcelSheet<Aetheryte>();
-        return HuntTerritories().ToDictionary(t => t.PlaceName.Value.Name.ExtractText(),
-            t => aetherytes.Where(a => a.IsAetheryte && a.Territory.RowId == t.RowId)
-                .OrderBy(a => a.RowId).Select(a => a.PlaceName.Value.Name.ExtractText()).Where(n => n.Length > 0).ToArray());
+        return HuntTerritories().GroupBy(t => t.PlaceName.Value.Name.ExtractText()).ToDictionary(g => g.Key,
+            g => aetherytes.Where(a => a.IsAetheryte && g.Any(t => a.Territory.RowId == t.RowId))
+                .OrderBy(a => a.RowId).Select(a => a.PlaceName.Value.Name.ExtractText()).Where(n => n.Length > 0).Distinct().ToArray());
     }
 
     internal static Dictionary<string, string[]> BuildMarks(int rank) => HuntTerritories()
-        .ToDictionary(t => t.PlaceName.Value.Name.ExtractText(),
-            t => t.NotoriousMonsterTerritory.Value.NotoriousMonsters
+        .GroupBy(t => t.PlaceName.Value.Name.ExtractText()).ToDictionary(g => g.Key,
+            g => g.SelectMany(t => t.NotoriousMonsterTerritory.Value.NotoriousMonsters)
                 .Where(m => m.RowId != 0).Select(m => m.Value)
                 .Where(m => m.Rank == rank && m.BNpcName.RowId != 0)
                 .Select(m => m.BNpcName.Value.Singular.ExtractText())

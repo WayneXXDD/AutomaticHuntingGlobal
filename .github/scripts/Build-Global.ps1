@@ -32,6 +32,7 @@ foreach ($name in @('AutomaticHunting.dll','AutomaticHunting.deps.json','ECommon
 Copy-Item -LiteralPath manifest/AutomaticHunting.json -Destination (Join-Path $package 'AutomaticHunting.json')
 Copy-Item -LiteralPath README.md -Destination (Join-Path $package 'README.md')
 Copy-Item -LiteralPath NOTICE.md -Destination (Join-Path $package 'NOTICE.md')
+Copy-Item -LiteralPath third-party/ECommons.LICENSE.md -Destination (Join-Path $package 'ECommons.LICENSE.md')
 Invoke-WebRequest -Uri $manifest.IconUrl -OutFile (Join-Path $package 'icon.png')
 $distribution = Join-Path $env:GITHUB_WORKSPACE 'dist'
 [void](New-Item -ItemType Directory -Path $distribution -Force)
