@@ -36,7 +36,12 @@ if ($LASTEXITCODE -ne 0) { throw 'ILSpy installation failed.' }
 $output = Join-Path $env:GITHUB_WORKSPACE 'analysis/original'
 [void](New-Item -ItemType Directory -Path $output -Force)
 $sources = Join-Path $taskRoot 'decompiled'
-& (Join-Path $toolsRoot 'ilspycmd.exe') --disable-updatecheck -p -o $sources -r $dalamud.Directory.FullName -r $package $dll
+$ilspy = @('ilspycmd.exe', 'ilspycmd.cmd', 'ilspycmd') | ForEach-Object { Join-Path $toolsRoot $_ } | Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+if (-not $ilspy) {
+    Get-ChildItem -LiteralPath $toolsRoot -Recurse -File | Select-Object -ExpandProperty FullName
+    throw 'ILSpy command shim is missing.'
+}
+& $ilspy --disable-updatecheck -p -o $sources -r $dalamud.Directory.FullName -r $package $dll
 if ($LASTEXITCODE -ne 0) { throw 'ILSpy decompilation failed. No recovered source will be published.' }
 $sourceRoot = Join-Path $output 'source'
 [void](New-Item -ItemType Directory -Path $sourceRoot -Force)
