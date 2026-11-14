@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Recovered;
 
-internal static class RecoveredType_100
+public static class RecoveredType_100
 {
 	internal static readonly (string Name, string[] Servers)[] field_643 = new (string, string[])[4]
 	{

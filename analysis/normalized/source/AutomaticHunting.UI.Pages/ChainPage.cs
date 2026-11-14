@@ -11,7 +11,7 @@ namespace AutomaticHunting.UI.Pages;
 public sealed class ChainPage : SettingsPage
 {
 	[CompilerGenerated]
-	private static class RecoveredType_132
+	public static class RecoveredType_132
 	{
 		public static Func<WorldTravelPreset, string> field_864;
 
@@ -20,7 +20,7 @@ public sealed class ChainPage : SettingsPage
 
 	[Serializable]
 	[CompilerGenerated]
-	private sealed class RecoveredType_133
+	public sealed class RecoveredType_133
 	{
 		public static readonly RecoveredType_133 field_866 = new RecoveredType_133();
 
@@ -33,7 +33,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_134
+	public sealed class RecoveredType_134
 	{
 		public List<WorldTravelPreset> field_868;
 
@@ -58,7 +58,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_135
+	public sealed class RecoveredType_135
 	{
 		public int field_871;
 
@@ -75,7 +75,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_136
+	public sealed class RecoveredType_136
 	{
 		public HuntChainStep field_875;
 
@@ -117,7 +117,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_137
+	public sealed class RecoveredType_137
 	{
 		public int field_877;
 
@@ -149,7 +149,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_138
+	public sealed class RecoveredType_138
 	{
 		public HuntChainPreset field_882;
 
@@ -177,7 +177,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_139
+	public sealed class RecoveredType_139
 	{
 		public string field_884;
 
@@ -231,7 +231,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_140
+	public sealed class RecoveredType_140
 	{
 		public int field_886;
 
@@ -242,7 +242,7 @@ public sealed class ChainPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_141
+	public sealed class RecoveredType_141
 	{
 		public string field_887;
 

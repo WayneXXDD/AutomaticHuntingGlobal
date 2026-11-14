@@ -9,7 +9,7 @@ namespace AutomaticHunting.UI.Components;
 public static class UiToast
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_200
+	public sealed class RecoveredType_200
 	{
 		public double field_1187;
 

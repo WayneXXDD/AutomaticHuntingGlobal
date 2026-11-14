@@ -42,7 +42,7 @@ namespace AutomaticHunting;
 
 public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 {
-	private readonly struct RecoveredType_3 : IEquatable<RecoveredType_3>
+	public readonly struct RecoveredType_3 : IEquatable<RecoveredType_3>
 	{
 		[CompilerGenerated]
 		private readonly uint field_97;
@@ -154,7 +154,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private readonly struct RecoveredType_4 : IEquatable<RecoveredType_4>
+	public readonly struct RecoveredType_4 : IEquatable<RecoveredType_4>
 	{
 		[CompilerGenerated]
 		private readonly string field_99;
@@ -266,7 +266,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private readonly struct RecoveredType_5 : IEquatable<RecoveredType_5>
+	public readonly struct RecoveredType_5 : IEquatable<RecoveredType_5>
 	{
 		[CompilerGenerated]
 		private readonly string field_101;
@@ -399,7 +399,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private sealed class RecoveredType_6
+	public sealed class RecoveredType_6
 	{
 		[CompilerGenerated]
 		private string field_104 = string.Empty;
@@ -472,7 +472,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		public bool Finished;
 	}
 
-	private enum RecoveredType_8
+	public enum RecoveredType_8
 	{
 		field_116,
 		field_117,
@@ -482,7 +482,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		field_121
 	}
 
-	private enum RecoveredType_9
+	public enum RecoveredType_9
 	{
 		field_123,
 		field_124,
@@ -490,7 +490,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		field_126
 	}
 
-	private enum RecoveredType_10
+	public enum RecoveredType_10
 	{
 		field_128,
 		field_129,
@@ -498,7 +498,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private static class RecoveredType_11
+	public static class RecoveredType_11
 	{
 		public static Func<Vector3?> field_131;
 
@@ -509,8 +509,95 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[Serializable]
 	[CompilerGenerated]
-	private sealed class RecoveredType_12
+	public sealed class RecoveredType_12
 	{
+		[StructLayout(LayoutKind.Auto)]
+		public struct RecoveredType_13 : IAsyncStateMachine
+		{
+			public int field_153;
+
+			public AsyncTaskMethodBuilder field_154;
+
+			private TaskAwaiter field_155;
+
+			private void Method_282()
+			{
+				int num = field_153;
+				try
+				{
+					try
+					{
+						TaskAwaiter awaiter;
+						if (num != 0)
+						{
+							awaiter = Task.Delay(5000).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_153 = 0);
+								field_155 = awaiter;
+								field_154.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+						}
+						else
+						{
+							awaiter = field_155;
+							field_155 = default;
+							num = (field_153 = -1);
+						}
+						awaiter.GetResult();
+						List<string> list = new List<string>();
+						if (!IsPluginLoaded("Lifestream"))
+						{
+							list.Add("Lifestream");
+						}
+						if (!IsPluginLoaded("vnavmesh"))
+						{
+							list.Add("vnavmesh");
+						}
+						if (list.Count == 0)
+						{
+							PrintEchoAlways("前置插件已就绪");
+						}
+						else
+						{
+							PrintEchoAlways("前置插件仍未加载: " + string.Join(", ", list) + "（相关功能不可用，见设置-前置插件）");
+						}
+					}
+					catch (Exception exception)
+					{
+						Log.Warning(exception, "AutomaticHunting: 前置插件复查失败");
+					}
+				}
+				catch (Exception exception2)
+				{
+					field_153 = -2;
+					field_154.SetException(exception2);
+					return;
+				}
+				field_153 = -2;
+				field_154.SetResult();
+			}
+
+			void IAsyncStateMachine.MoveNext()
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_282
+				this.Method_282();
+			}
+
+			[DebuggerHidden]
+			private void Method_283(IAsyncStateMachine arg0)
+			{
+				field_154.SetStateMachine(arg0);
+			}
+
+			void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_283
+				this.Method_283(arg0);
+			}
+		}
+
 		public static readonly RecoveredType_12 field_134 = new RecoveredType_12();
 
 		public static Func<Task?> field_135;
@@ -549,7 +636,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public static Func<bool> field_152;
 
-		[AsyncStateMachine(typeof(_00A0))]
+		[AsyncStateMachine(typeof(RecoveredType_13))]
 		internal Task? Method_264()
 		{
 			RecoveredType_13 stateMachine = default;
@@ -570,7 +657,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal bool Method_266()
 		{
-			return _2024();
+			return Method_133();
 		}
 
 		internal bool Method_267(IExposedPlugin arg0)
@@ -628,7 +715,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal bool Method_272()
 		{
-			return _2024();
+			return Method_133();
 		}
 
 		internal uint Method_273()
@@ -700,7 +787,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal bool Method_280()
 		{
-			return _2024();
+			return Method_133();
 		}
 
 		internal bool Method_281()
@@ -710,7 +797,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_14
+	public sealed class RecoveredType_14
 	{
 		public uint field_156;
 
@@ -725,7 +812,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_15
+	public sealed class RecoveredType_15
 	{
 		public uint field_157;
 
@@ -740,7 +827,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_16
+	public sealed class RecoveredType_16
 	{
 		public string field_158;
 
@@ -762,7 +849,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_17
+	public sealed class RecoveredType_17
 	{
 		public int field_160;
 
@@ -780,7 +867,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2010
+	public sealed class RecoveredType_18
 	{
 		public uint field_161;
 
@@ -798,13 +885,83 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2011
+	public sealed class RecoveredType_19
 	{
+		[StructLayout(LayoutKind.Auto)]
+		public struct RecoveredType_20 : IAsyncStateMachine
+		{
+			public int field_165;
+
+			public AsyncTaskMethodBuilder field_166;
+
+			public RecoveredType_19 field_167;
+
+			private TaskAwaiter field_168;
+
+			private void Method_297()
+			{
+				int num = field_165;
+				RecoveredType_19 recoveredType_ = field_167;
+				try
+				{
+					TaskAwaiter awaiter;
+					if (num != 0)
+					{
+						awaiter = Task.Delay(2000).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_165 = 0);
+							field_168 = awaiter;
+							field_166.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+					}
+					else
+					{
+						awaiter = field_168;
+						field_168 = default;
+						num = (field_165 = -1);
+					}
+					awaiter.GetResult();
+					if (recoveredType_.field_163.SMonitor == recoveredType_.field_164)
+					{
+						recoveredType_.field_163.SMonitor = null;
+					}
+				}
+				catch (Exception exception)
+				{
+					field_165 = -2;
+					field_166.SetException(exception);
+					return;
+				}
+				field_165 = -2;
+				field_166.SetResult();
+			}
+
+			void IAsyncStateMachine.MoveNext()
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_297
+				this.Method_297();
+			}
+
+			[DebuggerHidden]
+			private void Method_298(IAsyncStateMachine arg0)
+			{
+				field_166.SetStateMachine(arg0);
+			}
+
+			void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_298
+				this.Method_298(arg0);
+			}
+		}
+
 		public AutomaticHunting field_163;
 
 		public SMonitorStatus field_164;
 
-		[AsyncStateMachine(typeof(_00A0))]
+		[AsyncStateMachine(typeof(RecoveredType_20))]
 		internal Task? Method_296()
 		{
 			RecoveredType_20 stateMachine = default;
@@ -817,7 +974,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2012
+	public sealed class RecoveredType_21
 	{
 		public string field_169;
 
@@ -828,7 +985,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2013
+	public sealed class RecoveredType_22
 	{
 		public AutomaticHunting field_170;
 
@@ -840,12 +997,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal Task? Method_302()
 		{
-			return field_170.Method_103(field_171, field_172, field_173, field_170.m__2054.Token);
+			return field_170.Method_103(field_171, field_172, field_173, field_170.field_64.Token);
 		}
 	}
 
 	[CompilerGenerated]
-	private sealed class _2014
+	public sealed class RecoveredType_23
 	{
 		public uint field_174;
 
@@ -856,7 +1013,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2015
+	public sealed class RecoveredType_24
 	{
 		public uint field_175;
 
@@ -867,7 +1024,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2022
+	public sealed class RecoveredType_25
 	{
 		public string field_176;
 
@@ -885,7 +1042,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2024
+	public sealed class RecoveredType_26
 	{
 		public AutomaticHunting field_177;
 
@@ -919,7 +1076,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				return (Between: field_179 > 0, Foreign: field_179 == 0);
 			}
-			if (_2014())
+			if (Method_121())
 			{
 				DateTime valueOrDefault = field_180.GetValueOrDefault();
 				if (!field_180.HasValue)
@@ -946,7 +1103,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			Vector3? localPlayerPosition = GetLocalPlayerPosition();
 			bool num = localPlayerPosition.HasValue && field_182.HasValue && Vector3.DistanceSquared(localPlayerPosition.Value, field_182.Value) < 0.0001f;
 			field_182 = localPlayerPosition;
-			if (!num || _2024() || _2014() || Condition[ConditionFlag.MountOrOrnamentTransition] || DateTime.UtcNow < field_183 || field_177._2015() || !_2013())
+			if (!num || Method_133() || Method_121() || Condition[ConditionFlag.MountOrOrnamentTransition] || DateTime.UtcNow < field_183 || field_177.Method_122() || !Method_120())
 			{
 				return (Between: false, Foreign: false);
 			}
@@ -962,7 +1119,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2025
+	public sealed class RecoveredType_27
 	{
 		public uint field_187;
 
@@ -973,7 +1130,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2027
+	public sealed class RecoveredType_28
 	{
 		public Aetheryte field_188;
 
@@ -984,7 +1141,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_29
+	public sealed class RecoveredType_29
 	{
 		public string field_189;
 
@@ -999,7 +1156,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_30
+	public sealed class RecoveredType_30
 	{
 		public uint field_190;
 
@@ -1010,7 +1167,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_31
+	public sealed class RecoveredType_31
 	{
 		public WorldTravelPreset field_191;
 
@@ -1026,8 +1183,107 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_32
+	public sealed class RecoveredType_32
 	{
+		[StructLayout(LayoutKind.Auto)]
+		public struct RecoveredType_33 : IAsyncStateMachine
+		{
+			public int field_196;
+
+			public AsyncTaskMethodBuilder field_197;
+
+			public RecoveredType_32 field_198;
+
+			private TaskAwaiter field_199;
+
+			private void Method_325()
+			{
+				int num = field_196;
+				RecoveredType_32 recoveredType_ = field_198;
+				try
+				{
+					TaskAwaiter awaiter;
+					if (num != 0)
+					{
+						if (num == 1)
+						{
+							awaiter = field_199;
+							field_199 = default;
+							num = (field_196 = -1);
+							goto IL_00e6;
+						}
+						if (recoveredType_.field_192 == null)
+						{
+							goto IL_0084;
+						}
+					}
+					try
+					{
+						if (num != 0)
+						{
+							awaiter = recoveredType_.field_192.GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_196 = 0);
+								field_199 = awaiter;
+								field_197.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+						}
+						else
+						{
+							awaiter = field_199;
+							field_199 = default;
+							num = (field_196 = -1);
+						}
+						awaiter.GetResult();
+					}
+					catch
+					{
+					}
+					goto IL_0084;
+					IL_0084:
+					awaiter = recoveredType_.field_193.Method_158(recoveredType_.field_194, recoveredType_.field_195).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_196 = 1);
+						field_199 = awaiter;
+						field_197.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_00e6;
+					IL_00e6:
+					awaiter.GetResult();
+				}
+				catch (Exception exception)
+				{
+					field_196 = -2;
+					field_197.SetException(exception);
+					return;
+				}
+				field_196 = -2;
+				field_197.SetResult();
+			}
+
+			void IAsyncStateMachine.MoveNext()
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_325
+				this.Method_325();
+			}
+
+			[DebuggerHidden]
+			private void Method_326(IAsyncStateMachine arg0)
+			{
+				field_197.SetStateMachine(arg0);
+			}
+
+			void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_326
+				this.Method_326(arg0);
+			}
+		}
+
 		public Task field_192;
 
 		public AutomaticHunting field_193;
@@ -1036,7 +1292,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public CancellationTokenSource field_195;
 
-		[AsyncStateMachine(typeof(_00A0))]
+		[AsyncStateMachine(typeof(RecoveredType_33))]
 		internal Task? Method_324()
 		{
 			RecoveredType_33 stateMachine = default;
@@ -1049,7 +1305,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_34
+	public sealed class RecoveredType_34
 	{
 		public AutomaticHunting field_200;
 
@@ -1058,12 +1314,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		internal (RecoveredType_10 Preparation, uint AetheryteId, bool SameTerritory) Method_328()
 		{
 			uint arg;
-			return (Preparation: field_200.Method_160(field_201, out arg), AetheryteId: arg, SameTerritory: _2012() == field_201.TerritoryType);
+			return (Preparation: field_200.Method_160(field_201, out arg), AetheryteId: arg, SameTerritory: Method_116() == field_201.TerritoryType);
 		}
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_35
+	public sealed class RecoveredType_35
 	{
 		public AutomaticHunting field_202;
 
@@ -1076,7 +1332,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_36
+	public sealed class RecoveredType_36
 	{
 		public uint field_204;
 
@@ -1087,7 +1343,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_37
+	public sealed class RecoveredType_37
 	{
 		public uint field_205;
 
@@ -1097,7 +1353,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal bool Method_334()
 		{
-			if (_2012() == field_205)
+			if (Method_116() == field_205)
 			{
 				return GetLocalPlayerPosition().HasValue;
 			}
@@ -1106,7 +1362,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		internal bool Method_335()
 		{
-			if (!_2024() && !Condition[ConditionFlag.Casting] && _2012() == field_205)
+			if (!Method_133() && !Condition[ConditionFlag.Casting] && Method_116() == field_205)
 			{
 				return GetLocalPlayerPosition().HasValue;
 			}
@@ -1115,7 +1371,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2032
+	public sealed class RecoveredType_38
 	{
 		public AutomaticHunting field_208;
 
@@ -1130,10 +1386,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		internal bool Method_337()
 		{
 			Vector3 valueOrDefault = field_208.Method_118(field_209).GetValueOrDefault(field_209);
-			ICallGateSubscriber<bool>? callGateSubscriber = field_208.m__2012;
-			if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+			ICallGateSubscriber<bool>? field_ = field_208.field_24;
+			if (field_ != null && field_.InvokeFunc())
 			{
-				return field_208.m__2013?.InvokeFunc(valueOrDefault, arg2: true) ?? false;
+				return field_208.field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false;
 			}
 			return false;
 		}
@@ -1149,7 +1405,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2035
+	public sealed class RecoveredType_39
 	{
 		public Vector3 field_213;
 
@@ -1161,21 +1417,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			Vector3? vector = field_214.Method_118(field_213);
 			Vector3 arg = (vector.HasValue ? new Vector3(vector.Value.X, field_213.Y, vector.Value.Z) : field_213);
-			ICallGateSubscriber<bool>? callGateSubscriber = field_214.m__2012;
-			if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+			ICallGateSubscriber<bool>? field_ = field_214.field_24;
+			if (field_ != null && field_.InvokeFunc())
 			{
-				return field_214.m__2013?.InvokeFunc(arg, arg2: true) ?? false;
+				return field_214.field_25?.InvokeFunc(arg, arg2: true) ?? false;
 			}
 			return false;
 		}
 	}
 
 	[CompilerGenerated]
-	private sealed class _2033
+	public sealed class RecoveredType_40
 	{
 		public RecoveredType_5? field_216;
 
-		public _2035 field_217;
+		public RecoveredType_39 field_217;
 
 		internal string Method_342()
 		{
@@ -1184,27 +1440,27 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2036
+	public sealed class RecoveredType_41
 	{
 		public Vector3 field_218;
 
-		public _2033 field_219;
+		public RecoveredType_40 field_219;
 
 		internal bool Method_344()
 		{
 			Vector3? vector = field_219.field_217.field_214.Method_118(field_218);
 			Vector3 arg = (vector.HasValue ? new Vector3(vector.Value.X, field_218.Y, vector.Value.Z) : field_218);
-			ICallGateSubscriber<bool>? callGateSubscriber = field_219.field_217.field_214.m__2012;
-			if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+			ICallGateSubscriber<bool>? field_ = field_219.field_217.field_214.field_24;
+			if (field_ != null && field_.InvokeFunc())
 			{
-				return field_219.field_217.field_214.m__2013?.InvokeFunc(arg, arg2: true) ?? false;
+				return field_219.field_217.field_214.field_25?.InvokeFunc(arg, arg2: true) ?? false;
 			}
 			return false;
 		}
 	}
 
 	[CompilerGenerated]
-	private sealed class _203E
+	public sealed class RecoveredType_42
 	{
 		public AutomaticHunting field_220;
 
@@ -1221,7 +1477,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2047
+	public sealed class RecoveredType_43
 	{
 		public AutomaticHunting field_223;
 
@@ -1237,11 +1493,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			Vector3 vector = arg + field_223.Method_114(arg);
 			Vector3 arg2 = field_223.Method_118(vector) ?? vector;
-			ICallGateSubscriber<bool>? callGateSubscriber = field_223.m__2012;
-			if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+			ICallGateSubscriber<bool>? field_ = field_223.field_24;
+			if (field_ != null && field_.InvokeFunc())
 			{
-				ICallGateSubscriber<Vector3, bool, bool>? callGateSubscriber2 = field_223.m__2013;
-				if (callGateSubscriber2 != null && callGateSubscriber2.InvokeFunc(arg2, arg2: true))
+				ICallGateSubscriber<Vector3, bool, bool>? field_2 = field_223.field_25;
+				if (field_2 != null && field_2.InvokeFunc(arg2, arg2: true))
 				{
 					return vector;
 				}
@@ -1251,7 +1507,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2048
+	public sealed class RecoveredType_44
 	{
 		public RecoveredType_4? field_226;
 
@@ -1267,7 +1523,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2049
+	public sealed class RecoveredType_45
 	{
 		public string field_227;
 
@@ -1291,7 +1547,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _204A
+	public sealed class RecoveredType_46
 	{
 		public string field_229;
 
@@ -1309,7 +1565,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _204B
+	public sealed class RecoveredType_47
 	{
 		public string field_230;
 
@@ -1320,8 +1576,107 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _204C
+	public sealed class RecoveredType_48
 	{
+		[StructLayout(LayoutKind.Auto)]
+		public struct RecoveredType_49 : IAsyncStateMachine
+		{
+			public int field_236;
+
+			public AsyncTaskMethodBuilder field_237;
+
+			public RecoveredType_48 field_238;
+
+			private TaskAwaiter field_239;
+
+			private void Method_360()
+			{
+				int num = field_236;
+				RecoveredType_48 recoveredType_ = field_238;
+				try
+				{
+					TaskAwaiter awaiter;
+					if (num != 0)
+					{
+						if (num == 1)
+						{
+							awaiter = field_239;
+							field_239 = default;
+							num = (field_236 = -1);
+							goto IL_00ec;
+						}
+						if (recoveredType_.field_231 == null)
+						{
+							goto IL_0084;
+						}
+					}
+					try
+					{
+						if (num != 0)
+						{
+							awaiter = recoveredType_.field_231.GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_236 = 0);
+								field_239 = awaiter;
+								field_237.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+						}
+						else
+						{
+							awaiter = field_239;
+							field_239 = default;
+							num = (field_236 = -1);
+						}
+						awaiter.GetResult();
+					}
+					catch
+					{
+					}
+					goto IL_0084;
+					IL_0084:
+					awaiter = recoveredType_.field_232.Method_192(recoveredType_.field_233, recoveredType_.field_234, recoveredType_.field_235).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_236 = 1);
+						field_239 = awaiter;
+						field_237.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_00ec;
+					IL_00ec:
+					awaiter.GetResult();
+				}
+				catch (Exception exception)
+				{
+					field_236 = -2;
+					field_237.SetException(exception);
+					return;
+				}
+				field_236 = -2;
+				field_237.SetResult();
+			}
+
+			void IAsyncStateMachine.MoveNext()
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_360
+				this.Method_360();
+			}
+
+			[DebuggerHidden]
+			private void Method_361(IAsyncStateMachine arg0)
+			{
+				field_237.SetStateMachine(arg0);
+			}
+
+			void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+			{
+				//ILSpy generated this explicit interface implementation from .override directive in Method_361
+				this.Method_361(arg0);
+			}
+		}
+
 		public Task field_231;
 
 		public AutomaticHunting field_232;
@@ -1332,7 +1687,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public CancellationTokenSource field_235;
 
-		[AsyncStateMachine(typeof(_00A0))]
+		[AsyncStateMachine(typeof(RecoveredType_49))]
 		internal Task? Method_359()
 		{
 			RecoveredType_49 stateMachine = default;
@@ -1345,7 +1700,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _204D
+	public sealed class RecoveredType_50
 	{
 		public AutomaticHunting field_240;
 
@@ -1356,17 +1711,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		internal bool Method_363()
 		{
 			Vector3 valueOrDefault = field_240.Method_118(field_241).GetValueOrDefault(field_241);
-			ICallGateSubscriber<bool>? callGateSubscriber = field_240.m__2012;
-			if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+			ICallGateSubscriber<bool>? field_ = field_240.field_24;
+			if (field_ != null && field_.InvokeFunc())
 			{
-				return field_240.m__2013?.InvokeFunc(valueOrDefault, arg2: true) ?? false;
+				return field_240.field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false;
 			}
 			return false;
 		}
 	}
 
 	[CompilerGenerated]
-	private sealed class _204E
+	public sealed class RecoveredType_51
 	{
 		public string field_243;
 
@@ -1377,7 +1732,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _204F
+	public sealed class RecoveredType_52
 	{
 		public string field_244;
 
@@ -1388,7 +1743,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2050
+	public sealed class RecoveredType_53
 	{
 		public RecoveredType_5 field_245;
 
@@ -1404,7 +1759,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2051
+	public sealed class RecoveredType_54
 	{
 		public HashSet<string> field_246;
 
@@ -1415,7 +1770,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private sealed class _2052
+	public sealed class RecoveredType_55
 	{
 		public string field_247;
 
@@ -1427,7 +1782,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2053 : IAsyncStateMachine
+	public struct RecoveredType_56 : IAsyncStateMachine
 	{
 		public int field_248;
 
@@ -1506,7 +1861,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2054 : IAsyncStateMachine
+	public struct RecoveredType_57 : IAsyncStateMachine
 	{
 		public int field_254;
 
@@ -1678,7 +2033,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2055 : IAsyncStateMachine
+	public struct RecoveredType_58 : IAsyncStateMachine
 	{
 		public int field_262;
 
@@ -1814,7 +2169,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2056 : IAsyncStateMachine
+	public struct RecoveredType_59 : IAsyncStateMachine
 	{
 		public int field_268;
 
@@ -1998,7 +2353,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2057 : IAsyncStateMachine
+	public struct RecoveredType_60 : IAsyncStateMachine
 	{
 		public int field_276;
 
@@ -2008,7 +2363,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public CancellationToken field_279;
 
-		private _2014 field_280;
+		private RecoveredType_23 field_280;
 
 		private Vector3 field_281;
 
@@ -2031,29 +2386,29 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 				default:
 				{
-					field_280 = new _2014();
-					object obj = automaticHunting.m__2052;
+					field_280 = new RecoveredType_23();
+					object field_ = automaticHunting.field_62;
 					bool lockTaken = false;
-					uint num2;
-					uint num3;
-					Vector3 arg;
+					uint field_2;
+					uint field_3;
+					Vector3 field_4;
 					try
 					{
-						Monitor.Enter(obj, ref lockTaken);
-						num2 = automaticHunting.m__205A;
-						num3 = automaticHunting.m__205B;
-						arg = automaticHunting.m__205C;
+						Monitor.Enter(field_, ref lockTaken);
+						field_2 = automaticHunting.field_70;
+						field_3 = automaticHunting.field_71;
+						field_4 = automaticHunting.field_72;
 					}
 					finally
 					{
 						if (num < 0 && lockTaken)
 						{
-							Monitor.Exit(obj);
+							Monitor.Exit(field_);
 						}
 					}
-					if (num2 != 0 && num3 != 0)
+					if (field_2 != 0 && field_3 != 0)
 					{
-						awaiter = automaticHunting.Method_105(num2, num3, arg, field_279).GetAwaiter();
+						awaiter = automaticHunting.Method_105(field_2, field_3, field_4, field_279).GetAwaiter();
 						if (!awaiter.IsCompleted)
 						{
 							num = (field_276 = 0);
@@ -2064,26 +2419,26 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						goto IL_00ce;
 					}
 					automaticHunting.PrintEcho("开始处理目标Flag");
-					obj = automaticHunting.m__2052;
+					field_ = automaticHunting.field_62;
 					lockTaken = false;
 					try
 					{
-						Monitor.Enter(obj, ref lockTaken);
-						field_282 = automaticHunting.m__2059;
-						field_280.field_174 = automaticHunting.m__2057;
-						field_281 = automaticHunting.m__2058;
+						Monitor.Enter(field_, ref lockTaken);
+						field_282 = automaticHunting.field_69;
+						field_280.field_174 = automaticHunting.field_67;
+						field_281 = automaticHunting.field_68;
 					}
 					finally
 					{
 						if (num < 0 && lockTaken)
 						{
-							Monitor.Exit(obj);
+							Monitor.Exit(field_);
 						}
 					}
 					if (field_280.field_174 != 0)
 					{
 						automaticHunting.LastFlagPosition = field_281;
-						automaticHunting.m__2022 = field_280.field_174;
+						automaticHunting.field_28 = field_280.field_174;
 						awaiter2 = Framework.RunOnFrameworkThread(() => Method_127(field_280.field_174)).GetAwaiter();
 						if (!awaiter2.IsCompleted)
 						{
@@ -2116,7 +2471,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					}
 					IL_01df:
 					result = awaiter2.GetResult();
-					automaticHunting.m__2025 = result;
+					automaticHunting.field_31 = result;
 					awaiter = automaticHunting.Method_106(field_280.field_174, field_281, field_282).GetAwaiter();
 					if (!awaiter.IsCompleted)
 					{
@@ -2168,7 +2523,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2058 : IAsyncStateMachine
+	public struct RecoveredType_61 : IAsyncStateMachine
 	{
 		public int field_285;
 
@@ -2252,7 +2607,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _2059 : IAsyncStateMachine
+	public struct RecoveredType_62 : IAsyncStateMachine
 	{
 		public int field_288;
 
@@ -2332,7 +2687,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _205A : IAsyncStateMachine
+	public struct RecoveredType_63 : IAsyncStateMachine
 	{
 		public int field_291;
 
@@ -2366,11 +2721,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						}
 						Vector3 vector = arg + field_223.Method_114(arg);
 						Vector3 arg2 = field_223.Method_118(vector) ?? vector;
-						ICallGateSubscriber<bool>? callGateSubscriber = field_223.m__2012;
-						if (callGateSubscriber != null && callGateSubscriber.InvokeFunc())
+						ICallGateSubscriber<bool>? field_226 = field_223.field_24;
+						if (field_226 != null && field_226.InvokeFunc())
 						{
-							ICallGateSubscriber<Vector3, bool, bool>? callGateSubscriber2 = field_223.m__2013;
-							if (callGateSubscriber2 != null && callGateSubscriber2.InvokeFunc(arg2, arg2: true))
+							ICallGateSubscriber<Vector3, bool, bool>? field_227 = field_223.field_25;
+							if (field_227 != null && field_227.InvokeFunc(arg2, arg2: true))
 							{
 								return vector;
 							}
@@ -2424,7 +2779,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _205B : IAsyncStateMachine
+	public struct RecoveredType_64 : IAsyncStateMachine
 	{
 		public int field_297;
 
@@ -2438,7 +2793,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public uint field_302;
 
-		private _2015 field_303;
+		private RecoveredType_24 field_303;
 
 		public Vector3 field_304;
 
@@ -2454,7 +2809,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				if ((uint)num > 2u)
 				{
-					field_303 = new _2015();
+					field_303 = new RecoveredType_24();
 					field_303.field_175 = field_299;
 				}
 				try
@@ -2516,7 +2871,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						if (result)
 						{
 							automaticHunting.LastFlagPosition = field_304;
-							automaticHunting.m__2022 = field_303.field_175;
+							automaticHunting.field_28 = field_303.field_175;
 							awaiter = Framework.RunOnFrameworkThread(() => Method_127(field_303.field_175)).GetAwaiter();
 							if (!awaiter.IsCompleted)
 							{
@@ -2531,7 +2886,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						break;
 						IL_01c3:
 						result2 = awaiter.GetResult();
-						automaticHunting.m__2025 = result2;
+						automaticHunting.field_31 = result2;
 						automaticHunting.PrintEcho("已到达目标地图的所选水晶");
 						break;
 					}
@@ -2549,20 +2904,20 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					if (num < 0)
 					{
-						object obj = automaticHunting.m__2052;
+						object field_ = automaticHunting.field_62;
 						bool result = false;
 						try
 						{
-							Monitor.Enter(obj, ref result);
-							automaticHunting.m__205A = 0u;
-							automaticHunting.m__205B = 0u;
-							automaticHunting.m__205C = default;
+							Monitor.Enter(field_, ref result);
+							automaticHunting.field_70 = 0u;
+							automaticHunting.field_71 = 0u;
+							automaticHunting.field_72 = default;
 						}
 						finally
 						{
 							if (num < 0 && result)
 							{
-								Monitor.Exit(obj);
+								Monitor.Exit(field_);
 							}
 						}
 					}
@@ -2601,7 +2956,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _205C : IAsyncStateMachine
+	public struct RecoveredType_65 : IAsyncStateMachine
 	{
 		public int field_307;
 
@@ -2751,7 +3106,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					}
 					if (automaticHunting.Config.SEnabled)
 					{
-						awaiter2 = Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)automaticHunting._2048).GetAwaiter();
+						awaiter2 = Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)automaticHunting.Method_202).GetAwaiter();
 						if (!awaiter2.IsCompleted)
 						{
 							num = (field_307 = 4);
@@ -2822,7 +3177,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _205D : IAsyncStateMachine
+	public struct RecoveredType_66 : IAsyncStateMachine
 	{
 		public int field_320;
 
@@ -2978,7 +3333,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct _205E : IAsyncStateMachine
+	public struct RecoveredType_67 : IAsyncStateMachine
 	{
 		public int field_326;
 
@@ -2990,7 +3345,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 		public Vector3 field_330;
 
-		private _204D field_331;
+		private RecoveredType_50 field_331;
 
 		public CancellationToken field_332;
 
@@ -3024,7 +3379,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				switch (num)
 				{
 				default:
-					field_331 = new _204D();
+					field_331 = new RecoveredType_50();
 					field_331.field_240 = field_328;
 					automaticHunting.Method_196(RecoveredType_8.field_120, field_329);
 					field_331.field_241 = field_330 + automaticHunting.Method_114(field_330);
@@ -3069,8 +3424,8 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						awaiter = Framework.RunOnFrameworkThread(() =>
 						{
 							Vector3 valueOrDefault = field_331.field_240.Method_118(field_331.field_241).GetValueOrDefault(field_331.field_241);
-							ICallGateSubscriber<bool>? callGateSubscriber = field_331.field_240.m__2012;
-							return callGateSubscriber != null && callGateSubscriber.InvokeFunc() && (field_331.field_240.m__2013?.InvokeFunc(valueOrDefault, arg2: true) ?? false);
+							ICallGateSubscriber<bool>? field_ = field_331.field_240.field_24;
+							return field_ != null && field_.InvokeFunc() && (field_331.field_240.field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false);
 						}).GetAwaiter();
 						if (!awaiter.IsCompleted)
 						{
@@ -3228,6 +3583,4085 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_68 : IAsyncStateMachine
+	{
+		public int field_340;
+
+		public AsyncTaskMethodBuilder field_341;
+
+		public AutomaticHunting field_342;
+
+		public RecoveredType_3 field_343;
+
+		public CancellationTokenSource field_344;
+
+		private RecoveredType_38 field_345;
+
+		public CancellationToken field_346;
+
+		private bool field_347;
+
+		private int field_348;
+
+		private bool field_349;
+
+		private bool field_350;
+
+		private bool field_351;
+
+		private int field_352;
+
+		private int field_353;
+
+		private TaskAwaiter<bool> field_354;
+
+		private TaskAwaiter field_355;
+
+		private float field_356;
+
+		private TaskAwaiter<Vector3?> field_357;
+
+		private TaskAwaiter<RecoveredType_4?> field_358;
+
+		private TaskAwaiter<RecoveredType_5?> field_359;
+
+		private TaskAwaiter<string> field_360;
+
+		private void Method_399()
+		{
+			int num = field_340;
+			AutomaticHunting automaticHunting = field_342;
+			try
+			{
+				TaskAwaiter<Vector3?> awaiter6;
+				TaskAwaiter<RecoveredType_4?> awaiter5;
+				TaskAwaiter<RecoveredType_5?> awaiter4;
+				TaskAwaiter awaiter3;
+				TaskAwaiter<string> awaiter2;
+				TaskAwaiter<bool> awaiter;
+				string result;
+				RecoveredType_4? result2;
+				bool result3;
+				RecoveredType_5? result4;
+				Vector3? result5;
+				switch (num)
+				{
+				default:
+					field_345 = new RecoveredType_38();
+					field_345.field_208 = field_342;
+					field_345.field_210 = field_343;
+					field_347 = automaticHunting.Config.LandingMode;
+					field_345.field_209 = field_345.field_210.Position;
+					field_348 = 0;
+					goto IL_09e2;
+				case 0:
+					awaiter = field_354;
+					field_354 = default;
+					num = (field_340 = -1);
+					goto IL_0176;
+				case 1:
+					awaiter = field_354;
+					field_354 = default;
+					num = (field_340 = -1);
+					goto IL_01e4;
+				case 2:
+					awaiter = field_354;
+					field_354 = default;
+					num = (field_340 = -1);
+					goto IL_0285;
+				case 3:
+					awaiter3 = field_355;
+					field_355 = default;
+					num = (field_340 = -1);
+					goto IL_02fa;
+				case 4:
+					awaiter3 = field_355;
+					field_355 = default;
+					num = (field_340 = -1);
+					goto IL_03a0;
+				case 5:
+					awaiter3 = field_355;
+					field_355 = default;
+					num = (field_340 = -1);
+					goto IL_0472;
+				case 6:
+					awaiter6 = field_357;
+					field_357 = default;
+					num = (field_340 = -1);
+					goto IL_04ef;
+				case 7:
+					awaiter5 = field_358;
+					field_358 = default;
+					num = (field_340 = -1);
+					goto IL_0609;
+				case 8:
+					awaiter4 = field_359;
+					field_359 = default;
+					num = (field_340 = -1);
+					goto IL_0704;
+				case 9:
+					awaiter3 = field_355;
+					field_355 = default;
+					num = (field_340 = -1);
+					goto IL_07fd;
+				case 10:
+					awaiter2 = field_360;
+					field_360 = default;
+					num = (field_340 = -1);
+					goto IL_08bf;
+				case 11:
+					{
+						awaiter = field_354;
+						field_354 = default;
+						num = (field_340 = -1);
+						goto IL_0953;
+					}
+					IL_09e2:
+					if (field_348 < 2)
+					{
+						field_349 = field_348 == 1;
+						automaticHunting.Method_196(field_349 ? RecoveredType_8.field_120 : RecoveredType_8.field_119, field_344);
+						field_350 = false;
+						field_353 = 1;
+						goto IL_03b9;
+					}
+					automaticHunting.Method_179("/vnav stop");
+					automaticHunting.PrintEcho("120秒未到达A怪落点，导航结束");
+					break;
+					IL_0953:
+					if (awaiter.GetResult())
+					{
+						automaticHunting.PrintEcho("已下坐骑，开始战斗");
+					}
+					else
+					{
+						automaticHunting.PrintEcho("下坐骑失败(5s)，仍开始战斗");
+					}
+					break;
+					IL_08bf:
+					result = awaiter2.GetResult();
+					if (!string.IsNullOrEmpty(result))
+					{
+						automaticHunting.PrintEcho("已选中A怪: " + result);
+					}
+					else
+					{
+						automaticHunting.PrintEcho("落点附近未扫描到A怪");
+					}
+					if (field_347)
+					{
+						awaiter = automaticHunting.Method_167(field_346).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_340 = 11);
+							field_354 = awaiter;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_0953;
+					}
+					automaticHunting.PrintEcho("悬停在A怪上方，保持坐骑");
+					break;
+					IL_02fa:
+					awaiter3.GetResult();
+					automaticHunting.Method_179("/vnav flyflag");
+					automaticHunting.PrintEcho("开始导航: /vnav flyflag");
+					field_350 = true;
+					goto IL_031e;
+					IL_031e:
+					if (!field_350)
+					{
+						if (field_353 < 2)
+						{
+							automaticHunting.PrintEcho("寻路失败，2秒后重新寻路...");
+							awaiter3 = Task.Delay(TimeSpan.FromSeconds(2L), field_346).GetAwaiter();
+							if (!awaiter3.IsCompleted)
+							{
+								num = (field_340 = 4);
+								field_355 = awaiter3;
+								field_341.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+								return;
+							}
+							goto IL_03a0;
+						}
+						goto IL_03a7;
+					}
+					goto IL_03c5;
+					IL_0472:
+					awaiter3.GetResult();
+					awaiter6 = Framework.RunOnFrameworkThread((Func<Vector3?>)GetLocalPlayerPosition).GetAwaiter();
+					if (!awaiter6.IsCompleted)
+					{
+						num = (field_340 = 6);
+						field_357 = awaiter6;
+						field_341.AwaitUnsafeOnCompleted(ref awaiter6, ref this);
+						return;
+					}
+					goto IL_04ef;
+					IL_03b9:
+					if (field_353 <= 2)
+					{
+						if (field_349)
+						{
+							awaiter = Framework.RunOnFrameworkThread(() =>
+							{
+								Vector3 valueOrDefault = field_345.field_208.Method_118(field_345.field_209).GetValueOrDefault(field_345.field_209);
+								ICallGateSubscriber<bool>? field_ = field_345.field_208.field_24;
+								return field_ != null && field_.InvokeFunc() && (field_345.field_208.field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false);
+							}).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_340 = 0);
+								field_354 = awaiter;
+								field_341.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0176;
+						}
+						awaiter = automaticHunting.Method_181(field_346).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_340 = 1);
+							field_354 = awaiter;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_01e4;
+					}
+					goto IL_03c5;
+					IL_0609:
+					result2 = awaiter5.GetResult();
+					if (result2.HasValue)
+					{
+						automaticHunting.Method_179("/vnav stop");
+						field_345.field_209 = result2.Value.Position + automaticHunting.Method_114(result2.Value.Position);
+						field_351 = true;
+						automaticHunting.PrintEcho("发现A怪: " + result2.Value.Name + "，切换到落点(偏移后)");
+						goto IL_09a8;
+					}
+					if (automaticHunting.Config.SEnabled)
+					{
+						awaiter4 = Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)automaticHunting.Method_202).GetAwaiter();
+						if (!awaiter4.IsCompleted)
+						{
+							num = (field_340 = 8);
+							field_359 = awaiter4;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter4, ref this);
+							return;
+						}
+						goto IL_0704;
+					}
+					goto IL_0809;
+					IL_07fd:
+					awaiter3.GetResult();
+					break;
+					IL_03a7:
+					field_353++;
+					goto IL_03b9;
+					IL_03a0:
+					awaiter3.GetResult();
+					goto IL_03a7;
+					IL_03c5:
+					if (!field_350)
+					{
+						automaticHunting.PrintEcho("导航失败: vnavmesh未就绪或无法规划路径");
+						break;
+					}
+					automaticHunting.PrintEcho(field_349 ? "导航已开始(前往A怪真实坐标)" : "导航已开始(前往标点)");
+					field_351 = false;
+					field_352 = 0;
+					field_353 = 0;
+					goto IL_0998;
+					IL_0176:
+					result3 = awaiter.GetResult();
+					field_350 = result3;
+					goto IL_031e;
+					IL_0704:
+					result4 = awaiter4.GetResult();
+					if (result4.HasValue)
+					{
+						automaticHunting.Method_179("/vnav stop");
+						automaticHunting.PrintEcho($"未发现A怪，发现S怪: {result4.Value.Name} 血量{result4.Value.HpPercent:0.0}%，开始悬停监控");
+						awaiter3 = automaticHunting.Method_165(result4.Value, field_344, field_346).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_340 = 9);
+							field_355 = awaiter3;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_07fd;
+					}
+					goto IL_0809;
+					IL_04ef:
+					result5 = awaiter6.GetResult();
+					if (result5.HasValue)
+					{
+						field_356 = Method_197(result5.Value, field_345.field_209);
+						if (!field_349 && field_353 - field_352 >= 60)
+						{
+							field_352 = field_353;
+							automaticHunting.PrintEcho($"飞向标点中(距标点{field_356:0.0}m)");
+						}
+						if (!field_349 && field_356 < 100f)
+						{
+							awaiter5 = Framework.RunOnFrameworkThread((Func<RecoveredType_4?>)automaticHunting.Method_2).GetAwaiter();
+							if (!awaiter5.IsCompleted)
+							{
+								num = (field_340 = 7);
+								field_358 = awaiter5;
+								field_341.AwaitUnsafeOnCompleted(ref awaiter5, ref this);
+								return;
+							}
+							goto IL_0609;
+						}
+						goto IL_0831;
+					}
+					goto IL_0986;
+					IL_01e4:
+					if (!awaiter.GetResult())
+					{
+						automaticHunting.PrintEcho("启动导航失败: vnavmesh未就绪(等待加载超时)");
+						break;
+					}
+					awaiter = Framework.RunOnFrameworkThread(() => !field_345.field_208.Config.SetFlagOnNavigation || Method_126(field_345.field_210.TerritoryType, 0u, field_345.field_210.Position)).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_340 = 2);
+						field_354 = awaiter;
+						field_341.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_0285;
+					IL_09a8:
+					if (!field_349 && !field_351)
+					{
+						automaticHunting.Method_179("/vnav stop");
+						automaticHunting.PrintEcho("120秒未接近标点，导航结束");
+						break;
+					}
+					field_348++;
+					goto IL_09e2;
+					IL_0809:
+					if (field_356 < 50f)
+					{
+						automaticHunting.Method_179("/vnav stop");
+						automaticHunting.PrintEcho("到达标点附近未发现A怪");
+						break;
+					}
+					goto IL_0831;
+					IL_0831:
+					if (field_349 && field_356 < 3f)
+					{
+						automaticHunting.Method_179("/vnav stop");
+						awaiter2 = Framework.RunOnFrameworkThread((Func<string>)automaticHunting.Method_3).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_340 = 10);
+							field_360 = awaiter2;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_08bf;
+					}
+					goto IL_0986;
+					IL_0986:
+					field_353++;
+					goto IL_0998;
+					IL_0998:
+					if (field_353 < 240)
+					{
+						awaiter3 = Task.Delay(500, field_346).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_340 = 5);
+							field_355 = awaiter3;
+							field_341.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_0472;
+					}
+					goto IL_09a8;
+					IL_0285:
+					if (!awaiter.GetResult())
+					{
+						automaticHunting.PrintEcho("设置地图Flag失败");
+					}
+					awaiter3 = Task.Delay(150, field_346).GetAwaiter();
+					if (!awaiter3.IsCompleted)
+					{
+						num = (field_340 = 3);
+						field_355 = awaiter3;
+						field_341.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+						return;
+					}
+					goto IL_02fa;
+				}
+			}
+			catch (Exception exception)
+			{
+				field_340 = -2;
+				field_345 = null;
+				field_341.SetException(exception);
+				return;
+			}
+			field_340 = -2;
+			field_345 = null;
+			field_341.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_399
+			this.Method_399();
+		}
+
+		[DebuggerHidden]
+		private void Method_400(IAsyncStateMachine arg0)
+		{
+			field_341.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_400
+			this.Method_400(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_69 : IAsyncStateMachine
+	{
+		public int field_361;
+
+		public AsyncTaskMethodBuilder<bool> field_362;
+
+		public AutomaticHunting field_363;
+
+		public RecoveredType_5 field_364;
+
+		private RecoveredType_42 field_365;
+
+		public CancellationToken field_366;
+
+		private int field_367;
+
+		private Vector3 field_368;
+
+		private DateTime field_369;
+
+		private DateTime field_370;
+
+		private DateTime field_371;
+
+		private float field_372;
+
+		private TaskAwaiter<Vector3?> field_373;
+
+		private TaskAwaiter field_374;
+
+		private float field_375;
+
+		private TaskAwaiter<(Vector3? player, Vector3? mob)> field_376;
+
+		private void Method_401()
+		{
+			int num = field_361;
+			AutomaticHunting automaticHunting = field_363;
+			bool result;
+			try
+			{
+				TaskAwaiter awaiter3;
+				TaskAwaiter<(Vector3?, Vector3?)> awaiter2;
+				TaskAwaiter<Vector3?> awaiter;
+				Vector3? result2;
+				(Vector3?, Vector3?) result3;
+				Vector3? result4;
+				switch (num)
+				{
+				default:
+					field_365 = new RecoveredType_42();
+					field_365.field_220 = field_363;
+					field_365.field_221 = field_364.Position;
+					field_367 = 1;
+					goto IL_051d;
+				case 0:
+					awaiter = field_373;
+					field_373 = default;
+					num = (field_361 = -1);
+					goto IL_00c9;
+				case 1:
+					awaiter3 = field_374;
+					field_374 = default;
+					num = (field_361 = -1);
+					goto IL_0157;
+				case 2:
+					awaiter3 = field_374;
+					field_374 = default;
+					num = (field_361 = -1);
+					goto IL_0203;
+				case 3:
+					awaiter2 = field_376;
+					field_376 = default;
+					num = (field_361 = -1);
+					goto IL_0295;
+				case 4:
+					{
+						awaiter = field_373;
+						field_373 = default;
+						num = (field_361 = -1);
+						goto IL_043c;
+					}
+					IL_051d:
+					if (field_367 <= 2)
+					{
+						awaiter = automaticHunting.Method_170(field_365.field_221, arg1: true).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_361 = 0);
+							field_373 = awaiter;
+							field_362.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_00c9;
+					}
+					result = false;
+					break;
+					IL_0157:
+					awaiter3.GetResult();
+					goto IL_050b;
+					IL_050b:
+					field_367++;
+					goto IL_051d;
+					IL_04d9:
+					if ((DateTime.UtcNow - field_369).TotalSeconds < 60.0)
+					{
+						awaiter3 = Task.Delay(500, field_366).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_361 = 2);
+							field_374 = awaiter3;
+							field_362.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_0203;
+					}
+					automaticHunting.PrintEcho("寻路开怪: 60秒未到达，重试寻路...");
+					goto IL_050b;
+					IL_00c9:
+					result2 = awaiter.GetResult();
+					if (!result2.HasValue)
+					{
+						if (field_367 < 2)
+						{
+							automaticHunting.PrintEcho("寻路开怪: 寻路失败，2秒后重试...");
+							awaiter3 = Task.Delay(TimeSpan.FromSeconds(2L), field_366).GetAwaiter();
+							if (!awaiter3.IsCompleted)
+							{
+								num = (field_361 = 1);
+								field_374 = awaiter3;
+								field_362.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+								return;
+							}
+							goto IL_0157;
+						}
+						goto IL_050b;
+					}
+					field_368 = result2.Value;
+					field_369 = DateTime.UtcNow;
+					field_370 = field_369;
+					field_371 = DateTime.MinValue;
+					field_372 = 0f;
+					goto IL_04d9;
+					IL_0203:
+					awaiter3.GetResult();
+					awaiter2 = Framework.RunOnFrameworkThread(() =>
+					{
+						Vector3? localPlayerPosition = GetLocalPlayerPosition();
+						Vector3? item = (field_365.field_220.Method_171(field_365.field_221, arg1: false, out var arg) ? new Vector3?(arg) : ((Vector3?)null));
+						return (player: localPlayerPosition, mob: item);
+					}).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_361 = 3);
+						field_376 = awaiter2;
+						field_362.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0295;
+					IL_0295:
+					result3 = awaiter2.GetResult();
+					if (result3.Item1.HasValue)
+					{
+						if (!result3.Item2.HasValue)
+						{
+							field_372 += 0.5f;
+							if (field_372 >= 5f)
+							{
+								automaticHunting.PrintEcho($"寻路开怪: S怪已消失{field_372:0}秒，中止");
+								result = false;
+								break;
+							}
+						}
+						else
+						{
+							field_372 = 0f;
+							field_365.field_221 = result3.Item2.Value;
+							Vector3 vector = result3.Item2.Value + automaticHunting.Method_114(result3.Item2.Value);
+							if (Method_197(result3.Item1.Value, vector) <= 3f)
+							{
+								result = true;
+								break;
+							}
+							field_375 = Method_197(vector, field_368);
+							if (!(field_375 <= 4f) && !((DateTime.UtcNow - field_370).TotalSeconds < 1.5))
+							{
+								awaiter = automaticHunting.Method_170(field_365.field_221, arg1: true).GetAwaiter();
+								if (!awaiter.IsCompleted)
+								{
+									num = (field_361 = 4);
+									field_373 = awaiter;
+									field_362.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+									return;
+								}
+								goto IL_043c;
+							}
+						}
+					}
+					goto IL_04d9;
+					IL_043c:
+					result4 = awaiter.GetResult();
+					if (result4.HasValue)
+					{
+						field_368 = result4.Value;
+						field_370 = DateTime.UtcNow;
+						if (!((DateTime.UtcNow - field_371).TotalSeconds < 3.0))
+						{
+							field_371 = DateTime.UtcNow;
+							automaticHunting.PrintEcho($"寻路开怪: 目标已移动 {field_375:0.0}m，重新寻路");
+						}
+					}
+					goto IL_04d9;
+				}
+			}
+			catch (Exception exception)
+			{
+				field_361 = -2;
+				field_365 = null;
+				field_362.SetException(exception);
+				return;
+			}
+			field_361 = -2;
+			field_365 = null;
+			field_362.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_401
+			this.Method_401();
+		}
+
+		[DebuggerHidden]
+		private void Method_402(IAsyncStateMachine arg0)
+		{
+			field_362.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_402
+			this.Method_402(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_70 : IAsyncStateMachine
+	{
+		public int field_377;
+
+		public AsyncTaskMethodBuilder<bool> field_378;
+
+		public AutomaticHunting field_379;
+
+		public int field_380;
+
+		public TimeSpan field_381;
+
+		private DateTime field_382;
+
+		private TaskAwaiter field_383;
+
+		private TaskAwaiter<int> field_384;
+
+		private void Method_403()
+		{
+			int num = field_377;
+			AutomaticHunting CS_0024_003C_003E8__locals1 = field_379;
+			bool result;
+			try
+			{
+				TaskAwaiter<int> awaiter;
+				if (num != 0)
+				{
+					if (num != 1)
+					{
+						field_382 = DateTime.UtcNow;
+						goto IL_0101;
+					}
+					awaiter = field_384;
+					field_384 = default;
+					num = (field_377 = -1);
+					goto IL_00ee;
+				}
+				TaskAwaiter awaiter2 = field_383;
+				field_383 = default;
+				num = (field_377 = -1);
+				goto IL_0080;
+				IL_0101:
+				if (DateTime.UtcNow - field_382 < field_381)
+				{
+					awaiter2 = Task.Delay(500).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_377 = 0);
+						field_383 = awaiter2;
+						field_378.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0080;
+				}
+				result = false;
+				goto end_IL_000e;
+				IL_00ee:
+				if (awaiter.GetResult() != field_380)
+				{
+					goto IL_0101;
+				}
+				result = true;
+				goto end_IL_000e;
+				IL_0080:
+				awaiter2.GetResult();
+				awaiter = Framework.RunOnFrameworkThread(() => (!Condition[ConditionFlag.BetweenAreas] && !Condition[ConditionFlag.BetweenAreas51]) ? CS_0024_003C_003E8__locals1.GetCurrentInstanceNumber() : (-1)).GetAwaiter();
+				if (!awaiter.IsCompleted)
+				{
+					num = (field_377 = 1);
+					field_384 = awaiter;
+					field_378.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+					return;
+				}
+				goto IL_00ee;
+				end_IL_000e:;
+			}
+			catch (Exception exception)
+			{
+				field_377 = -2;
+				field_378.SetException(exception);
+				return;
+			}
+			field_377 = -2;
+			field_378.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_403
+			this.Method_403();
+		}
+
+		[DebuggerHidden]
+		private void Method_404(IAsyncStateMachine arg0)
+		{
+			field_378.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_404
+			this.Method_404(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_71 : IAsyncStateMachine
+	{
+		public int field_385;
+
+		public AsyncTaskMethodBuilder field_386;
+
+		public uint field_387;
+
+		public Vector3 field_388;
+
+		public AutomaticHunting field_389;
+
+		public string field_390;
+
+		private CancellationTokenSource field_391;
+
+		private CancellationToken field_392;
+
+		private RecoveredType_3 field_393;
+
+		private TaskAwaiter<RecoveredType_10> field_394;
+
+		private TaskAwaiter<bool> field_395;
+
+		private TaskAwaiter field_396;
+
+		private void Method_405()
+		{
+			int num = field_385;
+			AutomaticHunting automaticHunting = field_389;
+			try
+			{
+				if ((uint)num > 8u)
+				{
+					field_391 = new CancellationTokenSource();
+				}
+				try
+				{
+					TaskAwaiter<RecoveredType_10> awaiter3;
+					TaskAwaiter<bool> awaiter2;
+					TaskAwaiter awaiter;
+					RecoveredType_10 result;
+					switch (num)
+					{
+					default:
+						field_392 = field_391.Token;
+						field_393 = new RecoveredType_3(field_387, field_388);
+						awaiter3 = automaticHunting.Method_159(field_393, field_392).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_385 = 0);
+							field_394 = awaiter3;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_00d0;
+					case 0:
+						awaiter3 = field_394;
+						field_394 = default;
+						num = (field_385 = -1);
+						goto IL_00d0;
+					case 1:
+						awaiter2 = field_395;
+						field_395 = default;
+						num = (field_385 = -1);
+						goto IL_0155;
+					case 2:
+						awaiter = field_396;
+						field_396 = default;
+						num = (field_385 = -1);
+						goto IL_01c2;
+					case 3:
+						awaiter = field_396;
+						field_396 = default;
+						num = (field_385 = -1);
+						goto IL_0231;
+					case 4:
+						awaiter = field_396;
+						field_396 = default;
+						num = (field_385 = -1);
+						goto IL_02bb;
+					case 5:
+						awaiter = field_396;
+						field_396 = default;
+						num = (field_385 = -1);
+						goto IL_031d;
+					case 6:
+						awaiter2 = field_395;
+						field_395 = default;
+						num = (field_385 = -1);
+						goto IL_038e;
+					case 7:
+						awaiter = field_396;
+						field_396 = default;
+						num = (field_385 = -1);
+						goto IL_0408;
+					case 8:
+						{
+							awaiter = field_396;
+							field_396 = default;
+							num = (field_385 = -1);
+							break;
+						}
+						IL_0231:
+						awaiter.GetResult();
+						if (!string.IsNullOrWhiteSpace(field_390))
+						{
+							automaticHunting.PrintEcho("跨服目标切线: " + field_390);
+							awaiter = automaticHunting.Method_108(field_390).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_385 = 4);
+								field_396 = awaiter;
+								field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_02bb;
+						}
+						goto IL_0324;
+						IL_00d0:
+						result = awaiter3.GetResult();
+						if (result != RecoveredType_10.field_130)
+						{
+							if (result == RecoveredType_10.field_129)
+							{
+								automaticHunting.Method_196(RecoveredType_8.field_117, field_391);
+								awaiter2 = automaticHunting.Method_163(field_387, field_392).GetAwaiter();
+								if (!awaiter2.IsCompleted)
+								{
+									num = (field_385 = 1);
+									field_395 = awaiter2;
+									field_386.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+									return;
+								}
+								goto IL_0155;
+							}
+							goto IL_0163;
+						}
+						goto end_IL_001e;
+						IL_0324:
+						automaticHunting.Method_196(RecoveredType_8.field_118, field_391);
+						awaiter2 = automaticHunting.Method_182(field_392).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_385 = 6);
+							field_395 = awaiter2;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_038e;
+						IL_0408:
+						awaiter.GetResult();
+						awaiter = automaticHunting.Method_164(field_393, field_392, field_391).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_385 = 8);
+							field_396 = awaiter;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						break;
+						IL_02bb:
+						awaiter.GetResult();
+						awaiter = Task.Delay(3000).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_385 = 5);
+							field_396 = awaiter;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_031d;
+						IL_0155:
+						if (awaiter2.GetResult())
+						{
+							goto IL_0163;
+						}
+						goto end_IL_001e;
+						IL_0163:
+						awaiter = automaticHunting.Method_107(TimeSpan.FromSeconds(45L)).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_385 = 2);
+							field_396 = awaiter;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_01c2;
+						IL_038e:
+						if (awaiter2.GetResult())
+						{
+							awaiter = Task.Delay(500, field_392).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_385 = 7);
+								field_396 = awaiter;
+								field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0408;
+						}
+						automaticHunting.PrintEcho("召唤坐骑失败，跨服导航已取消");
+						goto end_IL_001e;
+						IL_01c2:
+						awaiter.GetResult();
+						awaiter = Task.Delay((int)(automaticHunting.Config.WaitAfterTeleport * 1000f)).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_385 = 3);
+							field_396 = awaiter;
+							field_386.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_0231;
+						IL_031d:
+						awaiter.GetResult();
+						goto IL_0324;
+					}
+					awaiter.GetResult();
+					field_392 = default;
+					end_IL_001e:;
+				}
+				catch (OperationCanceledException)
+				{
+					Log.Information("AutomaticHunting: 跨服导航取消");
+				}
+				catch (Exception exception)
+				{
+					Log.Warning(exception, "AutomaticHunting: 跨服导航失败");
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						field_391.Dispose();
+					}
+				}
+			}
+			catch (Exception exception2)
+			{
+				field_385 = -2;
+				field_391 = null;
+				field_386.SetException(exception2);
+				return;
+			}
+			field_385 = -2;
+			field_391 = null;
+			field_386.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_405
+			this.Method_405();
+		}
+
+		[DebuggerHidden]
+		private void Method_406(IAsyncStateMachine arg0)
+		{
+			field_386.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_406
+			this.Method_406(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_72 : IAsyncStateMachine
+	{
+		public int field_397;
+
+		public AsyncTaskMethodBuilder<RecoveredType_10> field_398;
+
+		public AutomaticHunting field_399;
+
+		public RecoveredType_3 field_400;
+
+		public CancellationToken field_401;
+
+		private (RecoveredType_10 Preparation, uint AetheryteId, bool SameTerritory) field_402;
+
+		private TaskAwaiter<(RecoveredType_10 Preparation, uint AetheryteId, bool SameTerritory)> field_403;
+
+		private TaskAwaiter<bool> field_404;
+
+		private void Method_407()
+		{
+			int num = field_397;
+			AutomaticHunting automaticHunting = field_399;
+			RecoveredType_10 result2;
+			try
+			{
+				TaskAwaiter<bool> awaiter;
+				TaskAwaiter<(RecoveredType_10, uint, bool)> awaiter2;
+				if (num != 0)
+				{
+					if (num == 1)
+					{
+						awaiter = field_404;
+						field_404 = default;
+						num = (field_397 = -1);
+						goto IL_0135;
+					}
+					AutomaticHunting field_200 = field_399;
+					RecoveredType_3 field_201 = field_400;
+					awaiter2 = Framework.RunOnFrameworkThread(() => (Preparation: field_200.Method_160(field_201, out var arg), AetheryteId: arg, SameTerritory: Method_116() == field_201.TerritoryType)).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_397 = 0);
+						field_403 = awaiter2;
+						field_398.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+				}
+				else
+				{
+					awaiter2 = field_403;
+					field_403 = default;
+					num = (field_397 = -1);
+				}
+				(RecoveredType_10, uint, bool) result = awaiter2.GetResult();
+				field_402 = result;
+				if (field_402.Preparation == RecoveredType_10.field_129)
+				{
+					awaiter = automaticHunting.Method_123(field_402.AetheryteId, field_401).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_397 = 1);
+						field_404 = awaiter;
+						field_398.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_0135;
+				}
+				result2 = field_402.Preparation;
+				goto end_IL_000e;
+				IL_0135:
+				if (awaiter.GetResult())
+				{
+					result2 = RecoveredType_10.field_129;
+				}
+				else if (field_402.SameTerritory)
+				{
+					automaticHunting.PrintEcho("无法传送，改用直接导航");
+					result2 = RecoveredType_10.field_128;
+				}
+				else
+				{
+					automaticHunting.PrintEcho("跨图传送未开始，导航已取消");
+					result2 = RecoveredType_10.field_130;
+				}
+				end_IL_000e:;
+			}
+			catch (Exception exception)
+			{
+				field_397 = -2;
+				field_398.SetException(exception);
+				return;
+			}
+			field_397 = -2;
+			field_398.SetResult(result2);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_407
+			this.Method_407();
+		}
+
+		[DebuggerHidden]
+		private void Method_408(IAsyncStateMachine arg0)
+		{
+			field_398.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_408
+			this.Method_408(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_73 : IAsyncStateMachine
+	{
+		public int field_405;
+
+		public AsyncTaskMethodBuilder field_406;
+
+		public uint field_407;
+
+		public AutomaticHunting field_408;
+
+		public string field_409;
+
+		public CancellationToken field_410;
+
+		public string field_411;
+
+		private uint field_412;
+
+		private DateTime field_413;
+
+		private DateTime field_414;
+
+		private DateTime field_415;
+
+		private bool field_416;
+
+		private bool field_417;
+
+		private bool field_418;
+
+		private int field_419;
+
+		private int field_420;
+
+		private TaskAwaiter<uint> field_421;
+
+		private TaskAwaiter field_422;
+
+		private TaskAwaiter<string> field_423;
+
+		private bool field_424;
+
+		private bool field_425;
+
+		private TaskAwaiter<(bool, bool)> field_426;
+
+		private void Method_409()
+		{
+			int num = field_405;
+			AutomaticHunting automaticHunting = field_408;
+			try
+			{
+				_ = 11;
+				try
+				{
+					TaskAwaiter<(bool, bool)> awaiter4;
+					TaskAwaiter<uint> awaiter3;
+					TaskAwaiter<string> awaiter2;
+					TaskAwaiter awaiter;
+					uint result;
+					bool flag;
+					uint result2;
+					switch (num)
+					{
+					default:
+						if (field_407 != 0)
+						{
+							field_412 = 0u;
+							field_420 = 0;
+							goto IL_016d;
+						}
+						automaticHunting.PrintEcho("无法识别目标服务器: " + field_409 + "，跨服中止");
+						goto end_IL_0014;
+					case 0:
+						awaiter3 = field_421;
+						field_421 = default;
+						num = (field_405 = -1);
+						goto IL_00d9;
+					case 1:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_0154;
+					case 2:
+						awaiter2 = field_423;
+						field_423 = default;
+						num = (field_405 = -1);
+						goto IL_01fc;
+					case 3:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_029b;
+					case 4:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_031a;
+					case 5:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_03cf;
+					case 6:
+						awaiter4 = field_426;
+						field_426 = default;
+						num = (field_405 = -1);
+						goto IL_0450;
+					case 7:
+						awaiter3 = field_421;
+						field_421 = default;
+						num = (field_405 = -1);
+						goto IL_04ff;
+					case 8:
+						awaiter2 = field_423;
+						field_423 = default;
+						num = (field_405 = -1);
+						goto IL_0584;
+					case 9:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_0648;
+					case 10:
+						awaiter = field_422;
+						field_422 = default;
+						num = (field_405 = -1);
+						goto IL_07e2;
+					case 11:
+						{
+							awaiter = field_422;
+							field_422 = default;
+							num = (field_405 = -1);
+							break;
+						}
+						IL_029b:
+						awaiter.GetResult();
+						goto end_IL_0014;
+						IL_0450:
+						(field_424, field_425) = awaiter4.GetResult();
+						if (field_424 && !field_417)
+						{
+							field_417 = true;
+							automaticHunting.PrintEcho("检测到跨服状态92(ReadyingVisitOtherWorld)：跨服指令已生效");
+						}
+						if (field_424 | field_425)
+						{
+							field_418 = true;
+						}
+						awaiter3 = automaticHunting.Method_109().GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_405 = 7);
+							field_421 = awaiter3;
+							field_406.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_04ff;
+						IL_016d:
+						if (field_420 < 3)
+						{
+							awaiter3 = automaticHunting.Method_109().GetAwaiter();
+							if (!awaiter3.IsCompleted)
+							{
+								num = (field_405 = 0);
+								field_421 = awaiter3;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+								return;
+							}
+							goto IL_00d9;
+						}
+						goto IL_0179;
+						IL_0598:
+						if (flag)
+						{
+							field_416 = true;
+							goto IL_0768;
+						}
+						if (!field_418 && DateTime.UtcNow - field_414 > TimeSpan.FromSeconds(5L) && !field_424 && !field_425)
+						{
+							awaiter = automaticHunting.Method_108(field_411).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_405 = 9);
+								field_422 = awaiter;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0648;
+						}
+						goto IL_06c8;
+						IL_031a:
+						awaiter.GetResult();
+						field_413 = DateTime.UtcNow;
+						field_414 = DateTime.UtcNow;
+						field_415 = DateTime.UtcNow;
+						field_416 = false;
+						field_417 = false;
+						field_418 = false;
+						field_419 = 0;
+						goto IL_0746;
+						IL_00d9:
+						result = awaiter3.GetResult();
+						field_412 = result;
+						if (field_412 == 0)
+						{
+							awaiter = Task.Delay(1000, field_410).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_405 = 1);
+								field_422 = awaiter;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0154;
+						}
+						goto IL_0179;
+						IL_0746:
+						if (DateTime.UtcNow - field_413 < TimeSpan.FromMinutes(10L))
+						{
+							field_410.ThrowIfCancellationRequested();
+							awaiter = Task.Delay(200, field_410).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_405 = 5);
+								field_422 = awaiter;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_03cf;
+						}
+						goto IL_0768;
+						IL_0648:
+						awaiter.GetResult();
+						field_414 = DateTime.UtcNow;
+						field_419++;
+						if (field_419 == 1 || field_419 % 6 == 0)
+						{
+							automaticHunting.PrintEcho($"跨服指令未受理，重发第{field_419}次: {field_411}");
+						}
+						goto IL_06c8;
+						IL_0154:
+						awaiter.GetResult();
+						field_420++;
+						goto IL_016d;
+						IL_0179:
+						if (field_412 != 0)
+						{
+							flag = field_412 == field_407;
+							if (!flag)
+							{
+								awaiter2 = automaticHunting.Method_110().GetAwaiter();
+								if (!awaiter2.IsCompleted)
+								{
+									num = (field_405 = 2);
+									field_423 = awaiter2;
+									field_406.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+									return;
+								}
+								goto IL_01fc;
+							}
+							goto IL_0210;
+						}
+						automaticHunting.PrintEcho("无法读取当前服务器，跨服中止");
+						goto end_IL_0014;
+						IL_06c8:
+						if (DateTime.UtcNow - field_415 > TimeSpan.FromSeconds(60L))
+						{
+							field_415 = DateTime.UtcNow;
+							int value = (int)(DateTime.UtcNow - field_413).TotalSeconds;
+							automaticHunting.PrintEcho($"跨服等待中: 已等待{value}/600秒");
+						}
+						goto IL_0746;
+						IL_03cf:
+						awaiter.GetResult();
+						awaiter4 = Framework.RunOnFrameworkThread(() => (Condition[ConditionFlag.ReadyingVisitOtherWorld], Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51])).GetAwaiter();
+						if (!awaiter4.IsCompleted)
+						{
+							num = (field_405 = 6);
+							field_426 = awaiter4;
+							field_406.AwaitUnsafeOnCompleted(ref awaiter4, ref this);
+							return;
+						}
+						goto IL_0450;
+						IL_0584:
+						flag = awaiter2.GetResult() == field_409;
+						goto IL_0598;
+						IL_07e2:
+						awaiter.GetResult();
+						automaticHunting.PrintEcho("跨服完成，已到达服务器[" + field_409 + "]");
+						automaticHunting.Method_97(field_409);
+						awaiter = automaticHunting.Method_104(field_410).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_405 = 11);
+							field_422 = awaiter;
+							field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						break;
+						IL_01fc:
+						flag = awaiter2.GetResult() == field_409;
+						goto IL_0210;
+						IL_0210:
+						if (flag)
+						{
+							automaticHunting.PrintEcho("已在服务器[" + field_409 + "]，跳过跨服");
+							automaticHunting.Method_97(field_409);
+							awaiter = automaticHunting.Method_104(field_410).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_405 = 3);
+								field_422 = awaiter;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_029b;
+						}
+						automaticHunting.PrintEcho("执行跨服: " + field_411);
+						awaiter = automaticHunting.Method_108(field_411).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_405 = 4);
+							field_422 = awaiter;
+							field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_031a;
+						IL_04ff:
+						result2 = awaiter3.GetResult();
+						if (result2 != 0 && result2 == field_407)
+						{
+							field_416 = true;
+							goto IL_0768;
+						}
+						flag = result2 != 0;
+						if (flag)
+						{
+							awaiter2 = automaticHunting.Method_110().GetAwaiter();
+							if (!awaiter2.IsCompleted)
+							{
+								num = (field_405 = 8);
+								field_423 = awaiter2;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+								return;
+							}
+							goto IL_0584;
+						}
+						goto IL_0598;
+						IL_0768:
+						if (field_416)
+						{
+							awaiter = Task.Delay(5000, field_410).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_405 = 10);
+								field_422 = awaiter;
+								field_406.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_07e2;
+						}
+						automaticHunting.PrintEcho("跨服超时未到达目标服务器(10分钟)，流程中止");
+						goto end_IL_0014;
+					}
+					awaiter.GetResult();
+					end_IL_0014:;
+				}
+				catch (OperationCanceledException)
+				{
+					Log.Information("AutomaticHunting: 跨服流程被手动中断");
+					automaticHunting.PrintEcho("跨服流程已中断");
+				}
+				catch (Exception ex2)
+				{
+					Log.Warning(ex2, "AutomaticHunting: 跨服流程异常");
+					automaticHunting.PrintEcho("跨服流程异常: " + ex2.Message);
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						object field_ = automaticHunting.field_62;
+						bool flag = false;
+						try
+						{
+							Monitor.Enter(field_, ref flag);
+							automaticHunting.field_65 = false;
+							automaticHunting.field_66 = DateTime.MinValue;
+							automaticHunting.field_67 = 0u;
+							automaticHunting.field_68 = default;
+							automaticHunting.field_69 = null;
+							automaticHunting.field_70 = 0u;
+							automaticHunting.field_71 = 0u;
+							automaticHunting.field_72 = default;
+							automaticHunting.field_64?.Dispose();
+							automaticHunting.field_64 = null;
+							automaticHunting.field_63 = null;
+						}
+						finally
+						{
+							if (num < 0 && flag)
+							{
+								Monitor.Exit(field_);
+							}
+						}
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				field_405 = -2;
+				field_406.SetException(exception);
+				return;
+			}
+			field_405 = -2;
+			field_406.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_409
+			this.Method_409();
+		}
+
+		[DebuggerHidden]
+		private void Method_410(IAsyncStateMachine arg0)
+		{
+			field_406.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_410
+			this.Method_410(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_74 : IAsyncStateMachine
+	{
+		public int field_427;
+
+		public AsyncTaskMethodBuilder field_428;
+
+		public CancellationTokenSource field_429;
+
+		public uint field_430;
+
+		public Vector3 field_431;
+
+		public AutomaticHunting field_432;
+
+		private CancellationToken field_433;
+
+		private TaskAwaiter<RecoveredType_10> field_434;
+
+		private TaskAwaiter<bool> field_435;
+
+		private TaskAwaiter field_436;
+
+		private void Method_411()
+		{
+			int num = field_427;
+			AutomaticHunting automaticHunting = field_432;
+			try
+			{
+				_ = 5;
+				try
+				{
+					TaskAwaiter<RecoveredType_10> awaiter3;
+					TaskAwaiter<bool> awaiter2;
+					TaskAwaiter awaiter;
+					RecoveredType_10 result;
+					switch (num)
+					{
+					default:
+					{
+						field_433 = field_429.Token;
+						RecoveredType_3 arg = new RecoveredType_3(field_430, field_431);
+						awaiter3 = automaticHunting.Method_159(arg, field_433).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_427 = 0);
+							field_434 = awaiter3;
+							field_428.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_00b3;
+					}
+					case 0:
+						awaiter3 = field_434;
+						field_434 = default;
+						num = (field_427 = -1);
+						goto IL_00b3;
+					case 1:
+						awaiter2 = field_435;
+						field_435 = default;
+						num = (field_427 = -1);
+						goto IL_0138;
+					case 2:
+						awaiter2 = field_435;
+						field_435 = default;
+						num = (field_427 = -1);
+						goto IL_01b0;
+					case 3:
+						awaiter = field_436;
+						field_436 = default;
+						num = (field_427 = -1);
+						goto IL_0227;
+					case 4:
+						awaiter2 = field_435;
+						field_435 = default;
+						num = (field_427 = -1);
+						goto IL_028b;
+					case 5:
+						{
+							awaiter = field_436;
+							field_436 = default;
+							num = (field_427 = -1);
+							break;
+						}
+						IL_0146:
+						automaticHunting.Method_196(RecoveredType_8.field_118, field_429);
+						awaiter2 = automaticHunting.Method_182(field_433).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_427 = 2);
+							field_435 = awaiter2;
+							field_428.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_01b0;
+						IL_00b3:
+						result = awaiter3.GetResult();
+						if (result != RecoveredType_10.field_130)
+						{
+							if (result == RecoveredType_10.field_129)
+							{
+								automaticHunting.Method_196(RecoveredType_8.field_117, field_429);
+								awaiter2 = automaticHunting.Method_163(field_430, field_433).GetAwaiter();
+								if (!awaiter2.IsCompleted)
+								{
+									num = (field_427 = 1);
+									field_435 = awaiter2;
+									field_428.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+									return;
+								}
+								goto IL_0138;
+							}
+							goto IL_0146;
+						}
+						goto end_IL_0013;
+						IL_0227:
+						awaiter.GetResult();
+						awaiter2 = automaticHunting.Method_181(field_433).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_427 = 4);
+							field_435 = awaiter2;
+							field_428.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_028b;
+						IL_01b0:
+						if (awaiter2.GetResult())
+						{
+							awaiter = Task.Delay(100, field_433).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_427 = 3);
+								field_436 = awaiter;
+								field_428.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0227;
+						}
+						automaticHunting.PrintEcho("召唤坐骑失败，导航已取消");
+						goto end_IL_0013;
+						IL_028b:
+						if (awaiter2.GetResult())
+						{
+							automaticHunting.Method_196(RecoveredType_8.field_119, field_429);
+							automaticHunting.PrintEcho("开始导航: /vnav flyflag");
+							automaticHunting.Method_179("/vnav flyflag");
+							awaiter = automaticHunting.Method_193(field_431, field_429, field_433).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_427 = 5);
+								field_436 = awaiter;
+								field_428.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							break;
+						}
+						automaticHunting.PrintEcho("启动导航失败: vnavmesh未就绪");
+						goto end_IL_0013;
+						IL_0138:
+						if (awaiter2.GetResult())
+						{
+							goto IL_0146;
+						}
+						goto end_IL_0013;
+					}
+					awaiter.GetResult();
+					field_433 = default;
+					end_IL_0013:;
+				}
+				catch (OperationCanceledException)
+				{
+					Log.Information("AutomaticHunting: FlyFlag navigation cancelled");
+				}
+				catch (Exception ex2)
+				{
+					Log.Warning(ex2, "AutomaticHunting: FlyFlag navigation failed");
+					automaticHunting.PrintEcho("导航异常: " + ex2.Message);
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						object field_ = automaticHunting.field_53;
+						bool lockTaken = false;
+						try
+						{
+							Monitor.Enter(field_, ref lockTaken);
+							if (automaticHunting.field_54 == field_429)
+							{
+								automaticHunting.field_54 = null;
+								automaticHunting.field_55 = null;
+								automaticHunting.field_56 = RecoveredType_8.field_116;
+							}
+						}
+						finally
+						{
+							if (num < 0 && lockTaken)
+							{
+								Monitor.Exit(field_);
+							}
+						}
+						field_429.Dispose();
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				field_427 = -2;
+				field_428.SetException(exception);
+				return;
+			}
+			field_427 = -2;
+			field_428.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_411
+			this.Method_411();
+		}
+
+		[DebuggerHidden]
+		private void Method_412(IAsyncStateMachine arg0)
+		{
+			field_428.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_412
+			this.Method_412(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_75 : IAsyncStateMachine
+	{
+		public int field_437;
+
+		public AsyncTaskMethodBuilder field_438;
+
+		public CancellationTokenSource field_439;
+
+		public AutomaticHunting field_440;
+
+		public RecoveredType_3 field_441;
+
+		private CancellationToken field_442;
+
+		private TaskAwaiter<RecoveredType_10> field_443;
+
+		private TaskAwaiter<bool> field_444;
+
+		private TaskAwaiter field_445;
+
+		private void Method_413()
+		{
+			int num = field_437;
+			AutomaticHunting automaticHunting = field_440;
+			try
+			{
+				_ = 4;
+				try
+				{
+					TaskAwaiter<RecoveredType_10> awaiter3;
+					TaskAwaiter<bool> awaiter2;
+					TaskAwaiter awaiter;
+					RecoveredType_10 result;
+					switch (num)
+					{
+					default:
+						field_442 = field_439.Token;
+						awaiter3 = automaticHunting.Method_159(field_441, field_442).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_437 = 0);
+							field_443 = awaiter3;
+							field_438.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_009e;
+					case 0:
+						awaiter3 = field_443;
+						field_443 = default;
+						num = (field_437 = -1);
+						goto IL_009e;
+					case 1:
+						awaiter2 = field_444;
+						field_444 = default;
+						num = (field_437 = -1);
+						goto IL_012b;
+					case 2:
+						awaiter2 = field_444;
+						field_444 = default;
+						num = (field_437 = -1);
+						goto IL_01ae;
+					case 3:
+						awaiter = field_445;
+						field_445 = default;
+						num = (field_437 = -1);
+						goto IL_0225;
+					case 4:
+						{
+							awaiter = field_445;
+							field_445 = default;
+							num = (field_437 = -1);
+							break;
+						}
+						IL_012b:
+						if (awaiter2.GetResult())
+						{
+							goto IL_0139;
+						}
+						goto end_IL_0013;
+						IL_009e:
+						result = awaiter3.GetResult();
+						if (result != RecoveredType_10.field_130)
+						{
+							if (result == RecoveredType_10.field_129)
+							{
+								automaticHunting.Method_196(RecoveredType_8.field_117, field_439);
+								awaiter2 = automaticHunting.Method_163(field_441.TerritoryType, field_442).GetAwaiter();
+								if (!awaiter2.IsCompleted)
+								{
+									num = (field_437 = 1);
+									field_444 = awaiter2;
+									field_438.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+									return;
+								}
+								goto IL_012b;
+							}
+							goto IL_0139;
+						}
+						goto end_IL_0013;
+						IL_0139:
+						field_442.ThrowIfCancellationRequested();
+						automaticHunting.Method_196(RecoveredType_8.field_118, field_439);
+						awaiter2 = automaticHunting.Method_182(field_442).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_437 = 2);
+							field_444 = awaiter2;
+							field_438.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_01ae;
+						IL_0225:
+						awaiter.GetResult();
+						awaiter = automaticHunting.Method_164(field_441, field_442, field_439).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_437 = 4);
+							field_445 = awaiter;
+							field_438.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						break;
+						IL_01ae:
+						if (awaiter2.GetResult())
+						{
+							awaiter = Task.Delay(100, field_442).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_437 = 3);
+								field_445 = awaiter;
+								field_438.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0225;
+						}
+						automaticHunting.PrintEcho("召唤坐骑失败，导航已取消");
+						goto end_IL_0013;
+					}
+					awaiter.GetResult();
+					field_442 = default;
+					end_IL_0013:;
+				}
+				catch (OperationCanceledException)
+				{
+					Log.Information("AutomaticHunting: Navigation cancelled");
+					automaticHunting.FinishSMonitor("已停止");
+				}
+				catch (Exception ex2)
+				{
+					Log.Warning(ex2, "AutomaticHunting: Navigation workflow failed");
+					automaticHunting.PrintEcho("导航异常: " + ex2.Message);
+					automaticHunting.FinishSMonitor("导航异常");
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						object field_ = automaticHunting.field_53;
+						bool lockTaken = false;
+						try
+						{
+							Monitor.Enter(field_, ref lockTaken);
+							if (automaticHunting.field_54 == field_439)
+							{
+								automaticHunting.field_54 = null;
+								automaticHunting.field_55 = null;
+								automaticHunting.field_56 = RecoveredType_8.field_116;
+							}
+						}
+						finally
+						{
+							if (num < 0 && lockTaken)
+							{
+								Monitor.Exit(field_);
+							}
+						}
+						field_439.Dispose();
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				field_437 = -2;
+				field_438.SetException(exception);
+				return;
+			}
+			field_437 = -2;
+			field_438.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_413
+			this.Method_413();
+		}
+
+		[DebuggerHidden]
+		private void Method_414(IAsyncStateMachine arg0)
+		{
+			field_438.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_414
+			this.Method_414(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_76 : IAsyncStateMachine
+	{
+		public int field_446;
+
+		public AsyncTaskMethodBuilder field_447;
+
+		public AutomaticHunting field_448;
+
+		public CancellationTokenSource field_449;
+
+		public RecoveredType_5 field_450;
+
+		private RecoveredType_39 field_451;
+
+		public CancellationToken field_452;
+
+		private RecoveredType_40 field_453;
+
+		private bool field_454;
+
+		private int field_455;
+
+		private TaskAwaiter<bool> field_456;
+
+		private TaskAwaiter field_457;
+
+		private float field_458;
+
+		private TaskAwaiter<Vector3?> field_459;
+
+		private TaskAwaiter<RecoveredType_5?> field_460;
+
+		private float field_461;
+
+		private float field_462;
+
+		private float field_463;
+
+		private float field_464;
+
+		private bool field_465;
+
+		private DateTime field_466;
+
+		private DateTime field_467;
+
+		private TaskAwaiter<string> field_468;
+
+		private (int kind, float hp, Vector3 pos, Vector3? player, bool isS) field_469;
+
+		private TaskAwaiter<(int kind, float hp, Vector3 pos, Vector3? player, bool isS)> field_470;
+
+		private float field_471;
+
+		private void Method_415()
+		{
+			int num = field_446;
+			AutomaticHunting CS_0024_003C_003E8__locals41 = field_448;
+			try
+			{
+				if ((uint)num > 10u)
+				{
+					CS_0024_003C_003E8__locals41.field_33 = true;
+				}
+				try
+				{
+					TaskAwaiter<Vector3?> awaiter6;
+					TaskAwaiter<RecoveredType_5?> awaiter5;
+					TaskAwaiter<string> awaiter4;
+					TaskAwaiter<(int, float, Vector3, Vector3?, bool)> awaiter3;
+					TaskAwaiter<bool> awaiter2;
+					TaskAwaiter awaiter;
+					bool result;
+					Vector3? result2;
+					bool result3;
+					RecoveredType_5? result4;
+					string result5;
+					(int, float, Vector3, Vector3?, bool) result6;
+					SMonitorStatus sMonitor2;
+					float item;
+					SMonitorStatus sMonitor3;
+					switch (num)
+					{
+					default:
+						field_451 = new RecoveredType_39();
+						field_451.field_214 = CS_0024_003C_003E8__locals41;
+						CS_0024_003C_003E8__locals41.Method_196(RecoveredType_8.field_121, field_449);
+						CS_0024_003C_003E8__locals41.BeginSMonitor(field_450.Name, "前往S怪", field_450.HpPercent, CS_0024_003C_003E8__locals41.Config.SHpThreshold);
+						field_451.field_213 = new Vector3(field_450.Position.X, field_450.Position.Y + CS_0024_003C_003E8__locals41.Config.SHoverHeight, field_450.Position.Z);
+						field_454 = false;
+						field_455 = 1;
+						goto IL_0230;
+					case 0:
+						awaiter2 = field_456;
+						field_456 = default;
+						num = (field_446 = -1);
+						goto IL_0186;
+					case 1:
+						awaiter = field_457;
+						field_457 = default;
+						num = (field_446 = -1);
+						goto IL_0217;
+					case 2:
+						awaiter = field_457;
+						field_457 = default;
+						num = (field_446 = -1);
+						goto IL_032e;
+					case 3:
+						awaiter6 = field_459;
+						field_459 = default;
+						num = (field_446 = -1);
+						goto IL_03ab;
+					case 4:
+						awaiter5 = field_460;
+						field_460 = default;
+						num = (field_446 = -1);
+						goto IL_0444;
+					case 5:
+						awaiter = field_457;
+						field_457 = default;
+						num = (field_446 = -1);
+						goto IL_054c;
+					case 6:
+						awaiter4 = field_468;
+						field_468 = default;
+						num = (field_446 = -1);
+						goto IL_05f0;
+					case 7:
+						awaiter = field_457;
+						field_457 = default;
+						num = (field_446 = -1);
+						goto IL_076a;
+					case 8:
+						awaiter3 = field_470;
+						field_470 = default;
+						num = (field_446 = -1);
+						goto IL_07ea;
+					case 9:
+						awaiter2 = field_456;
+						field_456 = default;
+						num = (field_446 = -1);
+						goto IL_09d7;
+					case 10:
+						{
+							awaiter = field_457;
+							field_457 = default;
+							num = (field_446 = -1);
+							goto IL_0b6f;
+						}
+						IL_0230:
+						if (field_455 <= 2)
+						{
+							awaiter2 = Framework.RunOnFrameworkThread(() =>
+							{
+								Vector3? vector = field_451.field_214.Method_118(field_451.field_213);
+								Vector3 arg = (vector.HasValue ? new Vector3(vector.Value.X, field_451.field_213.Y, vector.Value.Z) : field_451.field_213);
+								ICallGateSubscriber<bool>? field_221 = field_451.field_214.field_24;
+								return field_221 != null && field_221.InvokeFunc() && (field_451.field_214.field_25?.InvokeFunc(arg, arg2: true) ?? false);
+							}).GetAwaiter();
+							if (!awaiter2.IsCompleted)
+							{
+								num = (field_446 = 0);
+								field_456 = awaiter2;
+								field_447.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+								return;
+							}
+							goto IL_0186;
+						}
+						goto IL_023c;
+						IL_032e:
+						awaiter.GetResult();
+						awaiter6 = Framework.RunOnFrameworkThread((Func<Vector3?>)GetLocalPlayerPosition).GetAwaiter();
+						if (!awaiter6.IsCompleted)
+						{
+							num = (field_446 = 3);
+							field_459 = awaiter6;
+							field_447.AwaitUnsafeOnCompleted(ref awaiter6, ref this);
+							return;
+						}
+						goto IL_03ab;
+						IL_076a:
+						awaiter.GetResult();
+						field_463 += 0.5f;
+						awaiter3 = Framework.RunOnFrameworkThread(() =>
+						{
+							Vector3? localPlayerPosition = GetLocalPlayerPosition();
+							if (TargetManager.Target is IBattleChara { MaxHp: >0u, CurrentHp: >0u } battleChara)
+							{
+								return (kind: 1, hp: (float)battleChara.CurrentHp / (float)battleChara.MaxHp * 100f, pos: battleChara.Position, player: localPlayerPosition, isS: CS_0024_003C_003E8__locals41.Method_203(battleChara.Name.TextValue));
+							}
+							RecoveredType_5? recoveredType_ = CS_0024_003C_003E8__locals41.Method_202();
+							if (recoveredType_.HasValue)
+							{
+								if (recoveredType_.Value.HpPercent <= 0f)
+								{
+									return (kind: 2, hp: 0f, pos: recoveredType_.Value.Position, player: localPlayerPosition, isS: true);
+								}
+								CS_0024_003C_003E8__locals41.Method_204(recoveredType_.Value);
+								return (kind: 3, hp: recoveredType_.Value.HpPercent, pos: recoveredType_.Value.Position, player: localPlayerPosition, isS: true);
+							}
+							return (kind: 0, hp: -1f, pos: Vector3.Zero, player: localPlayerPosition, isS: false);
+						}).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_446 = 8);
+							field_470 = awaiter3;
+							field_447.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_07ea;
+						IL_054c:
+						awaiter.GetResult();
+						CS_0024_003C_003E8__locals41.FinishSMonitor("已开怪");
+						break;
+						IL_0b6f:
+						awaiter.GetResult();
+						CS_0024_003C_003E8__locals41.FinishSMonitor("已开怪");
+						break;
+						IL_0186:
+						result = awaiter2.GetResult();
+						field_454 = result;
+						if (!field_454)
+						{
+							if (field_455 < 2)
+							{
+								CS_0024_003C_003E8__locals41.PrintEcho("S怪寻路失败，2秒后重新寻路...");
+								awaiter = Task.Delay(TimeSpan.FromSeconds(2L), field_452).GetAwaiter();
+								if (!awaiter.IsCompleted)
+								{
+									num = (field_446 = 1);
+									field_457 = awaiter;
+									field_447.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+									return;
+								}
+								goto IL_0217;
+							}
+							goto IL_021e;
+						}
+						goto IL_023c;
+						IL_03ab:
+						result2 = awaiter6.GetResult();
+						if (result2.HasValue)
+						{
+							field_458 = Method_197(result2.Value, field_450.Position);
+							awaiter5 = Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)CS_0024_003C_003E8__locals41.Method_202).GetAwaiter();
+							if (!awaiter5.IsCompleted)
+							{
+								num = (field_446 = 4);
+								field_460 = awaiter5;
+								field_447.AwaitUnsafeOnCompleted(ref awaiter5, ref this);
+								return;
+							}
+							goto IL_0444;
+						}
+						goto IL_0c80;
+						IL_09d7:
+						result3 = awaiter2.GetResult();
+						field_466 = DateTime.UtcNow;
+						if (result3 && (DateTime.UtcNow - field_467).TotalSeconds >= 10.0)
+						{
+							field_467 = DateTime.UtcNow;
+							CS_0024_003C_003E8__locals41.PrintEcho($"S怪已移动，距离 {field_471:0.0}m，重新悬停跟随");
+						}
+						goto IL_0a5b;
+						IL_0c80:
+						field_455++;
+						goto IL_0c92;
+						IL_0217:
+						awaiter.GetResult();
+						goto IL_021e;
+						IL_021e:
+						field_455++;
+						goto IL_0230;
+						IL_023c:
+						if (!field_454)
+						{
+							CS_0024_003C_003E8__locals41.PrintEcho("S怪导航失败: vnavmesh未就绪或无法规划路径");
+							CS_0024_003C_003E8__locals41.FinishSMonitor("寻路失败");
+							break;
+						}
+						CS_0024_003C_003E8__locals41.PrintEcho($"S怪导航已开始(悬停高度{CS_0024_003C_003E8__locals41.Config.SHoverHeight:0}m)，悬停期间监控血量...");
+						field_455 = 0;
+						goto IL_0c92;
+						IL_0444:
+						result4 = awaiter5.GetResult();
+						field_453.field_216 = result4;
+						if (field_453.field_216.HasValue)
+						{
+							SMonitorStatus sMonitor = CS_0024_003C_003E8__locals41.SMonitor;
+							if (sMonitor != null)
+							{
+								sMonitor.HpPercent = field_453.field_216.Value.HpPercent;
+							}
+							if (field_453.field_216.Value.HpPercent <= CS_0024_003C_003E8__locals41.Config.SHpThreshold)
+							{
+								awaiter = CS_0024_003C_003E8__locals41.Method_166(field_453.field_216.Value, field_453.field_216.Value.HpPercent, field_452).GetAwaiter();
+								if (!awaiter.IsCompleted)
+								{
+									num = (field_446 = 5);
+									field_457 = awaiter;
+									field_447.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+									return;
+								}
+								goto IL_054c;
+							}
+							if (field_458 <= CS_0024_003C_003E8__locals41.Config.SHoverDistance)
+							{
+								CS_0024_003C_003E8__locals41.Method_179("/vnav stop");
+								awaiter4 = Framework.RunOnFrameworkThread(() => field_453.field_217.field_214.Method_204(field_453.field_216.Value)).GetAwaiter();
+								if (!awaiter4.IsCompleted)
+								{
+									num = (field_446 = 6);
+									field_468 = awaiter4;
+									field_447.AwaitUnsafeOnCompleted(ref awaiter4, ref this);
+									return;
+								}
+								goto IL_05f0;
+							}
+							field_453 = null;
+						}
+						goto IL_0c80;
+						IL_05f0:
+						result5 = awaiter4.GetResult();
+						CS_0024_003C_003E8__locals41.PrintEcho($"已悬停到S怪附近({field_458:0.0}m)，已选中S怪:{result5 ?? field_453.field_216.Value.Name}，当前血量:{field_453.field_216.Value.HpPercent:0.0}%，等待血量降至{CS_0024_003C_003E8__locals41.Config.SHpThreshold:0}%");
+						field_461 = -1f;
+						field_462 = 0f;
+						field_463 = 0f;
+						field_464 = 0f;
+						field_465 = false;
+						field_466 = DateTime.MinValue;
+						field_467 = DateTime.MinValue;
+						goto IL_0709;
+						IL_0c92:
+						if (field_455 < 120)
+						{
+							field_453 = new RecoveredType_40();
+							field_453.field_217 = field_451;
+							awaiter = Task.Delay(500, field_452).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_446 = 2);
+								field_457 = awaiter;
+								field_447.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_032e;
+						}
+						CS_0024_003C_003E8__locals41.PrintEcho("S怪悬停监控超时");
+						CS_0024_003C_003E8__locals41.FinishSMonitor("悬停导航超时");
+						field_451 = null;
+						break;
+						IL_07ea:
+						result6 = awaiter3.GetResult();
+						field_469 = result6;
+						if (field_469.kind == 2)
+						{
+							CS_0024_003C_003E8__locals41.PrintEcho("S怪已死亡，悬停监控结束");
+							CS_0024_003C_003E8__locals41.FinishSMonitor("S怪已死亡");
+							break;
+						}
+						if (field_469.kind == 1 || field_469.kind == 3)
+						{
+							field_464 = 0f;
+							if (field_465 && field_469.kind == 3)
+							{
+								CS_0024_003C_003E8__locals41.PrintEcho("目标已重新选中: " + field_450.Name);
+							}
+							field_465 = false;
+							field_471 = ((field_469.player.HasValue && field_469.isS) ? Method_197(field_469.player.Value, field_469.pos) : 0f);
+							if (field_471 > CS_0024_003C_003E8__locals41.Config.SHoverDistance + 5f && (DateTime.UtcNow - field_466).TotalSeconds >= 3.0)
+							{
+								RecoveredType_40 field_219 = field_453;
+								Vector3 field_220 = new Vector3(field_469.pos.X, field_469.pos.Y + CS_0024_003C_003E8__locals41.Config.SHoverHeight, field_469.pos.Z);
+								awaiter2 = Framework.RunOnFrameworkThread(() =>
+								{
+									Vector3? vector = field_219.field_217.field_214.Method_118(field_220);
+									Vector3 arg = (vector.HasValue ? new Vector3(vector.Value.X, field_220.Y, vector.Value.Z) : field_220);
+									ICallGateSubscriber<bool>? field_221 = field_219.field_217.field_214.field_24;
+									return field_221 != null && field_221.InvokeFunc() && (field_219.field_217.field_214.field_25?.InvokeFunc(arg, arg2: true) ?? false);
+								}).GetAwaiter();
+								if (!awaiter2.IsCompleted)
+								{
+									num = (field_446 = 9);
+									field_456 = awaiter2;
+									field_447.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+									return;
+								}
+								goto IL_09d7;
+							}
+							goto IL_0a5b;
+						}
+						field_464 += 0.5f;
+						field_465 = true;
+						sMonitor2 = CS_0024_003C_003E8__locals41.SMonitor;
+						if (sMonitor2 != null)
+						{
+							sMonitor2.Phase = "目标丢失";
+							sMonitor2.TargetLost = true;
+							sMonitor2.LostSeconds = field_464;
+						}
+						if (field_464 >= 30f)
+						{
+							CS_0024_003C_003E8__locals41.PrintEcho("目标丢失30秒，悬停监控结束");
+							CS_0024_003C_003E8__locals41.FinishSMonitor("目标丢失30秒");
+							break;
+						}
+						goto IL_0709;
+						IL_0a5b:
+						item = field_469.hp;
+						sMonitor3 = CS_0024_003C_003E8__locals41.SMonitor;
+						if (sMonitor3 != null)
+						{
+							sMonitor3.Phase = "悬停监控";
+							sMonitor3.HpPercent = item;
+							sMonitor3.WaitedSeconds = field_463;
+							sMonitor3.TargetLost = false;
+						}
+						if (Math.Abs(item - field_461) >= 5f)
+						{
+							field_461 = item;
+							CS_0024_003C_003E8__locals41.PrintEcho($"悬停监控中: S怪血量 {item:0.0}%");
+						}
+						if (item <= CS_0024_003C_003E8__locals41.Config.SHpThreshold)
+						{
+							awaiter = CS_0024_003C_003E8__locals41.Method_166(field_450, item, field_452).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_446 = 10);
+								field_457 = awaiter;
+								field_447.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0b6f;
+						}
+						if (field_463 - field_462 >= 60f)
+						{
+							field_462 = field_463;
+							CS_0024_003C_003E8__locals41.PrintEcho($"悬停监控中: 已等待{field_463:0}秒, S怪血量 {item:0.0}%");
+						}
+						goto IL_0709;
+						IL_0709:
+						awaiter = Task.Delay(500, field_452).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_446 = 7);
+							field_457 = awaiter;
+							field_447.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_076a;
+					}
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						CS_0024_003C_003E8__locals41.field_33 = false;
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				field_446 = -2;
+				field_447.SetException(exception);
+				return;
+			}
+			field_446 = -2;
+			field_447.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_415
+			this.Method_415();
+		}
+
+		[DebuggerHidden]
+		private void Method_416(IAsyncStateMachine arg0)
+		{
+			field_447.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_416
+			this.Method_416(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_77 : IAsyncStateMachine
+	{
+		public int field_472;
+
+		public AsyncTaskMethodBuilder<bool> field_473;
+
+		public AutomaticHunting field_474;
+
+		public CancellationToken field_475;
+
+		public uint field_476;
+
+		private RecoveredType_26 field_477;
+
+		private DateTime field_478;
+
+		private DateTime field_479;
+
+		private TaskAwaiter field_480;
+
+		private TaskAwaiter<(bool Between, bool Foreign)> field_481;
+
+		private void Method_417()
+		{
+			int num = field_472;
+			AutomaticHunting automaticHunting = field_474;
+			bool result;
+			try
+			{
+				TaskAwaiter<(bool, bool)> awaiter2;
+				TaskAwaiter awaiter;
+				(bool, bool) result2;
+				switch (num)
+				{
+				default:
+					field_477 = new RecoveredType_26();
+					field_477.field_177 = field_474;
+					field_477.field_178 = field_475;
+					field_477.field_185 = field_476;
+					awaiter = Framework.RunOnFrameworkThread(() =>
+					{
+						field_477.field_177.Method_179("/vnav stop");
+					}).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_472 = 0);
+						field_480 = awaiter;
+						field_473.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_00cb;
+				case 0:
+					awaiter = field_480;
+					field_480 = default;
+					num = (field_472 = -1);
+					goto IL_00cb;
+				case 1:
+					awaiter2 = field_481;
+					field_481 = default;
+					num = (field_472 = -1);
+					goto IL_01f3;
+				case 2:
+					awaiter = field_480;
+					field_480 = default;
+					num = (field_472 = -1);
+					goto IL_0275;
+				case 3:
+					{
+						awaiter = field_480;
+						field_480 = default;
+						num = (field_472 = -1);
+						goto IL_036f;
+					}
+					IL_0275:
+					awaiter.GetResult();
+					goto IL_0376;
+					IL_00cb:
+					awaiter.GetResult();
+					field_478 = DateTime.UtcNow;
+					field_477.field_183 = field_478;
+					field_479 = field_478.AddSeconds(10.0);
+					field_477.field_182 = null;
+					field_477.field_184 = 0;
+					field_477.field_179 = 0;
+					field_477.field_180 = null;
+					field_477.field_181 = null;
+					goto IL_0376;
+					IL_0376:
+					if (DateTime.UtcNow - field_478 < TimeSpan.FromSeconds(60L))
+					{
+						field_477.field_178.ThrowIfCancellationRequested();
+						awaiter2 = Framework.RunOnFrameworkThread(() =>
+						{
+							field_477.field_178.ThrowIfCancellationRequested();
+							if (Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51])
+							{
+								return (Between: field_477.field_179 > 0, Foreign: field_477.field_179 == 0);
+							}
+							if (Method_121())
+							{
+								DateTime valueOrDefault = field_477.field_180.GetValueOrDefault();
+								if (!field_477.field_180.HasValue)
+								{
+									valueOrDefault = DateTime.UtcNow;
+									field_477.field_180 = valueOrDefault;
+								}
+								field_477.field_181 = null;
+								return (Between: false, Foreign: false);
+							}
+							if (field_477.field_180.HasValue)
+							{
+								DateTime valueOrDefault = field_477.field_181.GetValueOrDefault();
+								if (!field_477.field_181.HasValue)
+								{
+									valueOrDefault = DateTime.UtcNow;
+									field_477.field_181 = valueOrDefault;
+								}
+								if (DateTime.UtcNow - field_477.field_181.Value < TimeSpan.FromSeconds(2L))
+								{
+									return (Between: false, Foreign: false);
+								}
+							}
+							Vector3? localPlayerPosition = GetLocalPlayerPosition();
+							bool num2 = localPlayerPosition.HasValue && field_477.field_182.HasValue && Vector3.DistanceSquared(localPlayerPosition.Value, field_477.field_182.Value) < 0.0001f;
+							field_477.field_182 = localPlayerPosition;
+							if (!num2 || Method_133() || Method_121() || Condition[ConditionFlag.MountOrOrnamentTransition] || DateTime.UtcNow < field_477.field_183 || field_477.field_177.Method_122() || !Method_120())
+							{
+								return (Between: false, Foreign: false);
+							}
+							field_477.field_184++;
+							bool flag = field_477.field_177.Method_119(field_477.field_185);
+							if (flag)
+							{
+								field_477.field_179++;
+							}
+							field_477.field_183 = DateTime.UtcNow.AddSeconds((!flag) ? 1 : 2);
+							return (Between: false, Foreign: false);
+						}).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_472 = 1);
+							field_481 = awaiter2;
+							field_473.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_01f3;
+					}
+					automaticHunting.PrintEcho($"传送失败: 60秒内未进入过图(id={field_477.field_185})");
+					result = false;
+					break;
+					IL_01f3:
+					result2 = awaiter2.GetResult();
+					if (result2.Item1)
+					{
+						result = true;
+						break;
+					}
+					if (result2.Item2)
+					{
+						awaiter = Task.Delay(100, field_477.field_178).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_472 = 2);
+							field_480 = awaiter;
+							field_473.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_0275;
+					}
+					if (DateTime.UtcNow >= field_479)
+					{
+						automaticHunting.PrintEcho($"等待传送开始(id={field_477.field_185}，已尝试{field_477.field_184}次)...");
+						field_479 = DateTime.UtcNow.AddSeconds(10.0);
+					}
+					awaiter = Task.Delay(100, field_477.field_178).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_472 = 3);
+						field_480 = awaiter;
+						field_473.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_036f;
+					IL_036f:
+					awaiter.GetResult();
+					goto IL_0376;
+				}
+			}
+			catch (Exception exception)
+			{
+				field_472 = -2;
+				field_477 = null;
+				field_473.SetException(exception);
+				return;
+			}
+			field_472 = -2;
+			field_477 = null;
+			field_473.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_417
+			this.Method_417();
+		}
+
+		[DebuggerHidden]
+		private void Method_418(IAsyncStateMachine arg0)
+		{
+			field_473.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_418
+			this.Method_418(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_78 : IAsyncStateMachine
+	{
+		public int field_482;
+
+		public AsyncTaskMethodBuilder<bool> field_483;
+
+		public CancellationToken field_484;
+
+		public AutomaticHunting field_485;
+
+		private bool field_486;
+
+		private TaskAwaiter<bool> field_487;
+
+		private int field_488;
+
+		private TaskAwaiter field_489;
+
+		private DateTime field_490;
+
+		private int field_491;
+
+		private void Method_419()
+		{
+			int num = field_482;
+			AutomaticHunting CS_0024_003C_003E8__locals7 = field_485;
+			bool result;
+			try
+			{
+				TaskAwaiter<bool> awaiter2;
+				TaskAwaiter awaiter;
+				switch (num)
+				{
+				default:
+					awaiter2 = Framework.RunOnFrameworkThread(() => Condition[ConditionFlag.Mounted]).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_482 = 0);
+						field_487 = awaiter2;
+						field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_00bf;
+				case 0:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_00bf;
+				case 1:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_0159;
+				case 2:
+					awaiter = field_489;
+					field_489 = default;
+					num = (field_482 = -1);
+					goto IL_01cd;
+				case 3:
+					awaiter = field_489;
+					field_489 = default;
+					num = (field_482 = -1);
+					goto IL_025c;
+				case 4:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_02c7;
+				case 5:
+					awaiter = field_489;
+					field_489 = default;
+					num = (field_482 = -1);
+					goto IL_034f;
+				case 6:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_03ba;
+				case 7:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_045f;
+				case 8:
+					awaiter = field_489;
+					field_489 = default;
+					num = (field_482 = -1);
+					goto IL_04c9;
+				case 9:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_0535;
+				case 10:
+					awaiter2 = field_487;
+					field_487 = default;
+					num = (field_482 = -1);
+					goto IL_05c5;
+				case 11:
+					awaiter = field_489;
+					field_489 = default;
+					num = (field_482 = -1);
+					goto IL_0634;
+				case 12:
+					{
+						awaiter = field_489;
+						field_489 = default;
+						num = (field_482 = -1);
+						goto IL_06c2;
+					}
+					IL_03c3:
+					if (DateTime.UtcNow - field_490 < TimeSpan.FromSeconds(5L))
+					{
+						awaiter = Task.Delay(200, field_484).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_482 = 5);
+							field_489 = awaiter;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_034f;
+					}
+					goto IL_03e4;
+					IL_06c2:
+					awaiter.GetResult();
+					goto IL_06c9;
+					IL_04c9:
+					awaiter.GetResult();
+					awaiter2 = Framework.RunOnFrameworkThread((Func<bool>)CS_0024_003C_003E8__locals7.Method_183).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_482 = 9);
+						field_487 = awaiter2;
+						field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0535;
+					IL_00bf:
+					if (awaiter2.GetResult())
+					{
+						result = true;
+						break;
+					}
+					field_486 = false;
+					field_488 = 0;
+					goto IL_01e6;
+					IL_0634:
+					awaiter.GetResult();
+					field_491++;
+					goto IL_064d;
+					IL_034f:
+					awaiter.GetResult();
+					awaiter2 = Framework.RunOnFrameworkThread((Func<bool>)CS_0024_003C_003E8__locals7.Method_184).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_482 = 6);
+						field_487 = awaiter2;
+						field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_03ba;
+					IL_01e6:
+					if (field_488 < 30)
+					{
+						awaiter2 = Framework.RunOnFrameworkThread(() => Method_133()).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_482 = 1);
+							field_487 = awaiter2;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_0159;
+					}
+					goto IL_01f3;
+					IL_0535:
+					if (awaiter2.GetResult())
+					{
+						field_491 = 0;
+						goto IL_064d;
+					}
+					goto IL_065a;
+					IL_03e4:
+					CS_0024_003C_003E8__locals7.PrintEcho("召唤坐骑...");
+					field_488 = 1;
+					goto IL_06db;
+					IL_03ba:
+					if (!awaiter2.GetResult())
+					{
+						goto IL_03c3;
+					}
+					goto IL_03e4;
+					IL_06db:
+					if (field_488 <= 5)
+					{
+						awaiter2 = Framework.RunOnFrameworkThread(() => (CS_0024_003C_003E8__locals7.Config.SelectedMountId != 0) ? Method_198(CS_0024_003C_003E8__locals7.Config.SelectedMountId) : Method_199()).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_482 = 7);
+							field_487 = awaiter2;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_045f;
+					}
+					result = false;
+					break;
+					IL_0159:
+					if (awaiter2.GetResult())
+					{
+						field_486 = true;
+						awaiter = Task.Delay(500, field_484).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_482 = 2);
+							field_489 = awaiter;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_01cd;
+					}
+					goto IL_01f3;
+					IL_05c5:
+					if (awaiter2.GetResult())
+					{
+						result = true;
+						break;
+					}
+					awaiter = Task.Delay(100, field_484).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_482 = 11);
+						field_489 = awaiter;
+						field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_0634;
+					IL_064d:
+					if (field_491 < 30)
+					{
+						awaiter2 = Framework.RunOnFrameworkThread(() => Condition[ConditionFlag.Mounted]).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_482 = 10);
+							field_487 = awaiter2;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_05c5;
+					}
+					goto IL_065a;
+					IL_01cd:
+					awaiter.GetResult();
+					field_488++;
+					goto IL_01e6;
+					IL_01f3:
+					if (field_486)
+					{
+						awaiter = Task.Delay(1000, field_484).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_482 = 3);
+							field_489 = awaiter;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_025c;
+					}
+					goto IL_0263;
+					IL_065a:
+					if (field_488 < 5)
+					{
+						awaiter = Task.Delay(500, field_484).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_482 = 12);
+							field_489 = awaiter;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_06c2;
+					}
+					goto IL_06c9;
+					IL_045f:
+					if (awaiter2.GetResult())
+					{
+						awaiter = Task.Delay(100, field_484).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_482 = 8);
+							field_489 = awaiter;
+							field_483.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_04c9;
+					}
+					goto IL_065a;
+					IL_025c:
+					awaiter.GetResult();
+					goto IL_0263;
+					IL_0263:
+					awaiter2 = Framework.RunOnFrameworkThread((Func<bool>)CS_0024_003C_003E8__locals7.Method_184).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_482 = 4);
+						field_487 = awaiter2;
+						field_483.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_02c7;
+					IL_06c9:
+					field_488++;
+					goto IL_06db;
+					IL_02c7:
+					if (!awaiter2.GetResult())
+					{
+						CS_0024_003C_003E8__locals7.PrintEcho("等待区域加载/动作就绪...");
+						field_490 = DateTime.UtcNow;
+						goto IL_03c3;
+					}
+					goto IL_03e4;
+				}
+			}
+			catch (Exception exception)
+			{
+				field_482 = -2;
+				field_483.SetException(exception);
+				return;
+			}
+			field_482 = -2;
+			field_483.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_419
+			this.Method_419();
+		}
+
+		[DebuggerHidden]
+		private void Method_420(IAsyncStateMachine arg0)
+		{
+			field_483.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_420
+			this.Method_420(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_79 : IAsyncStateMachine
+	{
+		public int field_492;
+
+		public AsyncTaskMethodBuilder field_493;
+
+		public AutomaticHunting field_494;
+
+		private TaskAwaiter<bool> field_495;
+
+		private void Method_421()
+		{
+			int num = field_492;
+			AutomaticHunting automaticHunting = field_494;
+			try
+			{
+				try
+				{
+					TaskAwaiter<bool> awaiter;
+					if (num != 0)
+					{
+						awaiter = automaticHunting.Method_182(CancellationToken.None).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_492 = 0);
+							field_495 = awaiter;
+							field_493.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+					}
+					else
+					{
+						awaiter = field_495;
+						field_495 = default;
+						num = (field_492 = -1);
+					}
+					awaiter.GetResult();
+				}
+				catch (Exception exception)
+				{
+					Log.Warning(exception, "AutomaticHunting: Manual mount summon failed");
+				}
+			}
+			catch (Exception exception2)
+			{
+				field_492 = -2;
+				field_493.SetException(exception2);
+				return;
+			}
+			field_492 = -2;
+			field_493.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_421
+			this.Method_421();
+		}
+
+		[DebuggerHidden]
+		private void Method_422(IAsyncStateMachine arg0)
+		{
+			field_493.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_422
+			this.Method_422(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_80 : IAsyncStateMachine
+	{
+		public int field_496;
+
+		public AsyncTaskMethodBuilder field_497;
+
+		public AutomaticHunting field_498;
+
+		public int field_499;
+
+		private DateTime field_500;
+
+		private TaskAwaiter field_501;
+
+		private TaskAwaiter<bool> field_502;
+
+		private int field_503;
+
+		private void Method_423()
+		{
+			int num = field_496;
+			AutomaticHunting automaticHunting = field_498;
+			try
+			{
+				_ = 4;
+				try
+				{
+					TaskAwaiter<bool> awaiter2;
+					TaskAwaiter awaiter;
+					switch (num)
+					{
+					default:
+						field_500 = DateTime.UtcNow;
+						goto IL_013a;
+					case 0:
+						awaiter = field_501;
+						field_501 = default;
+						num = (field_496 = -1);
+						goto IL_0095;
+					case 1:
+						awaiter2 = field_502;
+						field_502 = default;
+						num = (field_496 = -1);
+						goto IL_0113;
+					case 2:
+						awaiter = field_501;
+						field_501 = default;
+						num = (field_496 = -1);
+						goto IL_01c1;
+					case 3:
+						awaiter2 = field_502;
+						field_502 = default;
+						num = (field_496 = -1);
+						goto IL_024b;
+					case 4:
+						{
+							awaiter = field_501;
+							field_501 = default;
+							num = (field_496 = -1);
+							goto IL_02ac;
+						}
+						IL_013a:
+						if (DateTime.UtcNow - field_500 < TimeSpan.FromSeconds(45L))
+						{
+							awaiter = Task.Delay(500).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_496 = 0);
+								field_501 = awaiter;
+								field_497.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							goto IL_0095;
+						}
+						goto IL_015c;
+						IL_02ac:
+						awaiter.GetResult();
+						field_503++;
+						goto IL_02c5;
+						IL_015c:
+						awaiter = Task.Delay((int)(automaticHunting.Config.WaitAfterTeleport * 1000f)).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_496 = 2);
+							field_501 = awaiter;
+							field_497.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_01c1;
+						IL_0095:
+						awaiter.GetResult();
+						awaiter2 = Framework.RunOnFrameworkThread(() => Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51]).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_496 = 1);
+							field_502 = awaiter2;
+							field_497.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_0113;
+						IL_01c1:
+						awaiter.GetResult();
+						field_503 = 0;
+						goto IL_02c5;
+						IL_024b:
+						if (!awaiter2.GetResult())
+						{
+							break;
+						}
+						awaiter = Task.Delay(500).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_496 = 4);
+							field_501 = awaiter;
+							field_497.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_02ac;
+						IL_02c5:
+						if (field_503 >= 30)
+						{
+							break;
+						}
+						awaiter2 = Framework.RunOnFrameworkThread(() => Method_133()).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_496 = 3);
+							field_502 = awaiter2;
+							field_497.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_024b;
+						IL_0113:
+						if (awaiter2.GetResult() || !(DateTime.UtcNow - field_500 > TimeSpan.FromSeconds(2L)))
+						{
+							goto IL_013a;
+						}
+						goto IL_015c;
+					}
+					automaticHunting.PrintEcho("进入多线地图: 区域已稳定，执行切线");
+					automaticHunting.SwitchToInstance(field_499);
+				}
+				catch (Exception exception)
+				{
+					Log.Warning(exception, "AutomaticHunting: 等待稳定后切线失败");
+				}
+			}
+			catch (Exception exception2)
+			{
+				field_496 = -2;
+				field_497.SetException(exception2);
+				return;
+			}
+			field_496 = -2;
+			field_497.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_423
+			this.Method_423();
+		}
+
+		[DebuggerHidden]
+		private void Method_424(IAsyncStateMachine arg0)
+		{
+			field_497.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_424
+			this.Method_424(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_81 : IAsyncStateMachine
+	{
+		public int field_504;
+
+		public AsyncTaskMethodBuilder field_505;
+
+		private RecoveredType_18 field_506;
+
+		public AutomaticHunting field_507;
+
+		private List<(uint Id, Vector3 Position, string Name)> field_508;
+
+		private TaskAwaiter<List<(uint Id, Vector3 Position, string Name)>> field_509;
+
+		private TaskAwaiter<Vector3?> field_510;
+
+		private TaskAwaiter<bool> field_511;
+
+		private void Method_425()
+		{
+			int num = field_504;
+			AutomaticHunting automaticHunting = field_507;
+			try
+			{
+				_ = 3;
+				try
+				{
+					TaskAwaiter<List<(uint, Vector3, string)>> awaiter3;
+					TaskAwaiter<Vector3?> awaiter2;
+					TaskAwaiter<bool> awaiter;
+					Vector3? result;
+					List<(uint, Vector3, string)> result2;
+					switch (num)
+					{
+					default:
+						field_506 = new RecoveredType_18();
+						field_506.field_161 = Method_116();
+						awaiter3 = Framework.RunOnFrameworkThread(() => Method_127(field_506.field_161)).GetAwaiter();
+						if (!awaiter3.IsCompleted)
+						{
+							num = (field_504 = 0);
+							field_509 = awaiter3;
+							field_505.AwaitUnsafeOnCompleted(ref awaiter3, ref this);
+							return;
+						}
+						goto IL_00b0;
+					case 0:
+						awaiter3 = field_509;
+						field_509 = default;
+						num = (field_504 = -1);
+						goto IL_00b0;
+					case 1:
+						awaiter2 = field_510;
+						field_510 = default;
+						num = (field_504 = -1);
+						goto IL_0147;
+					case 2:
+						awaiter = field_511;
+						field_511 = default;
+						num = (field_504 = -1);
+						goto IL_0235;
+					case 3:
+						{
+							awaiter = field_511;
+							field_511 = default;
+							num = (field_504 = -1);
+							break;
+						}
+						IL_0147:
+						result = awaiter2.GetResult();
+						field_506.field_162 = result;
+						if (field_506.field_162.HasValue)
+						{
+							(uint, Vector3, string) tuple = field_508.MinBy(((uint Id, Vector3 Position, string Name) arg0) => Vector3.DistanceSquared(arg0.Position, field_506.field_162.Value));
+							if (!(Vector3.Distance(tuple.Item2, field_506.field_162.Value) <= 60f))
+							{
+								automaticHunting.PrintEcho("切线未生效，传送到最近以太之光(" + tuple.Item3 + ")后重试");
+								awaiter = automaticHunting.Method_123(tuple.Item1, CancellationToken.None).GetAwaiter();
+								if (!awaiter.IsCompleted)
+								{
+									num = (field_504 = 2);
+									field_511 = awaiter;
+									field_505.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+									return;
+								}
+								goto IL_0235;
+							}
+						}
+						goto end_IL_0013;
+						IL_00b0:
+						result2 = awaiter3.GetResult();
+						field_508 = result2;
+						if (field_508.Count != 0)
+						{
+							awaiter2 = Framework.RunOnFrameworkThread((Func<Vector3?>)GetLocalPlayerPosition).GetAwaiter();
+							if (!awaiter2.IsCompleted)
+							{
+								num = (field_504 = 1);
+								field_510 = awaiter2;
+								field_505.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+								return;
+							}
+							goto IL_0147;
+						}
+						goto end_IL_0013;
+						IL_0235:
+						if (awaiter.GetResult())
+						{
+							awaiter = automaticHunting.Method_163(field_506.field_161, CancellationToken.None).GetAwaiter();
+							if (!awaiter.IsCompleted)
+							{
+								num = (field_504 = 3);
+								field_511 = awaiter;
+								field_505.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+								return;
+							}
+							break;
+						}
+						goto end_IL_0013;
+					}
+					awaiter.GetResult();
+					field_506 = null;
+					field_508 = null;
+					end_IL_0013:;
+				}
+				catch (Exception exception)
+				{
+					Log.Warning(exception, "AutomaticHunting: 切线重试传送到以太之光失败");
+				}
+			}
+			catch (Exception exception2)
+			{
+				field_504 = -2;
+				field_505.SetException(exception2);
+				return;
+			}
+			field_504 = -2;
+			field_505.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_425
+			this.Method_425();
+		}
+
+		[DebuggerHidden]
+		private void Method_426(IAsyncStateMachine arg0)
+		{
+			field_505.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_426
+			this.Method_426(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_82 : IAsyncStateMachine
+	{
+		public int field_512;
+
+		public AsyncTaskMethodBuilder<bool> field_513;
+
+		public AutomaticHunting field_514;
+
+		public CancellationToken field_515;
+
+		public uint field_516;
+
+		private TaskAwaiter field_517;
+
+		private TaskAwaiter<bool> field_518;
+
+		private void Method_427()
+		{
+			int num = field_512;
+			AutomaticHunting automaticHunting = field_514;
+			bool result;
+			try
+			{
+				TaskAwaiter awaiter;
+				if (num != 0)
+				{
+					if (num == 1)
+					{
+						goto IL_007c;
+					}
+					awaiter = automaticHunting.field_77.WaitAsync(field_515).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_512 = 0);
+						field_517 = awaiter;
+						field_513.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+				}
+				else
+				{
+					awaiter = field_517;
+					field_517 = default;
+					num = (field_512 = -1);
+				}
+				awaiter.GetResult();
+				goto IL_007c;
+				IL_007c:
+				try
+				{
+					TaskAwaiter<bool> awaiter2;
+					if (num != 1)
+					{
+						awaiter2 = automaticHunting.Method_124(field_516, field_515).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_512 = 1);
+							field_518 = awaiter2;
+							field_513.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+					}
+					else
+					{
+						awaiter2 = field_518;
+						field_518 = default;
+						num = (field_512 = -1);
+					}
+					result = awaiter2.GetResult();
+				}
+				finally
+				{
+					if (num < 0)
+					{
+						automaticHunting.field_77.Release();
+					}
+				}
+			}
+			catch (Exception exception)
+			{
+				field_512 = -2;
+				field_513.SetException(exception);
+				return;
+			}
+			field_512 = -2;
+			field_513.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_427
+			this.Method_427();
+		}
+
+		[DebuggerHidden]
+		private void Method_428(IAsyncStateMachine arg0)
+		{
+			field_513.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_428
+			this.Method_428(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_83 : IAsyncStateMachine
+	{
+		public int field_519;
+
+		public AsyncTaskMethodBuilder field_520;
+
+		public TimeSpan field_521;
+
+		private DateTime field_522;
+
+		private TaskAwaiter<bool> field_523;
+
+		private TaskAwaiter field_524;
+
+		private void Method_429()
+		{
+			int num = field_519;
+			try
+			{
+				TaskAwaiter awaiter;
+				if (num != 0)
+				{
+					if (num != 1)
+					{
+						field_522 = DateTime.UtcNow;
+						goto IL_0102;
+					}
+					awaiter = field_524;
+					field_524 = default;
+					num = (field_519 = -1);
+					goto IL_00fb;
+				}
+				TaskAwaiter<bool> awaiter2 = field_523;
+				field_523 = default;
+				num = (field_519 = -1);
+				goto IL_0098;
+				IL_0102:
+				if (DateTime.UtcNow - field_522 < field_521)
+				{
+					awaiter2 = Framework.RunOnFrameworkThread(() => Method_133()).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_519 = 0);
+						field_523 = awaiter2;
+						field_520.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0098;
+				}
+				goto end_IL_0007;
+				IL_00fb:
+				awaiter.GetResult();
+				goto IL_0102;
+				IL_0098:
+				if (awaiter2.GetResult())
+				{
+					awaiter = Task.Delay(500).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_519 = 1);
+						field_524 = awaiter;
+						field_520.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_00fb;
+				}
+				end_IL_0007:;
+			}
+			catch (Exception exception)
+			{
+				field_519 = -2;
+				field_520.SetException(exception);
+				return;
+			}
+			field_519 = -2;
+			field_520.SetResult();
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_429
+			this.Method_429();
+		}
+
+		[DebuggerHidden]
+		private void Method_430(IAsyncStateMachine arg0)
+		{
+			field_520.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_430
+			this.Method_430(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_84 : IAsyncStateMachine
+	{
+		public int field_525;
+
+		public AsyncTaskMethodBuilder<bool> field_526;
+
+		public uint field_527;
+
+		public AutomaticHunting field_528;
+
+		public CancellationToken field_529;
+
+		private RecoveredType_37 field_530;
+
+		private DateTime field_531;
+
+		private TaskAwaiter field_532;
+
+		private TaskAwaiter<bool> field_533;
+
+		private int field_534;
+
+		private void Method_431()
+		{
+			int num = field_525;
+			AutomaticHunting automaticHunting = field_528;
+			bool result;
+			try
+			{
+				TaskAwaiter<bool> awaiter2;
+				TaskAwaiter awaiter;
+				bool flag;
+				switch (num)
+				{
+				default:
+					field_530 = new RecoveredType_37();
+					field_530.field_205 = field_527;
+					automaticHunting.PrintEcho("等待传送完成...");
+					field_531 = DateTime.UtcNow;
+					goto IL_03ed;
+				case 0:
+					awaiter = field_532;
+					field_532 = default;
+					num = (field_525 = -1);
+					goto IL_00c1;
+				case 1:
+					awaiter2 = field_533;
+					field_533 = default;
+					num = (field_525 = -1);
+					goto IL_0142;
+				case 2:
+					awaiter2 = field_533;
+					field_533 = default;
+					num = (field_525 = -1);
+					goto IL_01e0;
+				case 3:
+					awaiter = field_532;
+					field_532 = default;
+					num = (field_525 = -1);
+					goto IL_02a1;
+				case 4:
+					awaiter2 = field_533;
+					field_533 = default;
+					num = (field_525 = -1);
+					goto IL_033f;
+				case 5:
+					{
+						awaiter = field_532;
+						field_532 = default;
+						num = (field_525 = -1);
+						goto IL_03b8;
+					}
+					IL_03ed:
+					if (DateTime.UtcNow - field_531 < TimeSpan.FromSeconds(45L))
+					{
+						awaiter = Task.Delay(500, field_529).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_525 = 0);
+							field_532 = awaiter;
+							field_526.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_00c1;
+					}
+					automaticHunting.PrintEcho("等待传送超时(45s)，导航已取消");
+					result = false;
+					break;
+					IL_033f:
+					if (awaiter2.GetResult())
+					{
+						automaticHunting.PrintEcho("传送完成");
+						result = true;
+						break;
+					}
+					awaiter = Task.Delay(500, field_529).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_525 = 5);
+						field_532 = awaiter;
+						field_526.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_03b8;
+					IL_02a1:
+					awaiter.GetResult();
+					field_534 = 0;
+					goto IL_03d1;
+					IL_03b8:
+					awaiter.GetResult();
+					field_534++;
+					goto IL_03d1;
+					IL_00c1:
+					awaiter.GetResult();
+					awaiter2 = Framework.RunOnFrameworkThread(() => Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51]).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_525 = 1);
+						field_533 = awaiter2;
+						field_526.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0142;
+					IL_01e0:
+					flag = awaiter2.GetResult();
+					goto IL_01e9;
+					IL_03d1:
+					if (field_534 < 30)
+					{
+						awaiter2 = Framework.RunOnFrameworkThread(() => !Method_133() && !Condition[ConditionFlag.Casting] && Method_116() == field_530.field_205 && GetLocalPlayerPosition().HasValue).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_525 = 4);
+							field_533 = awaiter2;
+							field_526.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_033f;
+					}
+					automaticHunting.PrintEcho("传送后状态未稳定，导航已取消");
+					result = false;
+					break;
+					IL_01e9:
+					if (flag)
+					{
+						automaticHunting.PrintEcho($"传送读条结束，等待{automaticHunting.Config.WaitAfterTeleport:0}秒状态稳定...");
+						awaiter = Task.Delay((int)(automaticHunting.Config.WaitAfterTeleport * 1000f), field_529).GetAwaiter();
+						if (!awaiter.IsCompleted)
+						{
+							num = (field_525 = 3);
+							field_532 = awaiter;
+							field_526.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+							return;
+						}
+						goto IL_02a1;
+					}
+					goto IL_03ed;
+					IL_0142:
+					flag = !awaiter2.GetResult();
+					if (flag)
+					{
+						awaiter2 = Framework.RunOnFrameworkThread(() => Method_116() == field_530.field_205 && GetLocalPlayerPosition().HasValue).GetAwaiter();
+						if (!awaiter2.IsCompleted)
+						{
+							num = (field_525 = 2);
+							field_533 = awaiter2;
+							field_526.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+							return;
+						}
+						goto IL_01e0;
+					}
+					goto IL_01e9;
+				}
+			}
+			catch (Exception exception)
+			{
+				field_525 = -2;
+				field_530 = null;
+				field_526.SetException(exception);
+				return;
+			}
+			field_525 = -2;
+			field_530 = null;
+			field_526.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_431
+			this.Method_431();
+		}
+
+		[DebuggerHidden]
+		private void Method_432(IAsyncStateMachine arg0)
+		{
+			field_526.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_432
+			this.Method_432(arg0);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	public struct RecoveredType_85 : IAsyncStateMachine
+	{
+		public int field_535;
+
+		public AsyncTaskMethodBuilder<bool> field_536;
+
+		public AutomaticHunting field_537;
+
+		public CancellationToken field_538;
+
+		private int field_539;
+
+		private TaskAwaiter<bool> field_540;
+
+		private TaskAwaiter field_541;
+
+		private void Method_433()
+		{
+			int num = field_535;
+			AutomaticHunting CS_0024_003C_003E8__locals1 = field_537;
+			bool result;
+			try
+			{
+				TaskAwaiter awaiter;
+				if (num != 0)
+				{
+					if (num != 1)
+					{
+						field_539 = 0;
+						goto IL_010f;
+					}
+					awaiter = field_541;
+					field_541 = default;
+					num = (field_535 = -1);
+					goto IL_00f6;
+				}
+				TaskAwaiter<bool> awaiter2 = field_540;
+				field_540 = default;
+				num = (field_535 = -1);
+				goto IL_0088;
+				IL_010f:
+				if (field_539 < 60)
+				{
+					awaiter2 = Framework.RunOnFrameworkThread(() => CS_0024_003C_003E8__locals1.field_24?.InvokeFunc() ?? false).GetAwaiter();
+					if (!awaiter2.IsCompleted)
+					{
+						num = (field_535 = 0);
+						field_540 = awaiter2;
+						field_536.AwaitUnsafeOnCompleted(ref awaiter2, ref this);
+						return;
+					}
+					goto IL_0088;
+				}
+				result = false;
+				goto end_IL_000e;
+				IL_00f6:
+				awaiter.GetResult();
+				field_539++;
+				goto IL_010f;
+				IL_0088:
+				if (!awaiter2.GetResult())
+				{
+					awaiter = Task.Delay(500, field_538).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (field_535 = 1);
+						field_541 = awaiter;
+						field_536.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+					goto IL_00f6;
+				}
+				result = true;
+				end_IL_000e:;
+			}
+			catch (Exception exception)
+			{
+				field_535 = -2;
+				field_536.SetException(exception);
+				return;
+			}
+			field_535 = -2;
+			field_536.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_433
+			this.Method_433();
+		}
+
+		[DebuggerHidden]
+		private void Method_434(IAsyncStateMachine arg0)
+		{
+			field_536.SetStateMachine(arg0);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine arg0)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in Method_434
+			this.Method_434(arg0);
+		}
+	}
+
 	public static readonly Vector4 UiColorRun = new Vector4(0.42f, 0.88f, 0.58f, 1f);
 
 	public static readonly Vector4 UiColorNav = new Vector4(0.4f, 0.65f, 1f, 1f);
@@ -3285,28 +7719,28 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	private SettingsWindow field_21;
 
 	[CompilerGenerated]
-	private OnboardingWindow m__2010;
+	private OnboardingWindow field_22;
 
 	[CompilerGenerated]
-	private HelpWindow m__2011;
+	private HelpWindow field_23;
 
-	private ICallGateSubscriber<bool>? m__2012;
+	private ICallGateSubscriber<bool>? field_24;
 
-	private ICallGateSubscriber<Vector3, bool, bool>? m__2013;
+	private ICallGateSubscriber<Vector3, bool, bool>? field_25;
 
-	private ICallGateSubscriber<Vector3, float, float, Vector3?>? m__2014;
+	private ICallGateSubscriber<Vector3, float, float, Vector3?>? field_26;
 
-	private string m__2015 = string.Empty;
+	private string field_27 = string.Empty;
 
-	private uint m__2022;
+	private uint field_28;
 
-	private DateTime m__2024 = DateTime.MinValue;
+	private DateTime field_29 = DateTime.MinValue;
 
 	public Vector3? LastFlagPosition;
 
-	private List<(uint Id, Vector3 Position, string Name)> m__2025 = new List<(uint, Vector3, string)>();
+	private List<(uint Id, Vector3 Position, string Name)> field_31 = new List<(uint, Vector3, string)>();
 
-	private RecoveredType_3? m__2027;
+	private RecoveredType_3? field_32;
 
 	private volatile bool field_33;
 
@@ -3324,21 +7758,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private int field_40;
 
-	private string? m__2032;
+	private string? field_41;
 
-	private object m__2035 = new object();
+	private object field_42 = new object();
 
-	private RecoveredType_3? m__2033;
+	private RecoveredType_3? field_43;
 
-	private string? m__2036;
+	private string? field_44;
 
-	private DateTime m__203E = DateTime.MinValue;
+	private DateTime field_45 = DateTime.MinValue;
 
-	private DateTime m__2047 = DateTime.MinValue;
+	private DateTime field_46 = DateTime.MinValue;
 
-	private WindowSystem m__2048;
+	private WindowSystem field_47;
 
-	private HuntUIController m__2049;
+	private HuntUIController field_48;
 
 	public List<MountInfo> OwnedMounts = new List<MountInfo>();
 
@@ -3348,53 +7782,53 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public string MountSearchText = string.Empty;
 
-	private readonly object m__204A = new object();
+	private readonly object field_53 = new object();
 
-	private CancellationTokenSource? m__204B;
+	private CancellationTokenSource? field_54;
 
-	private Task? m__204C;
+	private Task? field_55;
 
-	private RecoveredType_8 m__204D;
+	private RecoveredType_8 field_56;
 
-	private const float m__204E = 50f;
+	private const float field_57 = 50f;
 
-	private bool m__204F;
+	private bool field_58;
 
 	public volatile SMonitorStatus? SMonitor;
 
-	private DateTime m__2050 = DateTime.MinValue;
+	private DateTime field_60 = DateTime.MinValue;
 
-	private static readonly Regex m__2051;
+	private static readonly Regex field_61 = new Regex("[(（]?\\s*(\\d{1,2})[.．](\\d)\\s*[,，、]\\s*(\\d{1,2})[.．](\\d)\\s*[)）]?", RegexOptions.Compiled);
 
-	private object m__2052 = new object();
+	private object field_62 = new object();
 
-	private Task? m__2053;
+	private Task? field_63;
 
-	private CancellationTokenSource? m__2054;
+	private CancellationTokenSource? field_64;
 
-	private bool m__2055;
+	private bool field_65;
 
-	private DateTime m__2056 = DateTime.MinValue;
+	private DateTime field_66 = DateTime.MinValue;
 
-	private uint m__2057;
+	private uint field_67;
 
-	private Vector3 m__2058;
+	private Vector3 field_68;
 
-	private string? m__2059;
+	private string? field_69;
 
-	private uint m__205A;
+	private uint field_70;
 
-	private uint m__205B;
+	private uint field_71;
 
-	private Vector3 m__205C;
+	private Vector3 field_72;
 
-	private (string Server, uint Territory, uint AetheryteId, Vector3 Pos)? m__205D;
+	private (string Server, uint Territory, uint AetheryteId, Vector3 Pos)? field_73;
 
-	private string? m__205E;
+	private string? field_74;
 
 	private DateTime field_75 = DateTime.MinValue;
 
-	private static readonly ConcurrentDictionary<string, List<string>> field_76;
+	private static readonly ConcurrentDictionary<string, List<string>> field_76 = new ConcurrentDictionary<string, List<string>>();
 
 	private readonly SemaphoreSlim field_77 = new SemaphoreSlim(1, 1);
 
@@ -3432,9 +7866,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private const float field_94 = 5f;
 
-	private static readonly Dictionary<string, uint> field_95;
+	private static readonly Dictionary<string, uint> field_95 = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
 
-	private static readonly object field_96;
+	private static readonly object field_96 = new object();
 
 	public string Name => "自动狩猎跟车";
 
@@ -3650,12 +8084,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		[CompilerGenerated]
 		get
 		{
-			return this.m__2010;
+			return field_22;
 		}
 		[CompilerGenerated]
 		private set
 		{
-			this.m__2010 = value;
+			field_22 = value;
 		}
 	}
 
@@ -3664,12 +8098,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		[CompilerGenerated]
 		get
 		{
-			return this.m__2011;
+			return field_23;
 		}
 		[CompilerGenerated]
 		private set
 		{
-			this.m__2011 = value;
+			field_23 = value;
 		}
 	}
 
@@ -3677,9 +8111,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		get
 		{
-			lock (this.m__204A)
+			lock (field_53)
 			{
-				Task task = this.m__204C;
+				Task task = field_55;
 				return task != null && !task.IsCompleted;
 			}
 		}
@@ -3689,17 +8123,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		get
 		{
-			lock (this.m__2052)
+			lock (field_62)
 			{
-				if (this.m__2055 && this.m__2056 != DateTime.MinValue && DateTime.UtcNow - this.m__2056 > TimeSpan.FromSeconds(900L))
+				if (field_65 && field_66 != DateTime.MinValue && DateTime.UtcNow - field_66 > TimeSpan.FromSeconds(900L))
 				{
-					this.m__2055 = false;
-					this.m__2056 = DateTime.MinValue;
-					this.m__2057 = 0u;
-					this.m__2058 = default;
-					this.m__2059 = null;
+					field_65 = false;
+					field_66 = DateTime.MinValue;
+					field_67 = 0u;
+					field_68 = default;
+					field_69 = null;
 				}
-				return this.m__2055;
+				return field_65;
 			}
 		}
 	}
@@ -3917,7 +8351,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			Log.Warning("AutomaticHunting: 前置插件尚未就绪: " + string.Join(", ", list) + "（继续初始化，就绪前相关功能降级）");
 			PrintEchoAlways("前置插件尚未加载: " + string.Join(", ", list) + "，5秒后复查提示");
-			Task.Run([AsyncStateMachine(typeof(_00A0))] () =>
+			Task.Run([AsyncStateMachine(typeof(RecoveredType_12.RecoveredType_13))] () =>
 			{
 				RecoveredType_12.RecoveredType_13 stateMachine = default;
 				stateMachine.field_154 = AsyncTaskMethodBuilder.Create();
@@ -3934,21 +8368,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		ChatGui.ChatMessage += Method_81;
 		Framework.Update += Method_57;
 		ClientState.TerritoryChanged += Method_59;
-		this.m__2048 = new WindowSystem("AutomaticHunting");
+		field_47 = new WindowSystem("AutomaticHunting");
 		SettingsWindow = new SettingsWindow(this);
 		HudWindow = new HudWindow(this);
 		OnboardingWindow = new OnboardingWindow(this);
 		HelpWindow = new HelpWindow(this);
 		HudWindow.IsOpen = Config.HudVisible;
-		this.m__2048.AddWindow(SettingsWindow);
-		this.m__2048.AddWindow(HudWindow);
-		this.m__2048.AddWindow(OnboardingWindow);
-		this.m__2048.AddWindow(HelpWindow);
-		PluginInterface.UiBuilder.Draw += this.m__2048.Draw;
+		field_47.AddWindow(SettingsWindow);
+		field_47.AddWindow(HudWindow);
+		field_47.AddWindow(OnboardingWindow);
+		field_47.AddWindow(HelpWindow);
+		PluginInterface.UiBuilder.Draw += field_47.Draw;
 		PluginInterface.UiBuilder.OpenConfigUi += Method_42;
 		PluginInterface.UiBuilder.OpenMainUi += Method_43;
-		this.m__2049 = new HuntUIController(this);
-		this.m__204F = true;
+		field_48 = new HuntUIController(this);
+		field_58 = true;
 		if (!Config.DisclaimerAccepted)
 		{
 			if (Config.Enabled)
@@ -3979,16 +8413,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void Dispose()
 	{
-		if (this.m__204F)
+		if (field_58)
 		{
 			ChatGui.ChatMessage -= Method_81;
 			Framework.Update -= Method_57;
 			ClientState.TerritoryChanged -= Method_59;
-			PluginInterface.UiBuilder.Draw -= this.m__2048.Draw;
+			PluginInterface.UiBuilder.Draw -= field_47.Draw;
 			PluginInterface.UiBuilder.OpenConfigUi -= Method_42;
 			PluginInterface.UiBuilder.OpenMainUi -= Method_43;
 			CommandManager.RemoveHandler("/auht");
-			this.m__2049.Dispose();
+			field_48.Dispose();
 			StopNavigation();
 			ConfigService.Save();
 			Theme.PopAll();
@@ -4011,9 +8445,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		try
 		{
-			this.m__2012 = PluginInterface.GetIpcSubscriber<bool>("vnavmesh.Nav.IsReady");
-			this.m__2013 = PluginInterface.GetIpcSubscriber<Vector3, bool, bool>("vnavmesh.SimpleMove.PathfindAndMoveTo");
-			this.m__2014 = PluginInterface.GetIpcSubscriber<Vector3, float, float, Vector3?>("vnavmesh.Query.Mesh.NearestPoint");
+			field_24 = PluginInterface.GetIpcSubscriber<bool>("vnavmesh.Nav.IsReady");
+			field_25 = PluginInterface.GetIpcSubscriber<Vector3, bool, bool>("vnavmesh.SimpleMove.PathfindAndMoveTo");
+			field_26 = PluginInterface.GetIpcSubscriber<Vector3, float, float, Vector3?>("vnavmesh.Query.Mesh.NearestPoint");
 			Log.Information("AutomaticHunting: vnavmesh IPC initialized");
 		}
 		catch (Exception exception)
@@ -4323,22 +8757,22 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		Method_5();
 		bool flag = Condition[ConditionFlag.InCombat];
-		if (!flag && this.m__2027.HasValue && !IsNavigating)
+		if (!flag && field_32.HasValue && !IsNavigating)
 		{
-			RecoveredType_3 value = this.m__2027.Value;
-			this.m__2027 = null;
+			RecoveredType_3 value = field_32.Value;
+			field_32 = null;
 			PrintEcho(field_34 ? "S怪监控结束，开始执行延迟的Flag" : "战斗结束，开始执行延迟的导航");
 			field_34 = false;
 			Method_156(value.TerritoryType, value.Position);
 		}
-		if (!flag && this.m__205D.HasValue && !CrossWorldInProgress)
+		if (!flag && field_73.HasValue && !CrossWorldInProgress)
 		{
-			(string, uint, uint, Vector3) value2 = this.m__205D.Value;
-			this.m__205D = null;
+			(string, uint, uint, Vector3) value2 = field_73.Value;
+			field_73 = null;
 			PrintEcho("战斗结束，开始执行一键跨服");
 			StartManualWorldTravel(value2.Item1, value2.Item2, value2.Item3, value2.Item4);
 		}
-		if (Config.AutoBmrAi && _2022())
+		if (Config.AutoBmrAi && Method_132())
 		{
 			if (flag && !field_35)
 			{
@@ -4356,7 +8790,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private MultiLineMapConfig? Method_58()
 	{
-		uint field_156 = _2012();
+		uint field_156 = Method_116();
 		if (field_156 == 0)
 		{
 			return null;
@@ -4381,12 +8815,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			return;
 		}
 		DateTime utcNow = DateTime.UtcNow;
-		if (utcNow - this.m__2047 < TimeSpan.FromSeconds(8L))
+		if (utcNow - field_46 < TimeSpan.FromSeconds(8L))
 		{
 			PrintEcho("多线检查: 防抖中，跳过重复切线");
 			return;
 		}
-		this.m__2047 = utcNow;
+		field_46 = utcNow;
 		Method_4();
 		int currentInstanceNumber = GetCurrentInstanceNumber();
 		if (currentInstanceNumber > 0 && currentInstanceNumber == 1)
@@ -4402,7 +8836,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	[AsyncStateMachine(typeof(_3000))]
+	[AsyncStateMachine(typeof(RecoveredType_80))]
 	private Task Method_61(int arg0)
 	{
 		RecoveredType_80 stateMachine = default;
@@ -4468,10 +8902,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		Method_65(num);
 	}
 
-	[AsyncStateMachine(typeof(_2054))]
+	[AsyncStateMachine(typeof(RecoveredType_57))]
 	private Task Method_65(int arg0)
 	{
-		_2054 stateMachine = default;
+		RecoveredType_57 stateMachine = default;
 		stateMachine.field_255 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_257 = this;
 		stateMachine.field_256 = arg0;
@@ -4480,7 +8914,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_255.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2061))]
+	[AsyncStateMachine(typeof(RecoveredType_70))]
 	private Task<bool> Method_66(int arg0, TimeSpan arg1)
 	{
 		RecoveredType_70 stateMachine = default;
@@ -4504,22 +8938,22 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	private void Method_68(int arg0)
 	{
 		RecoveredType_3 value;
-		lock (this.m__2035)
+		lock (field_42)
 		{
-			if (!this.m__2033.HasValue)
+			if (!field_43.HasValue)
 			{
 				return;
 			}
-			value = this.m__2033.Value;
-			this.m__2033 = null;
-			this.m__2036 = null;
-			this.m__203E = DateTime.MinValue;
+			value = field_43.Value;
+			field_43 = null;
+			field_44 = null;
+			field_45 = DateTime.MinValue;
 		}
 		PrintEcho($"真实线已确认在 {arg0} 线，开始导航到Flag");
 		Method_156(value.TerritoryType, value.Position);
 	}
 
-	[AsyncStateMachine(typeof(_1680_00A0))]
+	[AsyncStateMachine(typeof(RecoveredType_81))]
 	private Task Method_69()
 	{
 		RecoveredType_81 stateMachine = default;
@@ -4547,9 +8981,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public string GetNavigationStageText()
 	{
-		lock (this.m__204A)
+		lock (field_53)
 		{
-			return this.m__204D switch
+			return field_56 switch
 			{
 				RecoveredType_8.field_117 => "等待传送", 
 				RecoveredType_8.field_118 => "召唤坐骑", 
@@ -4595,16 +9029,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void FinishSMonitor(string arg0)
 	{
-		_2011 CS_0024_003C_003E8__locals7 = new _2011();
+		RecoveredType_19 CS_0024_003C_003E8__locals7 = new RecoveredType_19();
 		CS_0024_003C_003E8__locals7.field_163 = this;
 		CS_0024_003C_003E8__locals7.field_164 = SMonitor;
 		if (CS_0024_003C_003E8__locals7.field_164 != null && !CS_0024_003C_003E8__locals7.field_164.Finished)
 		{
 			CS_0024_003C_003E8__locals7.field_164.Finished = true;
 			CS_0024_003C_003E8__locals7.field_164.Phase = arg0;
-			Task.Run([AsyncStateMachine(typeof(_00A0))] () =>
+			Task.Run([AsyncStateMachine(typeof(RecoveredType_19.RecoveredType_20))] () =>
 			{
-				_2011.RecoveredType_20 stateMachine = default;
+				RecoveredType_19.RecoveredType_20 stateMachine = default;
 				stateMachine.field_166 = AsyncTaskMethodBuilder.Create();
 				stateMachine.field_167 = CS_0024_003C_003E8__locals7;
 				stateMachine.field_165 = -1;
@@ -4804,17 +9238,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		string text2 = Method_88(text);
 		if (!string.IsNullOrWhiteSpace(text2))
 		{
-			this.m__2032 = text2;
+			field_41 = text2;
 			Config.CurrentInstanceFingerprint = text2;
 			PrintEcho($"副本区指纹: '{text2}' 当前目标线:{Config.CurrentInstanceNumber}");
-			string text3 = this.m__2036;
+			string text3 = field_44;
 			RecoveredType_3 arg2;
-			if (this.m__2033.HasValue && !string.IsNullOrEmpty(text3) && text3 != text2 && Method_87(out var arg1))
+			if (field_43.HasValue && !string.IsNullOrEmpty(text3) && text3 != text2 && Method_87(out var arg1))
 			{
 				PrintEcho($"副本区已切换到位(指纹变化 '{text3}'→'{text2}')，开始导航到Flag");
 				Method_156(arg1.TerritoryType, arg1.Position);
 			}
-			else if (this.m__2033.HasValue && this.m__203E != DateTime.MinValue && DateTime.UtcNow - this.m__203E > TimeSpan.FromSeconds(15L) && Method_87(out arg2))
+			else if (field_43.HasValue && field_45 != DateTime.MinValue && DateTime.UtcNow - field_45 > TimeSpan.FromSeconds(15L) && Method_87(out arg2))
 			{
 				PrintEcho("切换副本线确认超时(15s)，改按当前指纹 '" + text2 + "' 导航到Flag");
 				Method_156(arg2.TerritoryType, arg2.Position);
@@ -4824,17 +9258,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private bool Method_87(out RecoveredType_3 arg0)
 	{
-		lock (this.m__2035)
+		lock (field_42)
 		{
-			if (!this.m__2033.HasValue)
+			if (!field_43.HasValue)
 			{
 				arg0 = default;
 				return false;
 			}
-			arg0 = this.m__2033.Value;
-			this.m__2033 = null;
-			this.m__2036 = null;
-			this.m__203E = DateTime.MinValue;
+			arg0 = field_43.Value;
+			field_43 = null;
+			field_44 = null;
+			field_45 = DateTime.MinValue;
 			return true;
 		}
 	}
@@ -4865,9 +9299,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (CrossWorldInProgress)
 		{
-			if (DateTime.UtcNow - this.m__2050 > TimeSpan.FromSeconds(3L))
+			if (DateTime.UtcNow - field_60 > TimeSpan.FromSeconds(3L))
 			{
-				this.m__2050 = DateTime.UtcNow;
+				field_60 = DateTime.UtcNow;
 				PrintEcho("跨服流程进行中，忽略普通车头指令");
 			}
 		}
@@ -4906,14 +9340,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				text2 = $"{arg2}|{arg3}|{(int)arg4.X}|{(int)arg4.Z}";
 			}
-			bool flag = DateTime.UtcNow - this.m__2024 < TimeSpan.FromSeconds(60L);
-			if ((text2 == this.m__2015) & flag)
+			bool flag = DateTime.UtcNow - field_29 < TimeSpan.FromSeconds(60L);
+			if ((text2 == field_27) & flag)
 			{
 				PrintEcho("忽略60秒内重复Flag");
 				return;
 			}
-			this.m__2015 = text2;
-			this.m__2024 = DateTime.UtcNow;
+			field_27 = text2;
+			field_29 = DateTime.UtcNow;
 			if (flag && LastFlagPosition.HasValue)
 			{
 				float num = Vector2.Distance(new Vector2(LastFlagPosition.Value.X, LastFlagPosition.Value.Z), new Vector2(arg4.X, arg4.Z));
@@ -4933,8 +9367,8 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 			}
 			LastFlagPosition = arg4;
-			this.m__2022 = arg2;
-			this.m__2025 = Method_127(arg2);
+			field_28 = arg2;
+			field_31 = Method_127(arg2);
 			if (Config.SetFlagOnNavigation && !Method_126(arg2, arg3, arg4))
 			{
 				PrintEcho("设置地图Flag失败");
@@ -4953,14 +9387,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return false;
 		}
-		Match match = AutomaticHunting.m__2051.Match(text);
+		Match match = field_61.Match(text);
 		if (!match.Success)
 		{
 			return false;
 		}
 		float num = (float)int.Parse(match.Groups[1].Value) + (float)int.Parse(match.Groups[2].Value) / 10f;
 		float num2 = (float)int.Parse(match.Groups[3].Value) + (float)int.Parse(match.Groups[4].Value) / 10f;
-		Lumina.Excel.Sheets.Map? map = _2025();
+		Lumina.Excel.Sheets.Map? map = Method_135();
 		if (!map.HasValue)
 		{
 			return false;
@@ -5006,7 +9440,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_92(uint arg0, uint arg1, Vector3 arg2)
 	{
-		if (arg0 == _2012() && ShouldSwitchLineOnSameMap(arg0))
+		if (arg0 == Method_116() && ShouldSwitchLineOnSameMap(arg0))
 		{
 			ResetInstanceKillCount();
 			Method_93(arg0, arg2);
@@ -5019,9 +9453,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_93(uint arg0, Vector3 arg1)
 	{
-		this.m__2036 = Config.CurrentInstanceFingerprint;
-		this.m__2033 = new RecoveredType_3(arg0, arg1);
-		this.m__203E = DateTime.UtcNow;
+		field_44 = Config.CurrentInstanceFingerprint;
+		field_43 = new RecoveredType_3(arg0, arg1);
+		field_45 = DateTime.UtcNow;
 		SwitchToNextInstance();
 		PrintEcho($"{Config.CurrentInstanceNumber}线A怪击杀达标，已切换，等待副本区确认后导航");
 	}
@@ -5073,9 +9507,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_97(string arg0)
 	{
-		lock (this.m__2052)
+		lock (field_62)
 		{
-			this.m__205E = arg0;
+			field_74 = arg0;
 			field_75 = DateTime.UtcNow;
 		}
 	}
@@ -5138,9 +9572,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (arg1.Contains(item2.Key))
 			{
-				lock (this.m__2052)
+				lock (field_62)
 				{
-					this.m__2059 = item2.Value;
+					field_69 = item2.Value;
 				}
 				break;
 			}
@@ -5149,47 +9583,47 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return;
 		}
-		lock (this.m__2052)
+		lock (field_62)
 		{
-			this.m__2057 = arg4;
-			this.m__2058 = arg3.Value;
+			field_67 = arg4;
+			field_68 = arg3.Value;
 		}
 	}
 
 	private void Method_100(string arg0, string arg1, bool arg2 = false)
 	{
-		lock (this.m__2052)
+		lock (field_62)
 		{
-			if (this.m__2055)
+			if (field_65)
 			{
 				PrintEcho("跨服流程正在进行中，忽略新的跨服指令");
 				return;
 			}
-			if (!arg2 && string.Equals(arg0, this.m__205E, StringComparison.OrdinalIgnoreCase) && DateTime.UtcNow - field_75 < TimeSpan.FromSeconds(60L))
+			if (!arg2 && string.Equals(arg0, field_74, StringComparison.OrdinalIgnoreCase) && DateTime.UtcNow - field_75 < TimeSpan.FromSeconds(60L))
 			{
 				Log.Debug("AutomaticHunting: 已在服务器[" + arg0 + "]（60秒冷却内），忽略重复跨服指令");
 				return;
 			}
-			this.m__2055 = true;
-			this.m__2056 = DateTime.UtcNow;
+			field_65 = true;
+			field_66 = DateTime.UtcNow;
 		}
 		StopNavigation();
 		ResetInstanceKillCount();
 		uint field_172 = Method_111(arg0);
-		this.m__2054 = new CancellationTokenSource();
-		this.m__2053 = Task.Run(() => Method_103(arg0, field_172, arg1, this.m__2054.Token));
+		field_64 = new CancellationTokenSource();
+		field_63 = Task.Run(() => Method_103(arg0, field_172, arg1, field_64.Token));
 	}
 
 	public void StartManualWorldTravel(string arg0, uint arg1, uint arg2, Vector3 arg3, bool arg4 = false)
 	{
 		if (!arg4 && IsHuntChainRunning)
 		{
-			_2027();
+			Method_145();
 			PrintEcho("连车: 检测到手动一键跨服，连车已停止");
 		}
 		if (Condition[ConditionFlag.InCombat])
 		{
-			this.m__205D = (arg0, arg1, arg2, arg3);
+			field_73 = (arg0, arg1, arg2, arg3);
 			PrintEcho("战斗中，已保存一键跨服，战斗结束后执行");
 			return;
 		}
@@ -5203,40 +9637,40 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			PrintEcho("服务器[" + arg0 + "]无跨服命令，无法跨服");
 			return;
 		}
-		lock (this.m__2052)
+		lock (field_62)
 		{
-			if (this.m__2055)
+			if (field_65)
 			{
 				PrintEcho("跨服流程正在进行中，忽略一键跨服");
 				return;
 			}
-			this.m__205A = arg1;
-			this.m__205B = arg2;
-			this.m__205C = arg3;
+			field_70 = arg1;
+			field_71 = arg2;
+			field_72 = arg3;
 			Method_100(arg0, value, arg2: true);
 		}
 	}
 
 	public void StopCrossWorld()
 	{
-		lock (this.m__2052)
+		lock (field_62)
 		{
-			this.m__2054?.Cancel();
-			this.m__2054?.Dispose();
-			this.m__2054 = null;
-			this.m__2055 = false;
-			this.m__2056 = DateTime.MinValue;
-			this.m__2057 = 0u;
-			this.m__2058 = default;
-			this.m__2059 = null;
-			this.m__2053 = null;
+			field_64?.Cancel();
+			field_64?.Dispose();
+			field_64 = null;
+			field_65 = false;
+			field_66 = DateTime.MinValue;
+			field_67 = 0u;
+			field_68 = default;
+			field_69 = null;
+			field_63 = null;
 		}
-		_2027();
+		Method_145();
 		StopNavigation();
 		PrintEcho("已停止跨服流程，恢复普通车头识别");
 	}
 
-	[AsyncStateMachine(typeof(_2064))]
+	[AsyncStateMachine(typeof(RecoveredType_73))]
 	private Task Method_103(string arg0, uint arg1, string arg2, CancellationToken arg3)
 	{
 		RecoveredType_73 stateMachine = default;
@@ -5251,10 +9685,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_406.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2057))]
+	[AsyncStateMachine(typeof(RecoveredType_60))]
 	private Task Method_104(CancellationToken arg0)
 	{
-		_2057 stateMachine = default;
+		RecoveredType_60 stateMachine = default;
 		stateMachine.field_277 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_278 = this;
 		stateMachine.field_279 = arg0;
@@ -5263,10 +9697,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_277.Task;
 	}
 
-	[AsyncStateMachine(typeof(_205B))]
+	[AsyncStateMachine(typeof(RecoveredType_64))]
 	private Task Method_105(uint arg0, uint arg1, Vector3 arg2, CancellationToken arg3)
 	{
-		_205B stateMachine = default;
+		RecoveredType_64 stateMachine = default;
 		stateMachine.field_298 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_301 = this;
 		stateMachine.field_299 = arg0;
@@ -5278,7 +9712,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_298.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2062))]
+	[AsyncStateMachine(typeof(RecoveredType_71))]
 	private Task Method_106(uint arg0, Vector3 arg1, string? arg2)
 	{
 		RecoveredType_71 stateMachine = default;
@@ -5292,7 +9726,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_386.Task;
 	}
 
-	[AsyncStateMachine(typeof(_1680_2000))]
+	[AsyncStateMachine(typeof(RecoveredType_83))]
 	private Task Method_107(TimeSpan arg0)
 	{
 		RecoveredType_83 stateMachine = default;
@@ -5318,20 +9752,20 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		});
 	}
 
-	[AsyncStateMachine(typeof(_2059))]
+	[AsyncStateMachine(typeof(RecoveredType_62))]
 	private Task<uint> Method_109()
 	{
-		_2059 stateMachine = default;
+		RecoveredType_62 stateMachine = default;
 		stateMachine.field_289 = AsyncTaskMethodBuilder<uint>.Create();
 		stateMachine.field_288 = -1;
 		stateMachine.field_289.Start(ref stateMachine);
 		return stateMachine.field_289.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2058))]
-	private Task<string> _2010()
+	[AsyncStateMachine(typeof(RecoveredType_61))]
+	private Task<string> Method_110()
 	{
-		_2058 stateMachine = default;
+		RecoveredType_61 stateMachine = default;
 		stateMachine.field_286 = AsyncTaskMethodBuilder<string>.Create();
 		stateMachine.field_285 = -1;
 		stateMachine.field_286.Start(ref stateMachine);
@@ -5381,7 +9815,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return localPlayer->Position;
 	}
 
-	private unsafe uint _2011()
+	private unsafe uint Method_113()
 	{
 		BattleChara* localPlayer = Control.GetLocalPlayer();
 		if (localPlayer == null)
@@ -5409,7 +9843,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private Vector3 Method_114(Vector3 arg0)
 	{
-		uint num = _2011();
+		uint num = Method_113();
 		if (num == 0)
 		{
 			return Vector3.Zero;
@@ -5439,14 +9873,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return null;
 	}
 
-	private static uint _2012()
+	private static uint Method_116()
 	{
 		return ClientState.TerritoryType;
 	}
 
 	public static string GetCurrentTerritoryName()
 	{
-		uint num = _2012();
+		uint num = Method_116();
 		if (num == 0)
 		{
 			return string.Empty;
@@ -5466,13 +9900,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private Vector3? Method_118(Vector3 arg0)
 	{
-		if (this.m__2014 == null)
+		if (field_26 == null)
 		{
 			return null;
 		}
 		try
 		{
-			return this.m__2014.InvokeFunc(arg0, 120f, 300f) ?? this.m__2014.InvokeFunc(arg0, 180f, 600f) ?? this.m__2014.InvokeFunc(arg0, 260f, 1000f);
+			return field_26.InvokeFunc(arg0, 120f, 300f) ?? field_26.InvokeFunc(arg0, 180f, 600f) ?? field_26.InvokeFunc(arg0, 260f, 1000f);
 		}
 		catch (Exception exception)
 		{
@@ -5491,7 +9925,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private unsafe static bool _2013()
+	private unsafe static bool Method_120()
 	{
 		ActionManager* ptr = ActionManager.Instance();
 		if (ptr == null)
@@ -5510,7 +9944,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private unsafe static bool _2014()
+	private unsafe static bool Method_121()
 	{
 		if (Condition[ConditionFlag.Casting])
 		{
@@ -5524,7 +9958,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private bool _2015()
+	private bool Method_122()
 	{
 		if (!IsPluginLoaded("Lifestream"))
 		{
@@ -5541,7 +9975,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	[AsyncStateMachine(typeof(_1680_1680))]
+	[AsyncStateMachine(typeof(RecoveredType_82))]
 	private Task<bool> Method_123(uint arg0, CancellationToken arg1)
 	{
 		RecoveredType_82 stateMachine = default;
@@ -5554,7 +9988,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_513.Task;
 	}
 
-	[AsyncStateMachine(typeof(_206D))]
+	[AsyncStateMachine(typeof(RecoveredType_77))]
 	private Task<bool> Method_124(uint arg0, CancellationToken arg1)
 	{
 		RecoveredType_77 stateMachine = default;
@@ -5684,9 +10118,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		});
 	}
 
-	private static bool _2022()
+	private static bool Method_132()
 	{
-		uint num = _2012();
+		uint num = Method_116();
 		if (num == 0)
 		{
 			return false;
@@ -5699,7 +10133,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return excelSheet.GetRow(num).TerritoryIntendedUse.RowId == 1;
 	}
 
-	private static bool _2024()
+	private static bool Method_133()
 	{
 		return Condition.Any(ConditionFlag.BetweenAreas, ConditionFlag.BetweenAreas51, ConditionFlag.Occupied, ConditionFlag.Occupied30, ConditionFlag.Occupied33, ConditionFlag.Occupied38, ConditionFlag.Occupied39, ConditionFlag.InCombat);
 	}
@@ -5709,7 +10143,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return PluginInterface.InstalledPlugins.Any((IExposedPlugin exposedPlugin) => exposedPlugin.InternalName == arg0 && exposedPlugin.IsLoaded);
 	}
 
-	private Lumina.Excel.Sheets.Map? _2025()
+	private Lumina.Excel.Sheets.Map? Method_135()
 	{
 		uint field_190 = ClientState.TerritoryType;
 		if (field_190 == 0)
@@ -5853,7 +10287,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	public void StopHuntChain(string? arg0 = null)
 	{
 		bool flag = field_82;
-		_2027();
+		Method_145();
 		if (!string.IsNullOrEmpty(arg0))
 		{
 			PrintEcho(arg0);
@@ -5864,7 +10298,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private void _2027()
+	private void Method_145()
 	{
 		field_78 = RecoveredType_9.field_123;
 		field_79.Clear();
@@ -6095,13 +10529,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		RecoveredType_3 recoveredType_ = new RecoveredType_3(arg0, arg1);
 		if (Condition[ConditionFlag.InCombat])
 		{
-			this.m__2027 = recoveredType_;
+			field_32 = recoveredType_;
 			field_34 = false;
 			PrintEcho("战斗中，已保存最新Flag，战斗结束后执行");
 		}
 		else if (field_33)
 		{
-			this.m__2027 = recoveredType_;
+			field_32 = recoveredType_;
 			field_34 = true;
 			PrintEcho("S怪监控中，已保存最新Flag，S怪结束后执行");
 		}
@@ -6117,14 +10551,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		CS_0024_003C_003E8__locals6.field_193 = this;
 		CS_0024_003C_003E8__locals6.field_194 = arg0;
 		CS_0024_003C_003E8__locals6.field_195 = new CancellationTokenSource();
-		lock (this.m__204A)
+		lock (field_53)
 		{
-			CancellationTokenSource? cancellationTokenSource = this.m__204B;
-			CS_0024_003C_003E8__locals6.field_192 = this.m__204C;
-			this.m__204B = CS_0024_003C_003E8__locals6.field_195;
-			this.m__204D = RecoveredType_8.field_116;
+			CancellationTokenSource? cancellationTokenSource = field_54;
+			CS_0024_003C_003E8__locals6.field_192 = field_55;
+			field_54 = CS_0024_003C_003E8__locals6.field_195;
+			field_56 = RecoveredType_8.field_116;
 			cancellationTokenSource?.Cancel();
-			this.m__204C = Task.Run([AsyncStateMachine(typeof(_00A0))] () =>
+			field_55 = Task.Run([AsyncStateMachine(typeof(RecoveredType_32.RecoveredType_33))] () =>
 			{
 				RecoveredType_32.RecoveredType_33 stateMachine = default;
 				stateMachine.field_197 = AsyncTaskMethodBuilder.Create();
@@ -6136,7 +10570,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	[AsyncStateMachine(typeof(_206B))]
+	[AsyncStateMachine(typeof(RecoveredType_75))]
 	private Task Method_158(RecoveredType_3 arg0, CancellationTokenSource arg1)
 	{
 		RecoveredType_75 stateMachine = default;
@@ -6149,7 +10583,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_438.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2063))]
+	[AsyncStateMachine(typeof(RecoveredType_72))]
 	private Task<RecoveredType_10> Method_159(RecoveredType_3 arg0, CancellationToken arg1)
 	{
 		RecoveredType_72 stateMachine = default;
@@ -6165,9 +10599,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	private RecoveredType_10 Method_160(RecoveredType_3 arg0, out uint arg1)
 	{
 		arg1 = 0u;
-		uint num = _2012();
+		uint num = Method_116();
 		Vector3? localPlayerPosition = GetLocalPlayerPosition();
-		List<(uint, Vector3, string)> list = (this.m__2025 = Method_127(arg0.TerritoryType));
+		List<(uint, Vector3, string)> list = (field_31 = Method_127(arg0.TerritoryType));
 		if (list.Count == 0)
 		{
 			if (num != arg0.TerritoryType)
@@ -6231,7 +10665,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return result;
 	}
 
-	[AsyncStateMachine(typeof(_1680_2001))]
+	[AsyncStateMachine(typeof(RecoveredType_84))]
 	private Task<bool> Method_163(uint arg0, CancellationToken arg1)
 	{
 		RecoveredType_84 stateMachine = default;
@@ -6244,7 +10678,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_526.Task;
 	}
 
-	[AsyncStateMachine(typeof(_205F))]
+	[AsyncStateMachine(typeof(RecoveredType_68))]
 	private Task Method_164(RecoveredType_3 arg0, CancellationToken arg1, CancellationTokenSource arg2)
 	{
 		RecoveredType_68 stateMachine = default;
@@ -6258,7 +10692,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_341.Task;
 	}
 
-	[AsyncStateMachine(typeof(_206C))]
+	[AsyncStateMachine(typeof(RecoveredType_76))]
 	private Task Method_165(RecoveredType_5 arg0, CancellationTokenSource arg1, CancellationToken arg2)
 	{
 		RecoveredType_76 stateMachine = default;
@@ -6272,10 +10706,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_447.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2056))]
+	[AsyncStateMachine(typeof(RecoveredType_59))]
 	private Task Method_166(RecoveredType_5 arg0, float arg1, CancellationToken arg2)
 	{
-		_2056 stateMachine = default;
+		RecoveredType_59 stateMachine = default;
 		stateMachine.field_269 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_270 = this;
 		stateMachine.field_272 = arg0;
@@ -6286,10 +10720,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_269.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2055))]
+	[AsyncStateMachine(typeof(RecoveredType_58))]
 	private Task<bool> Method_167(CancellationToken arg0)
 	{
-		_2055 stateMachine = default;
+		RecoveredType_58 stateMachine = default;
 		stateMachine.field_263 = AsyncTaskMethodBuilder<bool>.Create();
 		stateMachine.field_264 = arg0;
 		stateMachine.field_262 = -1;
@@ -6297,10 +10731,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_263.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2053))]
+	[AsyncStateMachine(typeof(RecoveredType_56))]
 	private Task Method_168(CancellationToken arg0)
 	{
-		_2053 stateMachine = default;
+		RecoveredType_56 stateMachine = default;
 		stateMachine.field_249 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_250 = this;
 		stateMachine.field_251 = arg0;
@@ -6309,7 +10743,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_249.Task;
 	}
 
-	[AsyncStateMachine(typeof(_2060))]
+	[AsyncStateMachine(typeof(RecoveredType_69))]
 	private Task<bool> Method_169(RecoveredType_5 arg0, CancellationToken arg1)
 	{
 		RecoveredType_69 stateMachine = default;
@@ -6322,10 +10756,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_362.Task;
 	}
 
-	[AsyncStateMachine(typeof(_205A))]
+	[AsyncStateMachine(typeof(RecoveredType_63))]
 	private Task<Vector3?> Method_170(Vector3 arg0, bool arg1)
 	{
-		_205A stateMachine = default;
+		RecoveredType_63 stateMachine = default;
 		stateMachine.field_292 = AsyncTaskMethodBuilder<Vector3?>.Create();
 		stateMachine.field_293 = this;
 		stateMachine.field_294 = arg0;
@@ -6337,7 +10771,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private bool Method_171(Vector3 arg0, bool arg1, out Vector3 arg2)
 	{
-		RecoveredType_5? recoveredType_ = _2048();
+		RecoveredType_5? recoveredType_ = Method_202();
 		if (recoveredType_.HasValue)
 		{
 			arg2 = recoveredType_.Value.Position;
@@ -6424,10 +10858,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		PluginInterface.SavePluginConfig(Config);
 	}
 
-	[AsyncStateMachine(typeof(_205D))]
+	[AsyncStateMachine(typeof(RecoveredType_66))]
 	private Task Method_177()
 	{
-		_205D stateMachine = default;
+		RecoveredType_66 stateMachine = default;
 		stateMachine.field_321 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_322 = this;
 		stateMachine.field_320 = -1;
@@ -6525,7 +10959,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	[AsyncStateMachine(typeof(_1680_2002))]
+	[AsyncStateMachine(typeof(RecoveredType_85))]
 	private Task<bool> Method_181(CancellationToken arg0)
 	{
 		RecoveredType_85 stateMachine = default;
@@ -6537,7 +10971,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_536.Task;
 	}
 
-	[AsyncStateMachine(typeof(_206E))]
+	[AsyncStateMachine(typeof(RecoveredType_78))]
 	private Task<bool> Method_182(CancellationToken arg0)
 	{
 		RecoveredType_78 stateMachine = default;
@@ -6549,7 +10983,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_483.Task;
 	}
 
-	private unsafe bool _2032()
+	private unsafe bool Method_183()
 	{
 		if (Condition[ConditionFlag.Mounted])
 		{
@@ -6571,7 +11005,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private unsafe bool _2035()
+	private unsafe bool Method_184()
 	{
 		if (Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51])
 		{
@@ -6581,7 +11015,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return false;
 		}
-		if (_2024())
+		if (Method_133())
 		{
 			return false;
 		}
@@ -6601,11 +11035,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void SummonMount()
 	{
-		_2033();
+		Method_186();
 	}
 
-	[AsyncStateMachine(typeof(_206F))]
-	private Task _2033()
+	[AsyncStateMachine(typeof(RecoveredType_79))]
+	private Task Method_186()
 	{
 		RecoveredType_79 stateMachine = default;
 		stateMachine.field_493 = AsyncTaskMethodBuilder.Create();
@@ -6617,29 +11051,29 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void StopNavigation()
 	{
-		lock (this.m__204A)
+		lock (field_53)
 		{
-			CancellationTokenSource? cancellationTokenSource = this.m__204B;
-			this.m__204D = RecoveredType_8.field_116;
+			CancellationTokenSource? cancellationTokenSource = field_54;
+			field_56 = RecoveredType_8.field_116;
 			cancellationTokenSource?.Cancel();
 		}
-		_203E();
-		_2036();
+		Method_195();
+		Method_188();
 	}
 
-	private void _2036()
+	private void Method_188()
 	{
 		FinishSMonitor("已停止");
 		LastFlagPosition = null;
-		this.m__2022 = 0u;
-		this.m__2027 = null;
+		field_28 = 0u;
+		field_32 = null;
 		field_34 = false;
-		this.m__205D = null;
-		this.m__2015 = string.Empty;
-		this.m__2024 = DateTime.MinValue;
-		this.m__2033 = null;
-		this.m__2036 = null;
-		this.m__203E = DateTime.MinValue;
+		field_73 = null;
+		field_27 = string.Empty;
+		field_29 = DateTime.MinValue;
+		field_43 = null;
+		field_44 = null;
+		field_45 = DateTime.MinValue;
 	}
 
 	public void StartNavigation()
@@ -6693,24 +11127,24 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_191(uint arg0, Vector3 arg1)
 	{
-		_204C CS_0024_003C_003E8__locals10 = new _204C();
+		RecoveredType_48 CS_0024_003C_003E8__locals10 = new RecoveredType_48();
 		CS_0024_003C_003E8__locals10.field_232 = this;
 		CS_0024_003C_003E8__locals10.field_233 = arg0;
 		CS_0024_003C_003E8__locals10.field_234 = arg1;
 		LastFlagPosition = CS_0024_003C_003E8__locals10.field_234;
-		this.m__2022 = CS_0024_003C_003E8__locals10.field_233;
-		this.m__2025 = Method_127(CS_0024_003C_003E8__locals10.field_233);
+		field_28 = CS_0024_003C_003E8__locals10.field_233;
+		field_31 = Method_127(CS_0024_003C_003E8__locals10.field_233);
 		CS_0024_003C_003E8__locals10.field_235 = new CancellationTokenSource();
-		lock (this.m__204A)
+		lock (field_53)
 		{
-			CancellationTokenSource? cancellationTokenSource = this.m__204B;
-			CS_0024_003C_003E8__locals10.field_231 = this.m__204C;
-			this.m__204B = CS_0024_003C_003E8__locals10.field_235;
-			this.m__204D = RecoveredType_8.field_116;
+			CancellationTokenSource? cancellationTokenSource = field_54;
+			CS_0024_003C_003E8__locals10.field_231 = field_55;
+			field_54 = CS_0024_003C_003E8__locals10.field_235;
+			field_56 = RecoveredType_8.field_116;
 			cancellationTokenSource?.Cancel();
-			this.m__204C = Task.Run([AsyncStateMachine(typeof(_00A0))] () =>
+			field_55 = Task.Run([AsyncStateMachine(typeof(RecoveredType_48.RecoveredType_49))] () =>
 			{
-				_204C.RecoveredType_49 stateMachine = default;
+				RecoveredType_48.RecoveredType_49 stateMachine = default;
 				stateMachine.field_237 = AsyncTaskMethodBuilder.Create();
 				stateMachine.field_238 = CS_0024_003C_003E8__locals10;
 				stateMachine.field_236 = -1;
@@ -6720,7 +11154,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	[AsyncStateMachine(typeof(_206A))]
+	[AsyncStateMachine(typeof(RecoveredType_74))]
 	private Task Method_192(uint arg0, Vector3 arg1, CancellationTokenSource arg2)
 	{
 		RecoveredType_74 stateMachine = default;
@@ -6734,10 +11168,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_428.Task;
 	}
 
-	[AsyncStateMachine(typeof(_205C))]
+	[AsyncStateMachine(typeof(RecoveredType_65))]
 	private Task Method_193(Vector3 arg0, CancellationTokenSource arg1, CancellationToken arg2)
 	{
-		_205C stateMachine = default;
+		RecoveredType_65 stateMachine = default;
 		stateMachine.field_308 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_309 = this;
 		stateMachine.field_311 = arg0;
@@ -6748,10 +11182,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_308.Task;
 	}
 
-	[AsyncStateMachine(typeof(_205E))]
+	[AsyncStateMachine(typeof(RecoveredType_67))]
 	private Task Method_194(Vector3 arg0, bool arg1, CancellationTokenSource arg2, CancellationToken arg3)
 	{
-		_205E stateMachine = default;
+		RecoveredType_67 stateMachine = default;
 		stateMachine.field_327 = AsyncTaskMethodBuilder.Create();
 		stateMachine.field_328 = this;
 		stateMachine.field_330 = arg0;
@@ -6763,7 +11197,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return stateMachine.field_327.Task;
 	}
 
-	private Task _203E()
+	private Task Method_195()
 	{
 		Method_179("/vnav stop");
 		return Task.CompletedTask;
@@ -6771,11 +11205,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_196(RecoveredType_8 arg0, CancellationTokenSource arg1)
 	{
-		lock (this.m__204A)
+		lock (field_53)
 		{
-			if (this.m__204B == arg1)
+			if (field_54 == arg1)
 			{
-				this.m__204D = arg0;
+				field_56 = arg0;
 			}
 		}
 	}
@@ -6795,7 +11229,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private unsafe static bool _2047()
+	private unsafe static bool Method_199()
 	{
 		ActionManager* ptr = ActionManager.Instance();
 		if (ptr != null)
@@ -6829,11 +11263,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			return;
 		}
 		PrintEcho($"扫描S怪: 区域={currentTerritoryName}, 目标={string.Join("/", value)}, 范围={100f:0}m");
-		RecoveredType_5? recoveredType_ = _2048();
+		RecoveredType_5? recoveredType_ = Method_202();
 		PrintEcho(recoveredType_.HasValue ? $"已找到S怪: {recoveredType_.Value.Name} 血量 {recoveredType_.Value.HpPercent:0.0}%" : $"扫描S怪: {100f:0}m内未找到匹配的目标");
 	}
 
-	private RecoveredType_5? _2048()
+	private RecoveredType_5? Method_202()
 	{
 		Vector3? localPlayerPosition = GetLocalPlayerPosition();
 		if (!localPlayerPosition.HasValue)
@@ -6927,16 +11361,8 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	static AutomaticHunting()
-	{
-		AutomaticHunting.m__2051 = new Regex("[(（]?\\s*(\\d{1,2})[.．](\\d)\\s*[,，、]\\s*(\\d{1,2})[.．](\\d)\\s*[)）]?", RegexOptions.Compiled);
-		field_76 = new ConcurrentDictionary<string, List<string>>();
-		field_95 = new Dictionary<string, uint>(StringComparer.OrdinalIgnoreCase);
-		field_96 = new object();
-	}
-
 	[CompilerGenerated]
-	private int _2049()
+	private int Method_208()
 	{
 		if (!Condition[ConditionFlag.BetweenAreas] && !Condition[ConditionFlag.BetweenAreas51])
 		{
@@ -6952,14 +11378,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private (int kind, float hp, Vector3 pos, Vector3? player, bool isS) _204A()
+	private (int kind, float hp, Vector3 pos, Vector3? player, bool isS) Method_210()
 	{
 		Vector3? localPlayerPosition = GetLocalPlayerPosition();
 		if (TargetManager.Target is IBattleChara { MaxHp: >0u, CurrentHp: >0u } battleChara)
 		{
 			return (kind: 1, hp: (float)battleChara.CurrentHp / (float)battleChara.MaxHp * 100f, pos: battleChara.Position, player: localPlayerPosition, isS: Method_203(battleChara.Name.TextValue));
 		}
-		RecoveredType_5? recoveredType_ = _2048();
+		RecoveredType_5? recoveredType_ = Method_202();
 		if (recoveredType_.HasValue)
 		{
 			if (recoveredType_.Value.HpPercent <= 0f)
@@ -6973,18 +11399,18 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	}
 
 	[CompilerGenerated]
-	private bool _204B()
+	private bool Method_211()
 	{
-		return this.m__2012?.InvokeFunc() ?? false;
+		return field_24?.InvokeFunc() ?? false;
 	}
 
 	[CompilerGenerated]
-	private bool _204C()
+	private bool Method_212()
 	{
 		if (Config.SelectedMountId != 0)
 		{
 			return Method_198(Config.SelectedMountId);
 		}
-		return _2047();
+		return Method_199();
 	}
 }

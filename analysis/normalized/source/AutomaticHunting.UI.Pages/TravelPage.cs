@@ -12,7 +12,7 @@ public sealed class TravelPage : SettingsPage
 {
 	[Serializable]
 	[CompilerGenerated]
-	private sealed class RecoveredType_146
+	public sealed class RecoveredType_146
 	{
 		public static readonly RecoveredType_146 field_896 = new RecoveredType_146();
 
@@ -32,7 +32,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_147
+	public sealed class RecoveredType_147
 	{
 		public string field_899;
 
@@ -50,7 +50,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_148
+	public sealed class RecoveredType_148
 	{
 		public string field_901;
 
@@ -83,7 +83,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_149
+	public sealed class RecoveredType_149
 	{
 		public TravelPage field_903;
 
@@ -101,7 +101,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_150
+	public sealed class RecoveredType_150
 	{
 		public string field_905;
 
@@ -139,7 +139,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_151
+	public sealed class RecoveredType_151
 	{
 		public WorldTravelPreset field_912;
 
@@ -152,7 +152,7 @@ public sealed class TravelPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_152
+	public sealed class RecoveredType_152
 	{
 		public WorldTravelPreset field_914;
 

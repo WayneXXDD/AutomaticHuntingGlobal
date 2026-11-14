@@ -10,7 +10,7 @@ namespace AutomaticHunting.UI.Pages;
 public sealed class AdvancedPage : SettingsPage
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_129
+	public sealed class RecoveredType_129
 	{
 		public int field_850;
 
@@ -44,7 +44,7 @@ public sealed class AdvancedPage : SettingsPage
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_130
+	public sealed class RecoveredType_130
 	{
 		public MultiLineMapConfig field_854;
 

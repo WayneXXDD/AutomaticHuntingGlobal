@@ -5,25 +5,25 @@ using System.Runtime.InteropServices;
 namespace Recovered;
 
 [CompilerGenerated]
-internal sealed class RecoveredType_202
+public sealed class RecoveredType_202
 {
 	[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 12)]
-	internal struct RecoveredType_203
+	public struct RecoveredType_203
 	{
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 14)]
-	internal struct RecoveredType_204
+	public struct RecoveredType_204
 	{
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 32)]
-	internal struct RecoveredType_205
+	public struct RecoveredType_205
 	{
 	}
 
 	[StructLayout(LayoutKind.Explicit, Pack = 1, Size = 36)]
-	internal struct RecoveredType_206
+	public struct RecoveredType_206
 	{
 	}
 

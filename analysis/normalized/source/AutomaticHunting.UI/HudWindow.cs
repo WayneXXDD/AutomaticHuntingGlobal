@@ -10,7 +10,7 @@ namespace AutomaticHunting.UI;
 public sealed class HudWindow : Window
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_119
+	public sealed class RecoveredType_119
 	{
 		public PluginConfiguration field_682;
 

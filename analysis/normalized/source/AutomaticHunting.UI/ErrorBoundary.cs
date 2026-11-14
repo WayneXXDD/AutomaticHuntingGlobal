@@ -9,7 +9,7 @@ namespace AutomaticHunting.UI;
 public static class ErrorBoundary
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_112
+	public sealed class RecoveredType_112
 	{
 		public string field_662;
 

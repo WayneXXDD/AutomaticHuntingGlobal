@@ -287,7 +287,7 @@ public static class WorldTravelData
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_105
+	public sealed class RecoveredType_105
 	{
 		public List<(uint Id, Vector3 Position, string Name)> field_657;
 
@@ -298,7 +298,7 @@ public static class WorldTravelData
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_106
+	public sealed class RecoveredType_106
 	{
 		public string field_658;
 
@@ -309,7 +309,7 @@ public static class WorldTravelData
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_107
+	public sealed class RecoveredType_107
 	{
 		public string field_659;
 
@@ -320,7 +320,7 @@ public static class WorldTravelData
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_108
+	public sealed class RecoveredType_108
 	{
 		public string[] field_660;
 

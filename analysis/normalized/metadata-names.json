@@ -70,6 +70,56 @@
     "restoredName": "field_21"
   },
   {
+    "token": "04000016",
+    "originalName": "\u2010",
+    "restoredName": "field_22"
+  },
+  {
+    "token": "04000017",
+    "originalName": "\u2011",
+    "restoredName": "field_23"
+  },
+  {
+    "token": "04000018",
+    "originalName": "\u2012",
+    "restoredName": "field_24"
+  },
+  {
+    "token": "04000019",
+    "originalName": "\u2013",
+    "restoredName": "field_25"
+  },
+  {
+    "token": "0400001A",
+    "originalName": "\u2014",
+    "restoredName": "field_26"
+  },
+  {
+    "token": "0400001B",
+    "originalName": "\u2015",
+    "restoredName": "field_27"
+  },
+  {
+    "token": "0400001C",
+    "originalName": "\u2022",
+    "restoredName": "field_28"
+  },
+  {
+    "token": "0400001D",
+    "originalName": "\u2024",
+    "restoredName": "field_29"
+  },
+  {
+    "token": "0400001F",
+    "originalName": "\u2025",
+    "restoredName": "field_31"
+  },
+  {
+    "token": "04000020",
+    "originalName": "\u2027",
+    "restoredName": "field_32"
+  },
+  {
     "token": "04000021",
     "originalName": "\u2028",
     "restoredName": "field_33"
@@ -108,6 +158,151 @@
     "token": "04000028",
     "originalName": "\u202F",
     "restoredName": "field_40"
+  },
+  {
+    "token": "04000029",
+    "originalName": "\u2032",
+    "restoredName": "field_41"
+  },
+  {
+    "token": "0400002A",
+    "originalName": "\u2035",
+    "restoredName": "field_42"
+  },
+  {
+    "token": "0400002B",
+    "originalName": "\u2033",
+    "restoredName": "field_43"
+  },
+  {
+    "token": "0400002C",
+    "originalName": "\u2036",
+    "restoredName": "field_44"
+  },
+  {
+    "token": "0400002D",
+    "originalName": "\u203E",
+    "restoredName": "field_45"
+  },
+  {
+    "token": "0400002E",
+    "originalName": "\u2047",
+    "restoredName": "field_46"
+  },
+  {
+    "token": "0400002F",
+    "originalName": "\u2048",
+    "restoredName": "field_47"
+  },
+  {
+    "token": "04000030",
+    "originalName": "\u2049",
+    "restoredName": "field_48"
+  },
+  {
+    "token": "04000035",
+    "originalName": "\u204A",
+    "restoredName": "field_53"
+  },
+  {
+    "token": "04000036",
+    "originalName": "\u204B",
+    "restoredName": "field_54"
+  },
+  {
+    "token": "04000037",
+    "originalName": "\u204C",
+    "restoredName": "field_55"
+  },
+  {
+    "token": "04000038",
+    "originalName": "\u204D",
+    "restoredName": "field_56"
+  },
+  {
+    "token": "04000039",
+    "originalName": "\u204E",
+    "restoredName": "field_57"
+  },
+  {
+    "token": "0400003A",
+    "originalName": "\u204F",
+    "restoredName": "field_58"
+  },
+  {
+    "token": "0400003C",
+    "originalName": "\u2050",
+    "restoredName": "field_60"
+  },
+  {
+    "token": "0400003D",
+    "originalName": "\u2051",
+    "restoredName": "field_61"
+  },
+  {
+    "token": "0400003E",
+    "originalName": "\u2052",
+    "restoredName": "field_62"
+  },
+  {
+    "token": "0400003F",
+    "originalName": "\u2053",
+    "restoredName": "field_63"
+  },
+  {
+    "token": "04000040",
+    "originalName": "\u2054",
+    "restoredName": "field_64"
+  },
+  {
+    "token": "04000041",
+    "originalName": "\u2055",
+    "restoredName": "field_65"
+  },
+  {
+    "token": "04000042",
+    "originalName": "\u2056",
+    "restoredName": "field_66"
+  },
+  {
+    "token": "04000043",
+    "originalName": "\u2057",
+    "restoredName": "field_67"
+  },
+  {
+    "token": "04000044",
+    "originalName": "\u2058",
+    "restoredName": "field_68"
+  },
+  {
+    "token": "04000045",
+    "originalName": "\u2059",
+    "restoredName": "field_69"
+  },
+  {
+    "token": "04000046",
+    "originalName": "\u205A",
+    "restoredName": "field_70"
+  },
+  {
+    "token": "04000047",
+    "originalName": "\u205B",
+    "restoredName": "field_71"
+  },
+  {
+    "token": "04000048",
+    "originalName": "\u205C",
+    "restoredName": "field_72"
+  },
+  {
+    "token": "04000049",
+    "originalName": "\u205D",
+    "restoredName": "field_73"
+  },
+  {
+    "token": "0400004A",
+    "originalName": "\u205E",
+    "restoredName": "field_74"
   },
   {
     "token": "0400004B",
@@ -485,14 +680,29 @@
     "restoredName": "Method_109"
   },
   {
+    "token": "0600006E",
+    "originalName": "\u2010",
+    "restoredName": "Method_110"
+  },
+  {
     "token": "0600006F",
     "originalName": "\u2003",
     "restoredName": "Method_111"
   },
   {
+    "token": "06000071",
+    "originalName": "\u2011",
+    "restoredName": "Method_113"
+  },
+  {
     "token": "06000072",
     "originalName": "\u00A0",
     "restoredName": "Method_114"
+  },
+  {
+    "token": "06000074",
+    "originalName": "\u2012",
+    "restoredName": "Method_116"
   },
   {
     "token": "06000076",
@@ -503,6 +713,21 @@
     "token": "06000077",
     "originalName": "\u2001",
     "restoredName": "Method_119"
+  },
+  {
+    "token": "06000078",
+    "originalName": "\u2013",
+    "restoredName": "Method_120"
+  },
+  {
+    "token": "06000079",
+    "originalName": "\u2014",
+    "restoredName": "Method_121"
+  },
+  {
+    "token": "0600007A",
+    "originalName": "\u2015",
+    "restoredName": "Method_122"
   },
   {
     "token": "0600007B",
@@ -540,6 +765,21 @@
     "restoredName": "Method_129"
   },
   {
+    "token": "06000084",
+    "originalName": "\u2022",
+    "restoredName": "Method_132"
+  },
+  {
+    "token": "06000085",
+    "originalName": "\u2024",
+    "restoredName": "Method_133"
+  },
+  {
+    "token": "06000087",
+    "originalName": "\u2025",
+    "restoredName": "Method_135"
+  },
+  {
     "token": "06000088",
     "originalName": "\u00A0",
     "restoredName": "Method_136"
@@ -548,6 +788,11 @@
     "token": "0600008F",
     "originalName": "\u00A0",
     "restoredName": "Method_143"
+  },
+  {
+    "token": "06000091",
+    "originalName": "\u2027",
+    "restoredName": "Method_145"
   },
   {
     "token": "06000092",
@@ -710,6 +955,26 @@
     "restoredName": "Method_182"
   },
   {
+    "token": "060000B7",
+    "originalName": "\u2032",
+    "restoredName": "Method_183"
+  },
+  {
+    "token": "060000B8",
+    "originalName": "\u2035",
+    "restoredName": "Method_184"
+  },
+  {
+    "token": "060000BA",
+    "originalName": "\u2033",
+    "restoredName": "Method_186"
+  },
+  {
+    "token": "060000BC",
+    "originalName": "\u2036",
+    "restoredName": "Method_188"
+  },
+  {
     "token": "060000BE",
     "originalName": "\u00A0",
     "restoredName": "Method_190"
@@ -735,6 +1000,11 @@
     "restoredName": "Method_194"
   },
   {
+    "token": "060000C3",
+    "originalName": "\u203E",
+    "restoredName": "Method_195"
+  },
+  {
     "token": "060000C4",
     "originalName": "\u00A0",
     "restoredName": "Method_196"
@@ -748,6 +1018,16 @@
     "token": "060000C6",
     "originalName": "\u2003",
     "restoredName": "Method_198"
+  },
+  {
+    "token": "060000C7",
+    "originalName": "\u2047",
+    "restoredName": "Method_199"
+  },
+  {
+    "token": "060000CA",
+    "originalName": "\u2048",
+    "restoredName": "Method_202"
   },
   {
     "token": "060000CB",
@@ -770,9 +1050,29 @@
     "restoredName": "Method_206"
   },
   {
+    "token": "060000D0",
+    "originalName": "\u2049",
+    "restoredName": "Method_208"
+  },
+  {
     "token": "060000D1",
     "originalName": "\u00A0",
     "restoredName": "Method_209"
+  },
+  {
+    "token": "060000D2",
+    "originalName": "\u204A",
+    "restoredName": "Method_210"
+  },
+  {
+    "token": "060000D3",
+    "originalName": "\u204B",
+    "restoredName": "Method_211"
+  },
+  {
+    "token": "060000D4",
+    "originalName": "\u204C",
+    "restoredName": "Method_212"
   },
   {
     "token": "02000003",
@@ -1260,6 +1560,11 @@
     "restoredName": "Method_291"
   },
   {
+    "token": "02000012",
+    "originalName": "\u2010",
+    "restoredName": "RecoveredType_18"
+  },
+  {
     "token": "040000A1",
     "originalName": "\u2002\u205A",
     "restoredName": "field_161"
@@ -1278,6 +1583,11 @@
     "token": "06000126",
     "originalName": "\u00A0",
     "restoredName": "Method_294"
+  },
+  {
+    "token": "02000013",
+    "originalName": "\u2011",
+    "restoredName": "RecoveredType_19"
   },
   {
     "token": "040000A3",
@@ -1330,6 +1640,11 @@
     "restoredName": "Method_298"
   },
   {
+    "token": "02000015",
+    "originalName": "\u2012",
+    "restoredName": "RecoveredType_21"
+  },
+  {
     "token": "040000A9",
     "originalName": "\u2002\u205E",
     "restoredName": "field_169"
@@ -1338,6 +1653,11 @@
     "token": "0600012C",
     "originalName": "\u00A0",
     "restoredName": "Method_300"
+  },
+  {
+    "token": "02000016",
+    "originalName": "\u2013",
+    "restoredName": "RecoveredType_22"
   },
   {
     "token": "040000AA",
@@ -1365,6 +1685,11 @@
     "restoredName": "Method_302"
   },
   {
+    "token": "02000017",
+    "originalName": "\u2014",
+    "restoredName": "RecoveredType_23"
+  },
+  {
     "token": "040000AE",
     "originalName": "\u2002\u2063",
     "restoredName": "field_174"
@@ -1373,6 +1698,11 @@
     "token": "06000130",
     "originalName": "\u00A0",
     "restoredName": "Method_304"
+  },
+  {
+    "token": "02000018",
+    "originalName": "\u2015",
+    "restoredName": "RecoveredType_24"
   },
   {
     "token": "040000AF",
@@ -1385,6 +1715,11 @@
     "restoredName": "Method_306"
   },
   {
+    "token": "02000019",
+    "originalName": "\u2022",
+    "restoredName": "RecoveredType_25"
+  },
+  {
     "token": "040000B0",
     "originalName": "\u2002\u206A",
     "restoredName": "field_176"
@@ -1393,6 +1728,11 @@
     "token": "06000134",
     "originalName": "\u00A0",
     "restoredName": "Method_308"
+  },
+  {
+    "token": "0200001A",
+    "originalName": "\u2024",
+    "restoredName": "RecoveredType_26"
   },
   {
     "token": "040000B1",
@@ -1455,6 +1795,11 @@
     "restoredName": "Method_311"
   },
   {
+    "token": "0200001B",
+    "originalName": "\u2025",
+    "restoredName": "RecoveredType_27"
+  },
+  {
     "token": "040000BB",
     "originalName": "\u2003\u2002",
     "restoredName": "field_187"
@@ -1463,6 +1808,11 @@
     "token": "06000139",
     "originalName": "\u00A0",
     "restoredName": "Method_313"
+  },
+  {
+    "token": "0200001C",
+    "originalName": "\u2027",
+    "restoredName": "RecoveredType_28"
   },
   {
     "token": "040000BC",
@@ -1675,6 +2025,11 @@
     "restoredName": "Method_335"
   },
   {
+    "token": "02000026",
+    "originalName": "\u2032",
+    "restoredName": "RecoveredType_38"
+  },
+  {
     "token": "040000D0",
     "originalName": "\u2003\u2024",
     "restoredName": "field_208"
@@ -1710,6 +2065,11 @@
     "restoredName": "Method_338"
   },
   {
+    "token": "02000027",
+    "originalName": "\u2035",
+    "restoredName": "RecoveredType_39"
+  },
+  {
     "token": "040000D5",
     "originalName": "\u2003\u202A",
     "restoredName": "field_213"
@@ -1730,6 +2090,11 @@
     "restoredName": "Method_340"
   },
   {
+    "token": "02000028",
+    "originalName": "\u2033",
+    "restoredName": "RecoveredType_40"
+  },
+  {
     "token": "040000D8",
     "originalName": "\u2003\u202D",
     "restoredName": "field_216"
@@ -1745,6 +2110,11 @@
     "restoredName": "Method_342"
   },
   {
+    "token": "02000029",
+    "originalName": "\u2036",
+    "restoredName": "RecoveredType_41"
+  },
+  {
     "token": "040000DA",
     "originalName": "\u2003\u202F",
     "restoredName": "field_218"
@@ -1758,6 +2128,11 @@
     "token": "06000158",
     "originalName": "\u00A0",
     "restoredName": "Method_344"
+  },
+  {
+    "token": "0200002A",
+    "originalName": "\u203E",
+    "restoredName": "RecoveredType_42"
   },
   {
     "token": "040000DC",
@@ -1780,6 +2155,11 @@
     "restoredName": "Method_346"
   },
   {
+    "token": "0200002B",
+    "originalName": "\u2047",
+    "restoredName": "RecoveredType_43"
+  },
+  {
     "token": "040000DF",
     "originalName": "\u2003\u203E",
     "restoredName": "field_223"
@@ -1800,6 +2180,11 @@
     "restoredName": "Method_348"
   },
   {
+    "token": "0200002C",
+    "originalName": "\u2048",
+    "restoredName": "RecoveredType_44"
+  },
+  {
     "token": "040000E2",
     "originalName": "\u2003\u2049",
     "restoredName": "field_226"
@@ -1813,6 +2198,11 @@
     "token": "0600015F",
     "originalName": "\u1680",
     "restoredName": "Method_351"
+  },
+  {
+    "token": "0200002D",
+    "originalName": "\u2049",
+    "restoredName": "RecoveredType_45"
   },
   {
     "token": "040000E3",
@@ -1830,6 +2220,11 @@
     "restoredName": "Method_353"
   },
   {
+    "token": "0200002E",
+    "originalName": "\u204A",
+    "restoredName": "RecoveredType_46"
+  },
+  {
     "token": "040000E5",
     "originalName": "\u2003\u204C",
     "restoredName": "field_229"
@@ -1840,6 +2235,11 @@
     "restoredName": "Method_355"
   },
   {
+    "token": "0200002F",
+    "originalName": "\u204B",
+    "restoredName": "RecoveredType_47"
+  },
+  {
     "token": "040000E6",
     "originalName": "\u2003\u204D",
     "restoredName": "field_230"
@@ -1848,6 +2248,11 @@
     "token": "06000165",
     "originalName": "\u00A0",
     "restoredName": "Method_357"
+  },
+  {
+    "token": "02000030",
+    "originalName": "\u204C",
+    "restoredName": "RecoveredType_48"
   },
   {
     "token": "040000E7",
@@ -1915,6 +2320,11 @@
     "restoredName": "Method_361"
   },
   {
+    "token": "02000032",
+    "originalName": "\u204D",
+    "restoredName": "RecoveredType_50"
+  },
+  {
     "token": "040000F0",
     "originalName": "\u2003\u2053",
     "restoredName": "field_240"
@@ -1935,6 +2345,11 @@
     "restoredName": "Method_363"
   },
   {
+    "token": "02000033",
+    "originalName": "\u204E",
+    "restoredName": "RecoveredType_51"
+  },
+  {
     "token": "040000F3",
     "originalName": "\u2003\u2056",
     "restoredName": "field_243"
@@ -1945,6 +2360,11 @@
     "restoredName": "Method_365"
   },
   {
+    "token": "02000034",
+    "originalName": "\u204F",
+    "restoredName": "RecoveredType_52"
+  },
+  {
     "token": "040000F4",
     "originalName": "\u2003\u2057",
     "restoredName": "field_244"
@@ -1953,6 +2373,11 @@
     "token": "0600016F",
     "originalName": "\u00A0",
     "restoredName": "Method_367"
+  },
+  {
+    "token": "02000035",
+    "originalName": "\u2050",
+    "restoredName": "RecoveredType_53"
   },
   {
     "token": "040000F5",
@@ -1970,6 +2395,11 @@
     "restoredName": "Method_370"
   },
   {
+    "token": "02000036",
+    "originalName": "\u2051",
+    "restoredName": "RecoveredType_54"
+  },
+  {
     "token": "040000F6",
     "originalName": "\u2003\u2059",
     "restoredName": "field_246"
@@ -1980,6 +2410,11 @@
     "restoredName": "Method_372"
   },
   {
+    "token": "02000037",
+    "originalName": "\u2052",
+    "restoredName": "RecoveredType_55"
+  },
+  {
     "token": "040000F7",
     "originalName": "\u2003\u205A",
     "restoredName": "field_247"
@@ -1988,6 +2423,11 @@
     "token": "06000176",
     "originalName": "\u00A0",
     "restoredName": "Method_374"
+  },
+  {
+    "token": "02000038",
+    "originalName": "\u2053",
+    "restoredName": "RecoveredType_56"
   },
   {
     "token": "040000F8",
@@ -2028,6 +2468,11 @@
     "token": "06000178",
     "originalName": "\u00A0",
     "restoredName": "Method_376"
+  },
+  {
+    "token": "02000039",
+    "originalName": "\u2054",
+    "restoredName": "RecoveredType_57"
   },
   {
     "token": "040000FE",
@@ -2080,6 +2525,11 @@
     "restoredName": "Method_378"
   },
   {
+    "token": "0200003A",
+    "originalName": "\u2055",
+    "restoredName": "RecoveredType_58"
+  },
+  {
     "token": "04000106",
     "originalName": "\u2003\u206E",
     "restoredName": "field_262"
@@ -2118,6 +2568,11 @@
     "token": "0600017C",
     "originalName": "\u00A0",
     "restoredName": "Method_380"
+  },
+  {
+    "token": "0200003B",
+    "originalName": "\u2056",
+    "restoredName": "RecoveredType_59"
   },
   {
     "token": "0400010C",
@@ -2168,6 +2623,11 @@
     "token": "0600017E",
     "originalName": "\u00A0",
     "restoredName": "Method_382"
+  },
+  {
+    "token": "0200003C",
+    "originalName": "\u2057",
+    "restoredName": "RecoveredType_60"
   },
   {
     "token": "04000114",
@@ -2225,6 +2685,11 @@
     "restoredName": "Method_384"
   },
   {
+    "token": "0200003D",
+    "originalName": "\u2058",
+    "restoredName": "RecoveredType_61"
+  },
+  {
     "token": "0400011D",
     "originalName": "\u2004\u2022",
     "restoredName": "field_285"
@@ -2250,6 +2715,11 @@
     "restoredName": "Method_386"
   },
   {
+    "token": "0200003E",
+    "originalName": "\u2059",
+    "restoredName": "RecoveredType_62"
+  },
+  {
     "token": "04000120",
     "originalName": "\u2004\u2027",
     "restoredName": "field_288"
@@ -2273,6 +2743,11 @@
     "token": "06000184",
     "originalName": "\u00A0",
     "restoredName": "Method_388"
+  },
+  {
+    "token": "0200003F",
+    "originalName": "\u205A",
+    "restoredName": "RecoveredType_63"
   },
   {
     "token": "04000123",
@@ -2313,6 +2788,11 @@
     "token": "06000186",
     "originalName": "\u00A0",
     "restoredName": "Method_390"
+  },
+  {
+    "token": "02000040",
+    "originalName": "\u205B",
+    "restoredName": "RecoveredType_64"
   },
   {
     "token": "04000129",
@@ -2373,6 +2853,11 @@
     "token": "06000188",
     "originalName": "\u00A0",
     "restoredName": "Method_392"
+  },
+  {
+    "token": "02000041",
+    "originalName": "\u205C",
+    "restoredName": "RecoveredType_65"
   },
   {
     "token": "04000133",
@@ -2450,6 +2935,11 @@
     "restoredName": "Method_394"
   },
   {
+    "token": "02000042",
+    "originalName": "\u205D",
+    "restoredName": "RecoveredType_66"
+  },
+  {
     "token": "04000140",
     "originalName": "\u2004\u2059",
     "restoredName": "field_320"
@@ -2488,6 +2978,11 @@
     "token": "0600018C",
     "originalName": "\u00A0",
     "restoredName": "Method_396"
+  },
+  {
+    "token": "02000043",
+    "originalName": "\u205E",
+    "restoredName": "RecoveredType_67"
   },
   {
     "token": "04000146",

@@ -14,7 +14,7 @@ namespace AutomaticHunting.UI;
 public static class Diagnostics
 {
 	[CompilerGenerated]
-	private static class RecoveredType_110
+	public static class RecoveredType_110
 	{
 		public static Func<string, DateTime> field_661;
 	}

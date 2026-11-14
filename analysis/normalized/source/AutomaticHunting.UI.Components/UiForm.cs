@@ -8,7 +8,7 @@ namespace AutomaticHunting.UI.Components;
 public static class UiForm
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_185
+	public sealed class RecoveredType_185
 	{
 		public bool field_1126;
 

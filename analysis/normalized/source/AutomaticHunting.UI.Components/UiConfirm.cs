@@ -9,7 +9,7 @@ namespace AutomaticHunting.UI.Components;
 public sealed class UiConfirm
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_181
+	public sealed class RecoveredType_181
 	{
 		public UiConfirm field_1120;
 

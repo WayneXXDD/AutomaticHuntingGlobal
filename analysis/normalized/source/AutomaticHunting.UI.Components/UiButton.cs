@@ -6,7 +6,7 @@ namespace AutomaticHunting.UI.Components;
 
 public static class UiButton
 {
-	private readonly struct RecoveredType_168
+	public readonly struct RecoveredType_168
 	{
 		public readonly Vector4 field_1031;
 

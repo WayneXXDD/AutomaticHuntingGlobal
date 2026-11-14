@@ -11,7 +11,7 @@ namespace AutomaticHunting.UI;
 public sealed class SettingsWindow : Window
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_122
+	public sealed class RecoveredType_122
 	{
 		public PluginConfiguration field_707;
 

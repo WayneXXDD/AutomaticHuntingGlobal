@@ -111,7 +111,7 @@ public static class Theme
 
 	[StructLayout(LayoutKind.Auto)]
 	[CompilerGenerated]
-	private struct RecoveredType_127
+	public struct RecoveredType_127
 	{
 		public StringBuilder field_839;
 

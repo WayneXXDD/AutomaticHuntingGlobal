@@ -8,7 +8,7 @@ namespace AutomaticHunting.UI.Components;
 public static class HudCard
 {
 	[CompilerGenerated]
-	private sealed class RecoveredType_157
+	public sealed class RecoveredType_157
 	{
 		public float field_976;
 

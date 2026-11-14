@@ -17,7 +17,7 @@ public static class HuntPfController
 {
 	[Serializable]
 	[CompilerGenerated]
-	private sealed class RecoveredType_90
+	public sealed class RecoveredType_90
 	{
 		public static readonly RecoveredType_90 field_549 = new RecoveredType_90();
 
@@ -88,7 +88,7 @@ public static class HuntPfController
 	}
 
 	[CompilerGenerated]
-	private sealed class RecoveredType_91
+	public sealed class RecoveredType_91
 	{
 		public string field_556;
 
