@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>AutomaticHunting</AssemblyName>
+    <GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <LangVersion>14.0</LangVersion>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="AutomaticHunting.Help.help.json" />
+    <EmbeddedResource Include="AutomaticHunting.Help.help.json" LogicalName="AutomaticHunting.Help.help.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Dalamud">
+      <HintPath>..\dalamud\Dalamud.dll</HintPath>
+    </Reference>
+    <Reference Include="FFXIVClientStructs">
+      <HintPath>..\dalamud\FFXIVClientStructs.dll</HintPath>
+    </Reference>
+    <Reference Include="Lumina">
+      <HintPath>..\dalamud\Lumina.dll</HintPath>
+    </Reference>
+    <Reference Include="Lumina.Excel">
+      <HintPath>..\dalamud\Lumina.Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ECommons">
+      <HintPath>..\package\ECommons.dll</HintPath>
+    </Reference>
+    <Reference Include="Dalamud.Bindings.ImGui">
+      <HintPath>..\dalamud\Dalamud.Bindings.ImGui.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,41 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "AutomaticHunting/2.4.5.0": {
+        "dependencies": {
+          "ECommons": "3.2.1.22"
+        },
+        "runtime": {
+          "AutomaticHunting.dll": {}
+        }
+      },
+      "ECommons/3.2.1.22": {
+        "runtime": {
+          "lib/net10.0-windows7.0/ECommons.dll": {
+            "assemblyVersion": "3.2.1.22",
+            "fileVersion": "3.2.1.22"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "AutomaticHunting/2.4.5.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ECommons/3.2.1.22": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dGjjULRQtFbTdau9Cu1VcIQTwsbdomRxugyLciWrawHQ7nfNm76H8oUwAZFztwKtt3moiMdevzRVGIBsrgHO3g==",
+      "path": "ecommons/3.2.1.22",
+      "hashPath": "ecommons.3.2.1.22.nupkg.sha512"
+    }
+  }
+}

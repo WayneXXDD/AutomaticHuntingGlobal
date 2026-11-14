@@ -1,0 +1,36 @@
+{
+  "originalAuthor": "SFY",
+  "upstream": "https://github.com/Whswa-river/River",
+  "asset": "https://github.com/Whswa-river/River/releases/download/AutomaticHunting-2.4.5.0/AutomaticHunting.zip",
+  "version": "2.4.5.0",
+  "sha256": "972065548e172c4ed33e77daa8e1f250bbc0401d6ba61a7bfd88428ff23632c3",
+  "decompiler": "ilspycmd 11.2.0.10050",
+  "globalReferenceAssembly": "Dalamud, Version=15.0.3.9, Culture=neutral, PublicKeyToken=null",
+  "files": [
+    {
+      "name": "AutomaticHunting.dll",
+      "bytes": 309248
+    },
+    {
+      "name": "AutomaticHunting.json",
+      "bytes": 1005
+    },
+    {
+      "name": "AutomaticHunting.deps.json",
+      "bytes": 1034
+    },
+    {
+      "name": "ECommons.dll",
+      "bytes": 840704
+    },
+    {
+      "name": "icon.png",
+      "bytes": 11438
+    },
+    {
+      "name": "使用说明.md",
+      "bytes": 18524
+    }
+  ],
+  "recoveredSourceFiles": 78
+}
