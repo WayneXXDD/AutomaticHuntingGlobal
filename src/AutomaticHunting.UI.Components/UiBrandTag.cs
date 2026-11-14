@@ -6,7 +6,7 @@ namespace AutomaticHunting.UI.Components;
 
 public static class UiBrandTag
 {
-	public const string DefaultTitle = "自动狩猎跟车";
+	public const string DefaultTitle = "自動狩獵跟車";
 
 	private const float field_1017 = 8f;
 
@@ -29,7 +29,7 @@ public static class UiBrandTag
 		return "v" + (string.IsNullOrWhiteSpace(arg0) ? "0.0.0.0" : arg0);
 	}
 
-	public static BrandTagGeometry Draw(ImDrawListPtr arg0, Vector2 arg1, float arg2, string arg3 = "自动狩猎跟车", string? arg4 = null)
+	public static BrandTagGeometry Draw(ImDrawListPtr arg0, Vector2 arg1, float arg2, string arg3 = "自動狩獵跟車", string? arg4 = null)
 	{
 		float uiScale = Theme.UiScale;
 		string text = (string.IsNullOrEmpty(arg4) ? VersionText : arg4);

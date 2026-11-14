@@ -30,13 +30,13 @@ public sealed class AdvancedPage : SettingsPage
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("添加多线地图配置", UiVariant.Neutral, value, "新增一条多线地图配置"))
+				if (UiButton.Draw("新增多線地圖設定", UiVariant.Neutral, value, "新增一條多線地圖設定"))
 				{
 					field_852.Add(new MultiLineMapConfig());
 					field_851.Save();
 				}
 			}
-			else if (UiButton.Draw("檢查 Global 切線前置", UiVariant.Brand, value, "使用 Lifestream 切線；需靠近水晶"))
+			else if (UiButton.Draw("檢查 國際服 切線前置", UiVariant.Brand, value, "使用 Lifestream 切線；需靠近水晶"))
 			{
 				field_851.Plugin.LoadFastInstanceSwitch();
 			}
@@ -67,7 +67,7 @@ public sealed class AdvancedPage : SettingsPage
 		{
 			ImGui.SetNextItemWidth(-1f);
 			int v = field_854.InstanceCount;
-			if (!ImGui.SliderInt(arg0, ref v, 1, 9, "%d条线"))
+			if (!ImGui.SliderInt(arg0, ref v, 1, 9, "%d條線"))
 			{
 				return false;
 			}
@@ -122,26 +122,26 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_849()
 	{
-		UiSection.Header("准备配置");
-		UiForm.BeginActionMeasured("##advPrep", 32f, "传送阈值", "等待时间", "车头监听频道", "右键菜单");
-		UiForm.Row("传送阈值", "直接前往标点的距离比经以太之晶传送后远超过此值时自动传送。值大更倾向直接导航，值小更倾向传送");
+		UiSection.Header("準備設定");
+		UiForm.BeginActionMeasured("##advPrep", 32f, "傳送門檻", "等待時間", "車頭監聽頻道", "右鍵選單");
+		UiForm.Row("傳送門檻", "直接前往標點的距離比經以太之晶傳送後遠超過此值時自動傳送。值大更傾向直接導航，值小更傾向傳送");
 		UiForm.SliderWithReset("##Threshold", () => Config.TeleportThreshold, (float arg0) =>
 		{
 			Config.TeleportThreshold = Math.Clamp(arg0, 100f, 1000f);
 			Save();
 		}, 100f, 1000f, "%.0fm", 300f);
-		UiForm.Row("等待时间", "传送读条结束后等待的时间，用于等待地图状态稳定");
+		UiForm.Row("等待時間", "傳送讀條結束後等待的時間，用於等待地圖狀態穩定");
 		UiForm.SliderWithReset("##Wait", () => Config.WaitAfterTeleport, (float arg0) =>
 		{
 			Config.WaitAfterTeleport = Math.Clamp(arg0, 0f, 120f);
 			Save();
 		}, 0f, 120f, "%.0fs", 1f);
-		UiForm.Row("车头监听频道", "只喊话=仅识别喊话(/sh,全图)频道；全部=任意频道都识别。/y(呼喊)不是喊话频道");
+		UiForm.Row("車頭監聽頻道", "只喊話=僅識別喊話(/sh,全圖)頻道；全部=任意頻道都識別。/y(呼喊)不是喊話頻道");
 		UiLayout.EqualColumns("##advYellRow", 2, 8f, (int arg0) =>
 		{
 			if (arg0 == 0)
 			{
-				if (ImGui.RadioButton("只喊话##LeaderYellOnly", Config.LeaderYellOnly))
+				if (ImGui.RadioButton("只喊話##LeaderYellOnly", Config.LeaderYellOnly))
 				{
 					Config.LeaderYellOnly = true;
 					Save();
@@ -154,7 +154,7 @@ public sealed class AdvancedPage : SettingsPage
 			}
 		});
 		UiForm.ActionCell();
-		UiForm.Row("右键菜单", "在玩家右键菜单中显示「AH 添加为车头」");
+		UiForm.Row("右鍵選單", "在玩家右鍵選單中顯示「AH 新增為車頭」");
 		bool v = Config.EnableContextMenu;
 		if (ImGui.Checkbox("##EnableCtx", ref v))
 		{
@@ -166,12 +166,12 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_850()
 	{
-		UiSection.Header("多线地图", "仅配置了地图ID的地图会启用多线流程");
+		UiSection.Header("多線地圖", "僅設定了地圖ID的地圖會啟用多線流程");
 		List<MultiLineMapConfig> field_852 = Config.MultiLineMaps;
 		int field_853 = -1;
 		if (field_852.Count == 0)
 		{
-			UiEmpty.Show("还没有多线地图配置", "填入地图ID后启用切线与A怪计数流程");
+			UiEmpty.Show("還沒有多線地圖設定", "填入地圖ID後啟用切線與A怪計數流程");
 		}
 		else
 		{
@@ -182,10 +182,10 @@ public sealed class AdvancedPage : SettingsPage
 				UiListCard uiListCard = new UiListCard
 				{
 					Id = $"ml{i}",
-					Title = (string.IsNullOrWhiteSpace(field_854.MapId) ? "（未填写地图 ID）" : field_854.MapId),
-					Subtitle = $"{field_854.InstanceCount} 条线 · {field_854.AMobCount} 只 A 怪",
+					Title = (string.IsNullOrWhiteSpace(field_854.MapId) ? "（未填寫地圖 ID）" : field_854.MapId),
+					Subtitle = $"{field_854.InstanceCount} 條線 · {field_854.AMobCount} 只 A 怪",
 					Draggable = false,
-					DeleteTooltip = "移除这条多线地图配置",
+					DeleteTooltip = "移除這條多線地圖設定",
 					OnDelete = (int arg0) =>
 					{
 						field_853 = arg0;
@@ -207,7 +207,7 @@ public sealed class AdvancedPage : SettingsPage
 				{
 					ImGui.SetNextItemWidth(-1f);
 					int v2 = field_854.InstanceCount;
-					if (!ImGui.SliderInt(arg0, ref v2, 1, 9, "%d条线"))
+					if (!ImGui.SliderInt(arg0, ref v2, 1, 9, "%d條線"))
 					{
 						return false;
 					}
@@ -236,8 +236,8 @@ public sealed class AdvancedPage : SettingsPage
 			field_852.RemoveAt(field_853);
 			Save();
 		}
-		UiForm.BeginMeasured("##advMultiLine", "切线兜底");
-		UiForm.Row("切线兜底", "发送切线命令5秒后真实线未变化，先传送到最近以太之光再重发一次");
+		UiForm.BeginMeasured("##advMultiLine", "切線兜底");
+		UiForm.Row("切線兜底", "傳送切線命令5秒後真實線未變化，先傳送到最近以太之光再重發一次");
 		bool v = Config.SwitchRetryAtAetheryte;
 		if (ImGui.Checkbox("##SwitchRetry", ref v))
 		{
@@ -250,13 +250,13 @@ public sealed class AdvancedPage : SettingsPage
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("添加多线地图配置", UiVariant.Neutral, value, "新增一条多线地图配置"))
+				if (UiButton.Draw("新增多線地圖設定", UiVariant.Neutral, value, "新增一條多線地圖設定"))
 				{
 					field_852.Add(new MultiLineMapConfig());
 					Save();
 				}
 			}
-			else if (UiButton.Draw("檢查 Global 切線前置", UiVariant.Brand, value, "使用 Lifestream 切線；需靠近水晶"))
+			else if (UiButton.Draw("檢查 國際服 切線前置", UiVariant.Brand, value, "使用 Lifestream 切線；需靠近水晶"))
 			{
 				Plugin.LoadFastInstanceSwitch();
 			}
@@ -265,7 +265,7 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_851()
 	{
-		UiSection.Header("坐骑", "选择导航使用的坐骑");
+		UiSection.Header("坐騎", "選擇導航使用的坐騎");
 		if (!field_849)
 		{
 			Plugin.RefreshMountList();
@@ -274,7 +274,7 @@ public sealed class AdvancedPage : SettingsPage
 		if (Plugin.SelectedMountIndex >= 0 && Plugin.SelectedMountIndex < Plugin.MountNames.Length)
 		{
 			ImU8String text = new ImU8String(3, 1);
-			text.AppendLiteral("当前：");
+			text.AppendLiteral("目前：");
 			text.AppendFormatted(Plugin.MountNames[Plugin.SelectedMountIndex]);
 			ImGui.TextDisabled(text);
 		}
@@ -284,12 +284,12 @@ public sealed class AdvancedPage : SettingsPage
 			{
 				string buf = Plugin.MountSearchText;
 				ImGui.SetNextItemWidth(-1f);
-				if (ImGui.InputTextWithHint("##MountSearch", "搜索坐骑名称...", ref buf, 64))
+				if (ImGui.InputTextWithHint("##MountSearch", "搜尋坐騎名稱...", ref buf, 64))
 				{
 					Plugin.MountSearchText = buf;
 				}
 			}
-			else if (UiButton.Draw("刷新", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "重新读取可用坐骑列表"))
+			else if (UiButton.Draw("重新整理", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "重新讀取可用坐騎列表"))
 			{
 				Plugin.RefreshMountList();
 				field_849 = true;
@@ -305,7 +305,7 @@ public sealed class AdvancedPage : SettingsPage
 		}
 		if (list.Count == 0)
 		{
-			UiEmpty.Show("没有匹配的坐骑", "换个关键词，或点「刷新」重新读取列表");
+			UiEmpty.Show("沒有匹配的坐騎", "換個關鍵詞，或點「重新整理」重新讀取列表");
 			return;
 		}
 		float y = (float)Math.Min(list.Count, 6) * ImGui.GetTextLineHeightWithSpacing();
@@ -316,7 +316,7 @@ public sealed class AdvancedPage : SettingsPage
 		foreach (int item in list)
 		{
 			bool selected = item == Plugin.SelectedMountIndex;
-			if (ImGui.Selectable(Plugin.MountNames[item], selected))
+			if (TraditionalText.Selectable(Plugin.MountNames[item], selected))
 			{
 				Plugin.SelectedMountIndex = item;
 				Plugin.UpdateMountCommand();
@@ -327,15 +327,15 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_852()
 	{
-		UiSection.Header("狩猎招募", "创建招募时使用的描述");
-		ImGui.TextDisabled("描述可留空；≤2 行、UTF-8 ≤192 字节。");
+		UiSection.Header("狩獵招募", "建立招募時使用的描述");
+		ImGui.TextDisabled("描述可留空；≤2 行、UTF-8 ≤192 位元組。");
 		string buf = Config.PfComment ?? string.Empty;
 		if (ImGui.InputTextMultiline("##PfComment", ref buf, 256, new Vector2(ImGui.GetContentRegionAvail().X, 62f)))
 		{
 			Config.PfComment = buf;
 			Save();
 		}
-		if (UiButton.Draw("创建狩猎招募", UiVariant.Brand, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "立即创建一次狩猎招募"))
+		if (UiButton.Draw("建立狩獵招募", UiVariant.Brand, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "立即建立一次狩獵招募"))
 		{
 			HuntPfController.Create(Config.PfComment);
 		}
@@ -343,23 +343,23 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_853()
 	{
-		UiSection.Header("调试工具");
-		UiForm.BeginMeasured("##advDebugFlags", "输出日志", "显示坐标距离", "A怪计数");
-		UiForm.Row("输出日志", "把插件运行日志输出到聊天框");
+		UiSection.Header("除錯工具");
+		UiForm.BeginMeasured("##advDebugFlags", "輸出日誌", "顯示座標距離", "A怪計數");
+		UiForm.Row("輸出日誌", "把插件執行日誌輸出到聊天框");
 		bool v = Config.EchoMessages;
 		if (ImGui.Checkbox("##Echo", ref v))
 		{
 			Config.EchoMessages = v;
 			Save();
 		}
-		UiForm.Row("显示坐标距离", "在调试区显示玩家与 Flag 的坐标距离");
+		UiForm.Row("顯示座標距離", "在除錯區顯示玩家與 地圖標記 的座標距離");
 		bool v2 = Config.ShowDistances;
 		if (ImGui.Checkbox("##ShowDist", ref v2))
 		{
 			Config.ShowDistances = v2;
 			Save();
 		}
-		UiForm.Row("A怪计数", "勾选后，未配置多线地图的地图也进行 A 怪计数（方便测试）");
+		UiForm.Row("A怪計數", "勾選後，未設定多線地圖的地圖也進行 A 怪計數（方便測試）");
 		bool v3 = Config.DebugCountAInAllMaps;
 		if (ImGui.Checkbox("##DebugCountA", ref v3))
 		{
@@ -373,22 +373,22 @@ public sealed class AdvancedPage : SettingsPage
 			switch (arg0)
 			{
 			case 0:
-				if (UiButton.Draw("切线", UiVariant.Neutral, value2, "切到下一条副本线"))
+				if (UiButton.Draw("切線", UiVariant.Neutral, value2, "切到下一條副本線"))
 				{
 					Plugin.SwitchToNextInstance();
 				}
 				break;
 			case 1:
-				if (UiButton.Draw("当前线路", UiVariant.Neutral, value2, "在聊天框打印当前与目标线路号"))
+				if (UiButton.Draw("目前線路", UiVariant.Neutral, value2, "在聊天框列印目前與目標線路號"))
 				{
 					int currentInstanceNumber = Plugin.GetCurrentInstanceNumber();
 					int currentInstanceNumber2 = Config.CurrentInstanceNumber;
-					string value3 = ((currentInstanceNumber > 0) ? $"{currentInstanceNumber}线" : "非分线/读取失败");
-					Plugin.PrintEcho($"当前线路: {value3} (目标线: {currentInstanceNumber2})");
+					string value3 = ((currentInstanceNumber > 0) ? $"{currentInstanceNumber}線" : "非分線/讀取失敗");
+					Plugin.PrintEcho($"目前線路: {value3} (目標線: {currentInstanceNumber2})");
 				}
 				break;
 			default:
-				if (UiButton.Draw("召唤坐骑", UiVariant.Neutral, value2, "立即召唤当前配置的坐骑"))
+				if (UiButton.Draw("召喚坐騎", UiVariant.Neutral, value2, "立即召喚目前設定的坐騎"))
 				{
 					Plugin.SummonMount();
 				}
@@ -400,18 +400,18 @@ public sealed class AdvancedPage : SettingsPage
 			Vector2 value2 = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("下坐骑", UiVariant.Neutral, value2, "立即下坐骑"))
+				if (UiButton.Draw("下坐騎", UiVariant.Neutral, value2, "立即下坐騎"))
 				{
 					AutomaticHunting.UseDismount();
 				}
 			}
-			else if (UiButton.Draw("选中A怪", UiVariant.Neutral, value2, "扫描并选中附近的 A 怪"))
+			else if (UiButton.Draw("選中A怪", UiVariant.Neutral, value2, "掃描並選中附近的 A 怪"))
 			{
 				Plugin.ScanAndSelectTarget();
 			}
 		});
 		ImGui.Spacing();
-		if (UiButton.Draw("测试突进：" + Config.SDashCommand, UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "立即执行一次突进技能命令（不影响自动流程）"))
+		if (UiButton.Draw("測試突進：" + Config.SDashCommand, UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "立即執行一次突進技能命令（不影響自動流程）"))
 		{
 			Plugin.ExecuteDashSkill();
 		}
@@ -420,7 +420,7 @@ public sealed class AdvancedPage : SettingsPage
 		{
 			ImGui.Spacing();
 			ImU8String text = new ImU8String(5, 1);
-			text.AppendLiteral("当前区域：");
+			text.AppendLiteral("目前區域：");
 			text.AppendFormatted(currentTerritoryName);
 			ImGui.TextDisabled(text);
 			ImU8String text2 = new ImU8String(3, 1);
@@ -429,8 +429,8 @@ public sealed class AdvancedPage : SettingsPage
 			ImGui.TextDisabled(text2);
 		}
 		ImU8String text3 = new ImU8String(6, 1);
-		text3.AppendLiteral("已启用车头：");
-		text3.AppendFormatted(string.IsNullOrWhiteSpace(Config.LeaderName) ? "未设置" : Config.LeaderName);
+		text3.AppendLiteral("已啟用車頭：");
+		text3.AppendFormatted(string.IsNullOrWhiteSpace(Config.LeaderName) ? "未設定" : Config.LeaderName);
 		ImGui.TextDisabled(text3);
 		if (Config.ShowDistances)
 		{
@@ -440,35 +440,35 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_854()
 	{
-		UiSection.Header("诊断与导出");
+		UiSection.Header("診斷與匯出");
 		UiLayout.EqualColumns("##diagBtns1", 3, 8f, (int arg0) =>
 		{
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			switch (arg0)
 			{
 			case 0:
-				if (UiButton.Draw("复制诊断信息", UiVariant.Neutral, value, "把状态 / 前置 / 配置摘要复制到剪贴板") && Diagnostics.CopyReport(Plugin))
+				if (UiButton.Draw("複製診斷資訊", UiVariant.Neutral, value, "把狀態 / 前置 / 設定摘要複製到剪貼簿") && Diagnostics.CopyReport(Plugin))
 				{
-					Plugin.PrintEcho("诊断信息已复制到剪贴板");
+					Plugin.PrintEcho("診斷資訊已複製到剪貼簿");
 				}
 				break;
 			case 1:
-				if (UiButton.Draw("导出日志", UiVariant.Neutral, value, "把 Dalamud 日志导出到插件目录"))
+				if (UiButton.Draw("匯出日誌", UiVariant.Neutral, value, "把 Dalamud 日誌匯出到插件目錄"))
 				{
 					string text2 = Diagnostics.ExportLog(Plugin);
 					if (!string.IsNullOrEmpty(text2))
 					{
-						Plugin.PrintEcho("日志已导出: " + text2);
+						Plugin.PrintEcho("日誌已匯出: " + text2);
 					}
 				}
 				break;
 			default:
-				if (UiButton.Draw("导出配置", UiVariant.Neutral, value, "把当前配置导出为 JSON 文件"))
+				if (UiButton.Draw("匯出設定", UiVariant.Neutral, value, "把目前設定匯出為 JSON 檔案"))
 				{
 					string text = Diagnostics.ExportConfig(Plugin);
 					if (!string.IsNullOrEmpty(text))
 					{
-						Plugin.PrintEcho("配置已导出: " + text);
+						Plugin.PrintEcho("設定已匯出: " + text);
 					}
 				}
 				break;
@@ -479,14 +479,14 @@ public sealed class AdvancedPage : SettingsPage
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("恢复默认", UiVariant.Neutral, value, "只重置行为开关（不影响已保存的配置与步骤）"))
+				if (UiButton.Draw("恢復預設", UiVariant.Neutral, value, "只重置行為開關（不影響已儲存的設定與步驟）"))
 				{
-					field_848.Show("恢复默认设置", "将重置以下行为开关为出厂默认值。已保存的跨服配置、连车配置与车头名称不受影响。", new string[4] { "传送阈值 / 等待时间", "导航与战斗选项", "S怪监控选项", "多线 / 招募 / 右键菜单开关" }, string.Empty, "恢复默认", UiVariant.Danger, Method_855);
+					field_848.Show("恢復預設設定", "將重置以下行為開關為出廠預設值。已儲存的跨服設定、連車設定與車頭名稱不受影響。", new string[4] { "傳送門檻 / 等待時間", "導航與戰鬥選項", "S怪監控選項", "多線 / 招募 / 右鍵選單開關" }, string.Empty, "恢復預設", UiVariant.Danger, Method_855);
 				}
 			}
-			else if (UiButton.Draw("清空全部", UiVariant.DangerSolid, value, "清空所有配置（含已保存的跨服与连车配置）"))
+			else if (UiButton.Draw("清空全部", UiVariant.DangerSolid, value, "清空所有設定（含已儲存的跨服與連車設定）"))
 			{
-				field_847.Show("清空全部配置", "此操作不可撤销：所有配置项（含车头、已保存的一键跨服配置、连车配置、多线地图）都会被清空，插件回到首次运行状态。", new string[4] { "车头名称与全部行为开关", "已保存的一键跨服配置", "已保存的连车配置", "多线地图与黑名单" }, "清空", "确认清空", UiVariant.DangerSolid, Method_856);
+				field_847.Show("清空全部設定", "此操作不可撤銷：所有設定項（含車頭、已儲存的一鍵跨服設定、連車設定、多線地圖）都會被清空，插件回到首次執行狀態。", new string[4] { "車頭名稱與全部行為開關", "已儲存的一鍵跨服設定", "已儲存的連車設定", "多線地圖與黑名單" }, "清空", "確認清空", UiVariant.DangerSolid, Method_856);
 			}
 		});
 	}
@@ -517,7 +517,7 @@ public sealed class AdvancedPage : SettingsPage
 		Config.HuntChain.Steps.Clear();
 		Config.PfComment = string.Empty;
 		Save();
-		Plugin.PrintEcho("已恢复默认行为开关（已保存的配置与车头未改动）");
+		Plugin.PrintEcho("已恢復預設行為開關（已儲存的設定與車頭未改動）");
 	}
 
 	private void Method_856()
@@ -538,7 +538,7 @@ public sealed class AdvancedPage : SettingsPage
 		Config.Enabled = false;
 		Config.DataClearAcknowledged = true;
 		Save();
-		Plugin.PrintEcho("已清空全部配置，插件回到首次运行状态（请重新完成向导）");
+		Plugin.PrintEcho("已清空全部設定，插件回到首次執行狀態（請重新完成設定精靈）");
 		Plugin.OnboardingWindow.Open();
 	}
 
@@ -547,38 +547,38 @@ public sealed class AdvancedPage : SettingsPage
 		Vector3? localPlayerPosition = AutomaticHunting.GetLocalPlayerPosition();
 		if (!localPlayerPosition.HasValue)
 		{
-			ImGui.TextDisabled("无法获取玩家位置");
+			ImGui.TextDisabled("無法取得玩家位置");
 			return;
 		}
 		ImGui.Spacing();
-		ImGui.TextColored(Theme.Brand, "坐标距离");
+		TraditionalText.TextColored(Theme.Brand, "座標距離");
 		ImU8String text = new ImU8String(7, 2);
 		text.AppendLiteral("玩家：(");
 		text.AppendFormatted(localPlayerPosition.Value.X, "0.0");
 		text.AppendLiteral(", ");
 		text.AppendFormatted(localPlayerPosition.Value.Z, "0.0");
 		text.AppendLiteral(")");
-		ImGui.Text(text);
+		TraditionalText.Text(text);
 		Vector3? lastFlagPosition = Plugin.LastFlagPosition;
 		if (lastFlagPosition.HasValue)
 		{
 			float value = Vector2.Distance(new Vector2(localPlayerPosition.Value.X, localPlayerPosition.Value.Z), new Vector2(lastFlagPosition.Value.X, lastFlagPosition.Value.Z));
 			ImU8String text2 = new ImU8String(9, 2);
-			text2.AppendLiteral("Flag：(");
+			text2.AppendLiteral("地圖標記：(");
 			text2.AppendFormatted(lastFlagPosition.Value.X, "0.0");
 			text2.AppendLiteral(", ");
 			text2.AppendFormatted(lastFlagPosition.Value.Z, "0.0");
 			text2.AppendLiteral(")");
-			ImGui.Text(text2);
+			TraditionalText.Text(text2);
 			ImU8String text3 = new ImU8String(6, 1);
-			text3.AppendLiteral("  距离 ");
+			text3.AppendLiteral("  距離 ");
 			text3.AppendFormatted(value, "0.0");
 			text3.AppendLiteral("m");
 			ImGui.TextDisabled(text3);
 		}
 		else
 		{
-			ImGui.TextDisabled("Flag：未设置");
+			ImGui.TextDisabled("地圖標記：未設定");
 		}
 	}
 
@@ -613,7 +613,7 @@ public sealed class AdvancedPage : SettingsPage
 	{
 		if (arg0 == 0)
 		{
-			if (ImGui.RadioButton("只喊话##LeaderYellOnly", Config.LeaderYellOnly))
+			if (ImGui.RadioButton("只喊話##LeaderYellOnly", Config.LeaderYellOnly))
 			{
 				Config.LeaderYellOnly = true;
 				Save();
@@ -633,12 +633,12 @@ public sealed class AdvancedPage : SettingsPage
 		{
 			string buf = Plugin.MountSearchText;
 			ImGui.SetNextItemWidth(-1f);
-			if (ImGui.InputTextWithHint("##MountSearch", "搜索坐骑名称...", ref buf, 64))
+			if (ImGui.InputTextWithHint("##MountSearch", "搜尋坐騎名稱...", ref buf, 64))
 			{
 				Plugin.MountSearchText = buf;
 			}
 		}
-		else if (UiButton.Draw("刷新", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "重新读取可用坐骑列表"))
+		else if (UiButton.Draw("重新整理", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "重新讀取可用坐騎列表"))
 		{
 			Plugin.RefreshMountList();
 			field_849 = true;
@@ -652,22 +652,22 @@ public sealed class AdvancedPage : SettingsPage
 		switch (arg0)
 		{
 		case 0:
-			if (UiButton.Draw("切线", UiVariant.Neutral, value, "切到下一条副本线"))
+			if (UiButton.Draw("切線", UiVariant.Neutral, value, "切到下一條副本線"))
 			{
 				Plugin.SwitchToNextInstance();
 			}
 			break;
 		case 1:
-			if (UiButton.Draw("当前线路", UiVariant.Neutral, value, "在聊天框打印当前与目标线路号"))
+			if (UiButton.Draw("目前線路", UiVariant.Neutral, value, "在聊天框列印目前與目標線路號"))
 			{
 				int currentInstanceNumber = Plugin.GetCurrentInstanceNumber();
 				int currentInstanceNumber2 = Config.CurrentInstanceNumber;
-				string value2 = ((currentInstanceNumber > 0) ? $"{currentInstanceNumber}线" : "非分线/读取失败");
-				Plugin.PrintEcho($"当前线路: {value2} (目标线: {currentInstanceNumber2})");
+				string value2 = ((currentInstanceNumber > 0) ? $"{currentInstanceNumber}線" : "非分線/讀取失敗");
+				Plugin.PrintEcho($"目前線路: {value2} (目標線: {currentInstanceNumber2})");
 			}
 			break;
 		default:
-			if (UiButton.Draw("召唤坐骑", UiVariant.Neutral, value, "立即召唤当前配置的坐骑"))
+			if (UiButton.Draw("召喚坐騎", UiVariant.Neutral, value, "立即召喚目前設定的坐騎"))
 			{
 				Plugin.SummonMount();
 			}
@@ -681,12 +681,12 @@ public sealed class AdvancedPage : SettingsPage
 		Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 		if (arg0 == 0)
 		{
-			if (UiButton.Draw("下坐骑", UiVariant.Neutral, value, "立即下坐骑"))
+			if (UiButton.Draw("下坐騎", UiVariant.Neutral, value, "立即下坐騎"))
 			{
 				AutomaticHunting.UseDismount();
 			}
 		}
-		else if (UiButton.Draw("选中A怪", UiVariant.Neutral, value, "扫描并选中附近的 A 怪"))
+		else if (UiButton.Draw("選中A怪", UiVariant.Neutral, value, "掃描並選中附近的 A 怪"))
 		{
 			Plugin.ScanAndSelectTarget();
 		}
@@ -699,28 +699,28 @@ public sealed class AdvancedPage : SettingsPage
 		switch (arg0)
 		{
 		case 0:
-			if (UiButton.Draw("复制诊断信息", UiVariant.Neutral, value, "把状态 / 前置 / 配置摘要复制到剪贴板") && Diagnostics.CopyReport(Plugin))
+			if (UiButton.Draw("複製診斷資訊", UiVariant.Neutral, value, "把狀態 / 前置 / 設定摘要複製到剪貼簿") && Diagnostics.CopyReport(Plugin))
 			{
-				Plugin.PrintEcho("诊断信息已复制到剪贴板");
+				Plugin.PrintEcho("診斷資訊已複製到剪貼簿");
 			}
 			return;
 		case 1:
-			if (UiButton.Draw("导出日志", UiVariant.Neutral, value, "把 Dalamud 日志导出到插件目录"))
+			if (UiButton.Draw("匯出日誌", UiVariant.Neutral, value, "把 Dalamud 日誌匯出到插件目錄"))
 			{
 				string text = Diagnostics.ExportLog(Plugin);
 				if (!string.IsNullOrEmpty(text))
 				{
-					Plugin.PrintEcho("日志已导出: " + text);
+					Plugin.PrintEcho("日誌已匯出: " + text);
 				}
 			}
 			return;
 		}
-		if (UiButton.Draw("导出配置", UiVariant.Neutral, value, "把当前配置导出为 JSON 文件"))
+		if (UiButton.Draw("匯出設定", UiVariant.Neutral, value, "把目前設定匯出為 JSON 檔案"))
 		{
 			string text2 = Diagnostics.ExportConfig(Plugin);
 			if (!string.IsNullOrEmpty(text2))
 			{
-				Plugin.PrintEcho("配置已导出: " + text2);
+				Plugin.PrintEcho("設定已匯出: " + text2);
 			}
 		}
 	}
@@ -731,14 +731,14 @@ public sealed class AdvancedPage : SettingsPage
 		Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 		if (arg0 == 0)
 		{
-			if (UiButton.Draw("恢复默认", UiVariant.Neutral, value, "只重置行为开关（不影响已保存的配置与步骤）"))
+			if (UiButton.Draw("恢復預設", UiVariant.Neutral, value, "只重置行為開關（不影響已儲存的設定與步驟）"))
 			{
-				field_848.Show("恢复默认设置", "将重置以下行为开关为出厂默认值。已保存的跨服配置、连车配置与车头名称不受影响。", new string[4] { "传送阈值 / 等待时间", "导航与战斗选项", "S怪监控选项", "多线 / 招募 / 右键菜单开关" }, string.Empty, "恢复默认", UiVariant.Danger, Method_855);
+				field_848.Show("恢復預設設定", "將重置以下行為開關為出廠預設值。已儲存的跨服設定、連車設定與車頭名稱不受影響。", new string[4] { "傳送門檻 / 等待時間", "導航與戰鬥選項", "S怪監控選項", "多線 / 招募 / 右鍵選單開關" }, string.Empty, "恢復預設", UiVariant.Danger, Method_855);
 			}
 		}
-		else if (UiButton.Draw("清空全部", UiVariant.DangerSolid, value, "清空所有配置（含已保存的跨服与连车配置）"))
+		else if (UiButton.Draw("清空全部", UiVariant.DangerSolid, value, "清空所有設定（含已儲存的跨服與連車設定）"))
 		{
-			field_847.Show("清空全部配置", "此操作不可撤销：所有配置项（含车头、已保存的一键跨服配置、连车配置、多线地图）都会被清空，插件回到首次运行状态。", new string[4] { "车头名称与全部行为开关", "已保存的一键跨服配置", "已保存的连车配置", "多线地图与黑名单" }, "清空", "确认清空", UiVariant.DangerSolid, Method_856);
+			field_847.Show("清空全部設定", "此操作不可撤銷：所有設定項（含車頭、已儲存的一鍵跨服設定、連車設定、多線地圖）都會被清空，插件回到首次執行狀態。", new string[4] { "車頭名稱與全部行為開關", "已儲存的一鍵跨服設定", "已儲存的連車設定", "多線地圖與黑名單" }, "清空", "確認清空", UiVariant.DangerSolid, Method_856);
 		}
 	}
 }

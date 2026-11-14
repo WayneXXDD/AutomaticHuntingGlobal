@@ -64,7 +64,7 @@ public sealed class UiConfirm
 	private string field_1113 = string.Empty;
 
 	[CompilerGenerated]
-	private string field_1114 = "确认";
+	private string field_1114 = "確認";
 
 	[CompilerGenerated]
 	private UiVariant field_1115 = UiVariant.Danger;
@@ -214,7 +214,7 @@ public sealed class UiConfirm
 		}
 	}
 
-	public void Show(string arg0, string arg1, IEnumerable<string>? arg2 = null, string arg3 = "", string arg4 = "确认", UiVariant arg5 = UiVariant.Danger, Action? arg6 = null)
+	public void Show(string arg0, string arg1, IEnumerable<string>? arg2 = null, string arg3 = "", string arg4 = "確認", UiVariant arg5 = UiVariant.Danger, Action? arg6 = null)
 	{
 		Title = arg0;
 		Message = arg1;
@@ -260,14 +260,14 @@ public sealed class UiConfirm
 			if (!string.IsNullOrEmpty(Message))
 			{
 				ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextSecondary);
-				ImGui.TextWrapped(Message);
+				TraditionalText.TextWrapped(Message);
 				ImGui.PopStyleColor();
 				ImGui.Spacing();
 			}
 			if (Impact.Count > 0)
 			{
 				ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextSecondary);
-				ImGui.TextUnformatted("即将影响：");
+				TraditionalText.TextUnformatted("即將影響：");
 				ImGui.PopStyleColor();
 				foreach (string item in Impact)
 				{
@@ -280,10 +280,10 @@ public sealed class UiConfirm
 			if (flag)
 			{
 				ImU8String text = new ImU8String(8, 1);
-				text.AppendLiteral("请输入「");
+				text.AppendLiteral("請輸入「");
 				text.AppendFormatted(ConfirmWord);
-				text.AppendLiteral("」以确认");
-				ImGui.TextUnformatted(text);
+				text.AppendLiteral("」以確認");
+				TraditionalText.TextUnformatted(text);
 				ImGui.SetNextItemWidth(-1f);
 				ImGui.InputText("##confirmWord", ref field_1118, 32);
 				ImGui.Spacing();
@@ -322,10 +322,10 @@ public sealed class UiConfirm
 			{
 				ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextDisabled);
 				ImU8String text2 = new ImU8String(8, 1);
-				text2.AppendLiteral("请输入「");
+				text2.AppendLiteral("請輸入「");
 				text2.AppendFormatted(ConfirmWord);
-				text2.AppendLiteral("」以确认");
-				ImGui.TextUnformatted(text2);
+				text2.AppendLiteral("」以確認");
+				TraditionalText.TextUnformatted(text2);
 				ImGui.PopStyleColor();
 			}
 			ImGui.EndPopup();

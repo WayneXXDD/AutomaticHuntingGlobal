@@ -68,11 +68,11 @@ public sealed class UiAdjustRow
 		float num5 = 0f;
 		if (flag)
 		{
-			num4 = ImGui.CalcTextSize(TrailingLabel).X + 16f * uiScale;
+			num4 = TraditionalText.CalcTextSize(TrailingLabel).X + 16f * uiScale;
 			num5 = num4 + 10f * uiScale;
 		}
 		string text = Theme.Ellipsis(arg1: Math.Max(0f, num3 - cursorScreenPos.X - num2 - num5), arg0: Text);
-		Vector2 vector = ImGui.CalcTextSize(text);
+		Vector2 vector = TraditionalText.CalcTextSize(text);
 		float num6 = cursorScreenPos.Y + (num - vector.Y) * 0.5f;
 		Theme.DrawText(ImGui.GetWindowDrawList(), new Vector2(cursorScreenPos.X, num6), TextColor, text, Theme.FsBody);
 		Vector2 arg1 = new Vector2(cursorScreenPos.X, num6);

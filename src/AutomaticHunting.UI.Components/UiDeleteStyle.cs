@@ -8,7 +8,7 @@ public static class UiDeleteStyle
 {
 	public const double ConfirmSeconds = 4.0;
 
-	public const string RetryTooltip = "再点一次确认删除";
+	public const string RetryTooltip = "再點一次確認刪除";
 
 	public static DateTime ArmNow()
 	{

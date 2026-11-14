@@ -11,7 +11,7 @@ internal static class GlobalGameData
 {
     private static readonly PropertyInfo WorldDcProperty = typeof(World).GetProperty("LogicalDataCenter")
         ?? typeof(World).GetProperty("DataCenter")
-        ?? throw new InvalidOperationException("The Global World sheet has no data center field.");
+        ?? throw new InvalidOperationException("國際服世界資料缺少資料中心欄位。");
 
     private static uint GetDcId(World world)
     {
@@ -68,7 +68,7 @@ internal static class GlobalGameData
         if (config.Version >= 3) return;
         config.ARealmMarks = BuildMarks(2);
         config.SRealmMarks = BuildMarks(3);
-        if (config.SDashCommand == "/ac 调停") config.SDashCommand = DefaultDashCommand;
+        if (config.SDashCommand == "/ac \u8c03\u505c") config.SDashCommand = DefaultDashCommand;
         config.MountCommand = DefaultMountCommand;
         config.CurrentInstanceFingerprint = "";
         config.CurrentInstanceNumber = Math.Clamp(config.CurrentInstanceNumber, 1, 9);

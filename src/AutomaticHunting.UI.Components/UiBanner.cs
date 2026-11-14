@@ -12,7 +12,7 @@ public static class UiBanner
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		float x = ImGui.GetContentRegionAvail().X;
-		Vector2 vector = ImGui.CalcTextSize(arg0);
+		Vector2 vector = TraditionalText.CalcTextSize(arg0);
 		float num = ((arg2 != null) ? (92f * uiScale) : 0f);
 		float num2 = Math.Max(vector.Y + 12f * uiScale, Theme.ControlHeight + 6f * uiScale);
 		Vector2 pMin = cursorScreenPos;
@@ -38,8 +38,8 @@ public static class UiBanner
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		float x = ImGui.GetContentRegionAvail().X;
-		Vector2 vector = ImGui.CalcTextSize(arg0);
-		Vector2 vector2 = ((arg1 == null) ? Vector2.Zero : ImGui.CalcTextSize(arg1));
+		Vector2 vector = TraditionalText.CalcTextSize(arg0);
+		Vector2 vector2 = ((arg1 == null) ? Vector2.Zero : TraditionalText.CalcTextSize(arg1));
 		float num = vector.Y + ((arg1 == null) ? 0f : (vector2.Y + 4f * uiScale)) + 16f * uiScale;
 		Vector2 pMin = cursorScreenPos;
 		Vector2 pMax = cursorScreenPos + new Vector2(x, num);

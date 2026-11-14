@@ -29,10 +29,10 @@ public sealed class FollowPage : SettingsPage
 
 	private void Method_912()
 	{
-		UiSection.Header("跟车设置", "车头名用于识别指令与 Flag");
+		UiSection.Header("跟車設定", "車頭名用於識別指令與 地圖標記");
 		LeaderRoster.EnsureMigrated(Config);
-		UiForm.BeginActionMeasured("##followLeader", 32f, "车头名称");
-		UiForm.Row("车头名称", "输入名字后按回车保存；点右侧箭头展开已保存列表，只有勾选的才生效");
+		UiForm.BeginActionMeasured("##followLeader", 32f, "車頭名稱");
+		UiForm.Row("車頭名稱", "輸入名字後按回車儲存；點右側箭頭展開已儲存列表，只有勾選的才生效");
 		field_891.Draw("##leaderPicker", Config, Save);
 		UiForm.ActionCell();
 		if (UiForm.DrawResetButton("##resetLeaderName", string.Empty) && LeaderRoster.ClearChecks(Config))
@@ -40,15 +40,15 @@ public sealed class FollowPage : SettingsPage
 			Save();
 		}
 		UiForm.End();
-		UiForm.BeginMeasured("##followLeaderActions", "快速设置");
-		UiForm.Row("快速设置");
+		UiForm.BeginMeasured("##followLeaderActions", "快速設定");
+		UiForm.Row("快速設定");
 		UiLayout.EqualColumns("##followLeaderBtns", 3, 8f, (int arg0) =>
 		{
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			switch (arg0)
 			{
 			case 0:
-				if (UiButton.Draw("当前目标", UiVariant.Neutral, value, "把当前选中的目标加进车头列表并勾选"))
+				if (UiButton.Draw("目前目標", UiVariant.Neutral, value, "把目前選中的目標加進車頭列表並勾選"))
 				{
 					IGameObject target = AutomaticHunting.TargetManager.Target;
 					if (target != null)
@@ -58,12 +58,12 @@ public sealed class FollowPage : SettingsPage
 					}
 					else
 					{
-						Plugin.PrintEcho("未选中目标");
+						Plugin.PrintEcho("未選中目標");
 					}
 				}
 				break;
 			case 1:
-				if (UiButton.Draw("设置自己", UiVariant.Neutral, value, "把自己加进车头列表并勾选"))
+				if (UiButton.Draw("設定自己", UiVariant.Neutral, value, "把自己加進車頭列表並勾選"))
 				{
 					Plugin.SetLeaderToSelf();
 				}
@@ -71,7 +71,7 @@ public sealed class FollowPage : SettingsPage
 			default:
 			{
 				bool flag = DateTime.UtcNow < field_892;
-				if (UiButton.Draw(flag ? "确认清空" : "清除车头", flag ? UiVariant.Danger : UiVariant.Neutral, value, flag ? "再点一次将删除全部车头（不可撤销）" : "删除全部已保存的车头（需点两次确认）；只想停用请用左侧的「恢复默认值」"))
+				if (UiButton.Draw(flag ? "確認清空" : "清除車頭", flag ? UiVariant.Danger : UiVariant.Neutral, value, flag ? "再點一次將刪除全部車頭（不可撤銷）" : "刪除全部已儲存的車頭（需點兩次確認）；只想停用請用左側的「恢復預設值」"))
 				{
 					if (flag)
 					{
@@ -79,7 +79,7 @@ public sealed class FollowPage : SettingsPage
 						int num = Config.LeaderEntries?.Count ?? 0;
 						LeaderRoster.ClearAll(Config);
 						Save();
-						Plugin.PrintEcho((num > 0) ? $"已清空 {num} 个车头" : "车头列表本来就是空的");
+						Plugin.PrintEcho((num > 0) ? $"已清空 {num} 個車頭" : "車頭列表本來就是空的");
 					}
 					else
 					{
@@ -95,32 +95,32 @@ public sealed class FollowPage : SettingsPage
 
 	private void Method_913()
 	{
-		UiSection.Header("导航与战斗");
-		UiForm.BeginMeasured("##followNav", "飞行导航", "设置 Flag", "目标上空落地", "自动 BMR AI");
-		UiForm.Row("飞行导航", "使用飞行坐骑导航；关闭则使用陆上移动");
+		UiSection.Header("導航與戰鬥");
+		UiForm.BeginMeasured("##followNav", "飛行導航", "設定 地圖標記", "目標上空落地", "自動 BMR AI");
+		UiForm.Row("飛行導航", "使用飛行坐騎導航；關閉則使用陸上移動");
 		Method_914("##UseFlight", Config.UseFlightNavigation, (bool arg0) =>
 		{
 			Config.UseFlightNavigation = arg0;
 			Save();
-		}, Config.UseFlightNavigation ? "使用飞行坐骑" : "使用地面移动");
-		UiForm.Row("设置 Flag", "导航时在地图上标记目标点");
+		}, Config.UseFlightNavigation ? "使用飛行坐騎" : "使用地面移動");
+		UiForm.Row("設定 地圖標記", "導航時在地圖上標記目標點");
 		Method_914("##SetFlag", Config.SetFlagOnNavigation, (bool arg0) =>
 		{
 			Config.SetFlagOnNavigation = arg0;
 			Save();
-		}, Config.SetFlagOnNavigation ? "导航时标记" : "不标记");
-		UiForm.Row("目标上空落地", "到达目标后下坐骑；关闭则悬停在目标上方");
+		}, Config.SetFlagOnNavigation ? "導航時標記" : "不標記");
+		UiForm.Row("目標上空落地", "到達目標後下坐騎；關閉則懸停在目標上方");
 		Method_914("##LandingMode", Config.LandingMode, (bool arg0) =>
 		{
 			Config.LandingMode = arg0;
 			Save();
-		}, Config.LandingMode ? "到达后落地" : "悬停在上方");
-		UiForm.Row("自动 BMR AI", "进战斗开 / 脱战关");
+		}, Config.LandingMode ? "到達後落地" : "懸停在上方");
+		UiForm.Row("自動 BMR AI", "進戰鬥開 / 脫戰關");
 		Method_914("##AutoBmr", Config.AutoBmrAi, (bool arg0) =>
 		{
 			Config.AutoBmrAi = arg0;
 			Save();
-		}, Config.AutoBmrAi ? "仅在野外生效" : "全局生效");
+		}, Config.AutoBmrAi ? "僅在野外生效" : "全域性生效");
 		UiForm.End();
 	}
 
@@ -131,16 +131,16 @@ public sealed class FollowPage : SettingsPage
 
 	private void Method_915()
 	{
-		UiSection.Header("S怪配置", "血量达标后突进开怪");
-		UiForm.BeginActionMeasured("##followS", 32f, "启用 S怪", "寻路开怪", "血量检测", "悬停距离", "悬停高度", "突进技能", "跨服车头");
-		UiForm.Row("启用 S怪", "先扫 A 怪，无 A 怪再扫 S 怪");
+		UiSection.Header("S怪設定", "血量達標後突進開怪");
+		UiForm.BeginActionMeasured("##followS", 32f, "啟用 S怪", "尋路開怪", "血量檢測", "懸停距離", "懸停高度", "突進技能", "跨服車頭");
+		UiForm.Row("啟用 S怪", "先掃 A 怪，無 A 怪再掃 S 怪");
 		bool v = Config.SEnabled;
 		if (ImGui.Checkbox("##SEnabled", ref v))
 		{
 			Config.SEnabled = v;
 			Save();
 		}
-		UiForm.Row("寻路开怪", "勾选后血量达标会把 S 当 A 寻路过去；不勾选则直接用突进技能");
+		UiForm.Row("尋路開怪", "勾選後血量達標會把 S 當 A 尋路過去；不勾選則直接用突進技能");
 		bool v2 = Config.SPathToEngage;
 		if (ImGui.Checkbox("##SPathEngage", ref v2))
 		{
@@ -150,28 +150,28 @@ public sealed class FollowPage : SettingsPage
 		if (!v)
 		{
 			UiForm.End();
-			UiEmpty.Show("S怪监控未启用", "勾选上方「启用 S怪」后出现阈值等设置");
+			UiEmpty.Show("S怪監控未啟用", "勾選上方「啟用 S怪」後出現門檻等設定");
 			return;
 		}
-		UiForm.Row("血量检测", "检测 S 怪血量，低于该百分比时执行突进技能");
+		UiForm.Row("血量檢測", "檢測 S 怪血量，低於該百分比時執行突進技能");
 		UiForm.SliderWithReset("##SHp", () => Config.SHpThreshold, (float arg0) =>
 		{
 			Config.SHpThreshold = Math.Clamp(arg0, 0f, 100f);
 			Save();
 		}, 0f, 100f, "%.0f%%", 80f);
-		UiForm.Row("悬停距离", "距 S 怪位置的 XZ 直线距离");
+		UiForm.Row("懸停距離", "距 S 怪位置的 XZ 直線距離");
 		UiForm.SliderWithReset("##SDist", () => Config.SHoverDistance, (float arg0) =>
 		{
 			Config.SHoverDistance = Math.Clamp(arg0, 0f, 100f);
 			Save();
 		}, 0f, 100f, "%.0fm", 50f);
-		UiForm.Row("悬停高度", "Y 轴高度");
+		UiForm.Row("懸停高度", "Y 軸高度");
 		UiForm.SliderWithReset("##SHeight", () => Config.SHoverHeight, (float arg0) =>
 		{
 			Config.SHoverHeight = Math.Clamp(arg0, 0f, 100f);
 			Save();
 		}, 0f, 100f, "%.0fm", 50f);
-		UiForm.Row("突进技能", "血量达标时执行的技能，建议用突进技能");
+		UiForm.Row("突進技能", "血量達標時執行的技能，建議用突進技能");
 		UiForm.Fill();
 		string buf = Config.SDashCommand;
 		if (ImGui.InputText("##SDashCmd", ref buf, 128))
@@ -185,7 +185,7 @@ public sealed class FollowPage : SettingsPage
 			Config.SDashCommand = GlobalGameData.DefaultDashCommand;
 			Save();
 		}
-		UiForm.Row("跨服车头（暂时废弃）", "该功能已暂时停用：不再识别【服务器名+flag点位+1X】这类跨服指令");
+		UiForm.Row("跨服車頭（暫時廢棄）", "該功能已暫時停用：不再識別【伺服器名+flag點位+1X】這類跨服指令");
 		UiForm.Fill();
 		ImGui.BeginDisabled();
 		string buf2 = Config.CrossWorldLeader;
@@ -213,12 +213,12 @@ public sealed class FollowPage : SettingsPage
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("檢查 Global 前置", UiVariant.Brand, value, "檢查 Lifestream 和 vnavmesh 的載入狀態"))
+				if (UiButton.Draw("檢查 國際服 前置", UiVariant.Brand, value, "檢查 Lifestream 和 vnavmesh 的載入狀態"))
 				{
 					Plugin.LoadDrPresets();
 				}
 			}
-			else if (UiButton.Draw("监控当前目标血量", UiVariant.Neutral, value, "监控当前选中目标的血量，降到阈值后用突进技能开怪"))
+			else if (UiButton.Draw("監控目前目標血量", UiVariant.Neutral, value, "監控目前選中目標的血量，降到門檻後用突進技能開怪"))
 			{
 				Plugin.StartTargetHpMonitor();
 			}
@@ -233,7 +233,7 @@ public sealed class FollowPage : SettingsPage
 		switch (arg0)
 		{
 		case 0:
-			if (UiButton.Draw("当前目标", UiVariant.Neutral, value, "把当前选中的目标加进车头列表并勾选"))
+			if (UiButton.Draw("目前目標", UiVariant.Neutral, value, "把目前選中的目標加進車頭列表並勾選"))
 			{
 				IGameObject target = AutomaticHunting.TargetManager.Target;
 				if (target != null)
@@ -243,19 +243,19 @@ public sealed class FollowPage : SettingsPage
 				}
 				else
 				{
-					Plugin.PrintEcho("未选中目标");
+					Plugin.PrintEcho("未選中目標");
 				}
 			}
 			return;
 		case 1:
-			if (UiButton.Draw("设置自己", UiVariant.Neutral, value, "把自己加进车头列表并勾选"))
+			if (UiButton.Draw("設定自己", UiVariant.Neutral, value, "把自己加進車頭列表並勾選"))
 			{
 				Plugin.SetLeaderToSelf();
 			}
 			return;
 		}
 		bool flag = DateTime.UtcNow < field_892;
-		if (UiButton.Draw(flag ? "确认清空" : "清除车头", flag ? UiVariant.Danger : UiVariant.Neutral, value, flag ? "再点一次将删除全部车头（不可撤销）" : "删除全部已保存的车头（需点两次确认）；只想停用请用左侧的「恢复默认值」"))
+		if (UiButton.Draw(flag ? "確認清空" : "清除車頭", flag ? UiVariant.Danger : UiVariant.Neutral, value, flag ? "再點一次將刪除全部車頭（不可撤銷）" : "刪除全部已儲存的車頭（需點兩次確認）；只想停用請用左側的「恢復預設值」"))
 		{
 			if (flag)
 			{
@@ -263,7 +263,7 @@ public sealed class FollowPage : SettingsPage
 				int num = Config.LeaderEntries?.Count ?? 0;
 				LeaderRoster.ClearAll(Config);
 				Save();
-				Plugin.PrintEcho((num > 0) ? $"已清空 {num} 个车头" : "车头列表本来就是空的");
+				Plugin.PrintEcho((num > 0) ? $"已清空 {num} 個車頭" : "車頭列表本來就是空的");
 			}
 			else
 			{
@@ -345,12 +345,12 @@ public sealed class FollowPage : SettingsPage
 		Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 		if (arg0 == 0)
 		{
-			if (UiButton.Draw("檢查 Global 前置", UiVariant.Brand, value, "檢查 Lifestream 和 vnavmesh 的載入狀態"))
+			if (UiButton.Draw("檢查 國際服 前置", UiVariant.Brand, value, "檢查 Lifestream 和 vnavmesh 的載入狀態"))
 			{
 				Plugin.LoadDrPresets();
 			}
 		}
-		else if (UiButton.Draw("监控当前目标血量", UiVariant.Neutral, value, "监控当前选中目标的血量，降到阈值后用突进技能开怪"))
+		else if (UiButton.Draw("監控目前目標血量", UiVariant.Neutral, value, "監控目前選中目標的血量，降到門檻後用突進技能開怪"))
 		{
 			Plugin.StartTargetHpMonitor();
 		}

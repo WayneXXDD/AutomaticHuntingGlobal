@@ -113,12 +113,12 @@ public static class HuntPfController
 				{
 					Chat.ExecuteCommand("/pfinder");
 				}
-				Method_443("招募已创建");
+				Method_443("招募已建立");
 				return true;
 			}
 			if (Environment.TickCount64 > field_557)
 			{
-				Method_443("创建招募超时（未进入招募状态），请查看 Dalamud 日志");
+				Method_443("建立招募超時（未進入招募狀態），請檢視 Dalamud 日誌");
 				return null;
 			}
 			return false;
@@ -145,17 +145,17 @@ public static class HuntPfController
 		}
 		if (arg0 != Chat.SanitiseText(arg0))
 		{
-			arg1 = "招募描述包含非法字符";
+			arg1 = "招募描述包含非法字元";
 			return false;
 		}
 		if (arg0.Split('\n').Length > 2)
 		{
-			arg1 = "招募描述不能超过2行";
+			arg1 = "招募描述不能超過2行";
 			return false;
 		}
 		if (Encoding.UTF8.GetBytes(arg0 + "\0").Length > 192)
 		{
-			arg1 = "招募描述过长（UTF-8 最多192字节，约60个汉字）";
+			arg1 = "招募描述過長（UTF-8 最多192位元組，約60個漢字）";
 			return false;
 		}
 		return true;
@@ -181,17 +181,17 @@ public static class HuntPfController
 		IPlayerCharacter localPlayer = AutomaticHunting.ObjectTable.LocalPlayer;
 		if (localPlayer == null)
 		{
-			Method_443("现在无法创建招募（角色未就绪）");
+			Method_443("現在無法建立招募（角色未就緒）");
 			return;
 		}
 		if (localPlayer.OnlineStatus.RowId == 26)
 		{
-			Method_443("已在招募中，无需重复创建");
+			Method_443("已在招募中，無需重複建立");
 			return;
 		}
 		if (!QuestManager.IsQuestComplete(67099u) && !QuestManager.IsQuestComplete(67100u) && !QuestManager.IsQuestComplete(67101u))
 		{
-			Method_443("未解锁狩猎任务，无法创建招募");
+			Method_443("未解鎖狩獵任務，無法建立招募");
 			return;
 		}
 		if (field_548 == null)
@@ -256,16 +256,16 @@ public static class HuntPfController
 				{
 					Chat.ExecuteCommand("/pfinder");
 				}
-				Method_443("招募已创建");
+				Method_443("招募已建立");
 				return true;
 			}
 			if (Environment.TickCount64 > field_557)
 			{
-				Method_443("创建招募超时（未进入招募状态），请查看 Dalamud 日志");
+				Method_443("建立招募超時（未進入招募狀態），請檢視 Dalamud 日誌");
 				return (bool?)null;
 			}
 			return false;
 		}, new TaskManagerConfiguration(15000));
-		Method_443("正在创建招募...");
+		Method_443("正在建立招募...");
 	}
 }

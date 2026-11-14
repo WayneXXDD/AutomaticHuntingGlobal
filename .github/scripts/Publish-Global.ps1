@@ -5,16 +5,14 @@ $tag = 'v' + $manifest.AssemblyVersion
 $repository = 'WayneXXDD/AutomaticHuntingGlobal'
 $notesPath = Join-Path $env:RUNNER_TEMP 'automatic-hunting-release.md'
 @'
-Global compatibility build reconstructed from SFY's AutomaticHunting 2.4.5.0 DLL.
+繁體中文介面的國際服狩獵跟車插件。
 
-- Global Dalamud API 15 / .NET 10.
-- Global game data replaces Chinese server, map and hunt-name lists.
-- Lifestream IPC replaces Chinese DailyRoutines world/instance commands.
-- Restored C# source, provenance and repeatable decompilation are included in the repository.
-- Original author: SFY.
+- 設定介面、狀態訊息、提示與說明統一為繁體中文。
+- 加入地圖、怪物和坐騎名稱的繁體中文顯示譯文；遊戲辨識與儲存的原始名稱保持不變。
+- 隨插件附上 Noto 繁體中文字型，並檢查全部內建文字所需的字元。
+- 保留原作者 SFY 署名，以及 vnavmesh 導航與 Lifestream 跨服／分流功能。
 
-This is a testing-channel build. Compilation and compatibility policy tests passed; in-game behavior has not yet been verified.
-Requires vnavmesh for navigation and Lifestream for world / instance changes.
+此版本以測試版提供；已通過編譯、自動檢查與字型涵蓋檢查，仍需遊戲內實測。
 '@ | Set-Content -LiteralPath $notesPath -Encoding utf8
 $existingText = gh release view $tag --repo $repository --json assets 2>$null
 if ($LASTEXITCODE -eq 0) {

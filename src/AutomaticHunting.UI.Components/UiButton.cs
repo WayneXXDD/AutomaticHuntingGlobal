@@ -125,7 +125,7 @@ public static class UiButton
 	public static void ShowTooltip(string arg0)
 	{
 		ImGui.BeginTooltip();
-		ImGui.TextUnformatted(arg0);
+		TraditionalText.TextUnformatted(arg0);
 		ImGui.EndTooltip();
 	}
 
@@ -150,7 +150,7 @@ public static class UiButton
 			ImGui.GetWindowDrawList().AddLine(new Vector2(itemRectMin.X, itemRectMax.Y - 1f), new Vector2(itemRectMax.X, itemRectMax.Y - 1f), Theme.U32(Theme.BrandGoldLight), 1f);
 			if (arg2 != null)
 			{
-				ImGui.SetTooltip(arg2);
+				TraditionalText.SetTooltip(arg2);
 			}
 		}
 		return result;

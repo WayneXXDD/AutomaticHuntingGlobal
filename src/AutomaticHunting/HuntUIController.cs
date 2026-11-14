@@ -18,13 +18,13 @@ public sealed class HuntUIController : IDisposable
 		field_558 = arg0;
 		field_559 = new MenuItem
 		{
-			Name = new SeStringBuilder().AddUiForeground("AH 添加为车头", 578).Build(),
+			Name = new SeStringBuilder().AddUiForeground("AH 新增為車頭", 578).Build(),
 			Prefix = SeIconChar.BoxedLetterA,
 			PrefixColor = 578,
 			OnClicked = Method_461
 		};
 		AutomaticHunting.ContextMenu.OnMenuOpened += Method_460;
-		AutomaticHunting.Log.Debug("右键菜单控制器已初始化");
+		AutomaticHunting.Log.Debug("右鍵選單控制器已初始化");
 	}
 
 	private static bool Method_459(MenuTargetDefault arg0)
@@ -42,11 +42,11 @@ public sealed class HuntUIController : IDisposable
 
 	private void Method_460(IMenuOpenedArgs arg0)
 	{
-		AutomaticHunting.Log.Debug($"右键菜单打开: addon={arg0.AddonName}, type={arg0.MenuType}, targetType={arg0.Target?.GetType().Name}");
+		AutomaticHunting.Log.Debug($"右鍵選單開啟: addon={arg0.AddonName}, type={arg0.MenuType}, targetType={arg0.Target?.GetType().Name}");
 		if (field_558.Config.EnableContextMenu && arg0.MenuType == ContextMenuType.Default && arg0.Target is MenuTargetDefault menuTargetDefault && Method_459(menuTargetDefault))
 		{
 			arg0.AddMenuItem(field_559);
-			AutomaticHunting.Log.Debug("应答右键菜单添加车头选项: addon=" + arg0.AddonName + ", target=" + menuTargetDefault.TargetName);
+			AutomaticHunting.Log.Debug("應答右鍵選單新增車頭選項: addon=" + arg0.AddonName + ", target=" + menuTargetDefault.TargetName);
 		}
 	}
 
@@ -57,8 +57,8 @@ public sealed class HuntUIController : IDisposable
 			string text = menuTargetDefault.TargetName.ToString();
 			LeaderRoster.Add(field_558.Config, text);
 			field_558.ConfigService.Save();
-			AutomaticHunting.Log.Debug("右键菜单设置车头成功: " + text);
-			field_558.PrintEcho("车头已设置为: " + text);
+			AutomaticHunting.Log.Debug("右鍵選單設定車頭成功: " + text);
+			field_558.PrintEcho("車頭已設定為: " + text);
 		}
 	}
 

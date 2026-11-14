@@ -10,7 +10,7 @@ internal static class GlobalCommands
         if (command.StartsWith(GlobalCommandPolicy.InstancePrefix, StringComparison.OrdinalIgnoreCase))
         {
             if (!GlobalCommandPolicy.TryParseInstance(command, out var instance))
-                throw new ArgumentException("Global instance number must be 1–9.");
+                throw new ArgumentException("國際服分流編號必須為 1 至 9。");
             RequireLifestream();
             AutomaticHunting.PluginInterface.GetIpcSubscriber<int, object>("Lifestream.ChangeInstance").InvokeAction(instance);
             return;
@@ -19,10 +19,10 @@ internal static class GlobalCommands
         {
             var world = command[GlobalCommandPolicy.WorldPrefix.Length..].Trim();
             if (!CrossWorldData.ServerWorldTravel.ContainsKey(world))
-                throw new ArgumentException("Unknown Global world: " + world);
+                throw new ArgumentException("找不到指定的國際服伺服器：" + world);
             RequireLifestream();
             if (!AutomaticHunting.PluginInterface.GetIpcSubscriber<string, bool>("Lifestream.ChangeWorld").InvokeFunc(world))
-                throw new InvalidOperationException("Lifestream cannot currently visit " + world + ".");
+                throw new InvalidOperationException("Lifestream 目前無法前往伺服器：" + world + ".");
             return;
         }
         AutomaticHunting.CommandManager.ProcessCommand(command);
@@ -31,6 +31,6 @@ internal static class GlobalCommands
     private static void RequireLifestream()
     {
         if (!AutomaticHunting.PluginInterface.InstalledPlugins.Any(p => p.IsLoaded && p.InternalName.Equals("Lifestream", StringComparison.OrdinalIgnoreCase)))
-            throw new InvalidOperationException("Install and enable Lifestream for world and instance changes.");
+            throw new InvalidOperationException("請先安裝並啟用 Lifestream，才能跨服或切換分流。");
     }
 }

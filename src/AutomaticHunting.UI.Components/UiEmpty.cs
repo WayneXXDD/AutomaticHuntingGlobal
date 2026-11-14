@@ -27,23 +27,23 @@ public static class UiEmpty
 		windowDrawList.AddLine(new Vector2(vector.X, vector.Y + num3), new Vector2(vector.X - num3, vector.Y), Theme.U32(Theme.WithAlpha(Theme.TextDisabled, 0.45f)), 1.5f * uiScale);
 		windowDrawList.AddLine(new Vector2(vector.X - num3, vector.Y), new Vector2(vector.X, vector.Y - num3), Theme.U32(Theme.WithAlpha(Theme.TextDisabled, 0.45f)), 1.5f * uiScale);
 		ImGui.Dummy(new Vector2(1f, num));
-		Vector2 vector2 = ImGui.CalcTextSize(arg1);
+		Vector2 vector2 = TraditionalText.CalcTextSize(arg1);
 		ImGui.SetCursorPosX(ImGui.GetCursorPosX() + Math.Max(0f, (contentRegionAvail.X - vector2.X) * 0.5f));
 		ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextSecondary);
-		ImGui.TextUnformatted(arg1);
+		TraditionalText.TextUnformatted(arg1);
 		ImGui.PopStyleColor();
 		if (!string.IsNullOrEmpty(arg2))
 		{
-			Vector2 vector3 = ImGui.CalcTextSize(arg2);
+			Vector2 vector3 = TraditionalText.CalcTextSize(arg2);
 			ImGui.SetCursorPosX(ImGui.GetCursorPosX() + Math.Max(0f, (contentRegionAvail.X - vector3.X) * 0.5f));
 			ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextDisabled);
-			ImGui.TextUnformatted(arg2);
+			TraditionalText.TextUnformatted(arg2);
 			ImGui.PopStyleColor();
 		}
 		ImGui.Dummy(new Vector2(1f, 16f * uiScale));
 	}
 
-	public static void ShowLoading(string arg0 = "加载中…")
+	public static void ShowLoading(string arg0 = "載入中…")
 	{
 		float uiScale = Theme.UiScale;
 		Vector2 contentRegionAvail = ImGui.GetContentRegionAvail();
@@ -67,10 +67,10 @@ public static class UiEmpty
 			float num8 = num4 + (float)i * (num + num2);
 			windowDrawList.AddCircleFilled(new Vector2(num8 + num * 0.5f, y), num * 0.5f, Theme.U32(Theme.WithAlpha(Theme.TextDisabled, arg1)));
 		}
-		Vector2 vector = ImGui.CalcTextSize(arg0);
+		Vector2 vector = TraditionalText.CalcTextSize(arg0);
 		ImGui.SetCursorPosX(ImGui.GetCursorPosX() + Math.Max(0f, (contentRegionAvail.X - vector.X) * 0.5f));
 		ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextDisabled);
-		ImGui.TextUnformatted(arg0);
+		TraditionalText.TextUnformatted(arg0);
 		ImGui.PopStyleColor();
 	}
 }

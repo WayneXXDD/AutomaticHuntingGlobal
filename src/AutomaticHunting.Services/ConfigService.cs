@@ -37,7 +37,7 @@ public sealed class ConfigService
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 保存配置失败");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：儲存設定失敗");
 		}
 	}
 

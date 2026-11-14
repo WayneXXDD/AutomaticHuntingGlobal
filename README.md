@@ -1,23 +1,24 @@
-# AutomaticHunting Global
+# 自動狩獵跟車（國際服）
 
-由 SFY 的 AutomaticHunting 2.4.5.0 DLL 還原並移植至國際服。原作者署名保留，還原來源與步驟記錄在 [analysis](analysis/)。
+由 SFY 的 AutomaticHunting 2.4.5.0 DLL 還原並移植。原作者署名與來源記錄保留於 [NOTICE.md](NOTICE.md) 和 [analysis](analysis/)。
 
 ## 安裝
 
-在 Dalamud 加入你的插件庫：
+在 Dalamud 加入插件庫：
 
 `https://raw.githubusercontent.com/WayneXXDD/DalamudPlugins/main/pluginmaster.json`
 
-此版本先以測試版提供，需開啟 Dalamud 的測試版插件選項。它已針對 Global Dalamud API 15 編譯；尚未完成遊戲內驗證。
+開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **自動狩獵跟車（國際服）**。目前版本為 **2.4.5.2**，使用國際服 Dalamud API 15；仍需遊戲內實測。
 
-需要 **vnavmesh** 尋路；跨服／切線需要 **Lifestream**。使用 `/auht` 開啟 HUD，`/auht setup` 設定車頭與功能，`/auht stop` 停止導航。
+需要 **vnavmesh** 導航，以及 **Lifestream** 跨服與切換分流。使用 `/auht` 顯示狀態浮窗，`/auht setup` 開啟設定精靈，`/auht stop` 停止導航。
 
-## Global 改動
+## 繁體中文顯示
 
-- 伺服器、資料中心、地圖、水晶與 A／S 怪清單改從遊戲資料讀取，使用客戶端語言。
-- 切線與跨服改用 Lifestream IPC，移除對中國服 DailyRoutines 指令的依賴。
-- 保留原版設定介面、跟車、連車、S 怪懸停等流程；原版停用的跨服車頭功能維持停用。
-- 預設突進指令依客戶端語言產生，一般技能距離限制仍適用。
-- 戰鬥由玩家或其他插件處理；BMR AI 是原版可選整合。
+- 設定介面、提示、狀態與內嵌說明統一為繁體中文。
+- 地圖、怪物與坐騎清單加入繁體中文譯文；顯示翻譯不會改動遊戲辨識、傳送目的地或儲存的原始名稱。
+- 人物、伺服器、資料中心及相依插件的名稱保留原名，方便與遊戲和安裝清單對照。指令保持可直接執行的格式。
+- 隨插件附上 Noto 繁體中文字型，並在編譯時檢查內建文字的字元涵蓋情況。
 
-程式位於 [src](src/)。GitHub Actions 自動測試、編譯並產生可下載 ZIP，沒有在你的電腦建立專案副本。來源與署名請見 [NOTICE.md](NOTICE.md)。
+遊戲內容譯文根據 [中文遊戲資料](https://github.com/thewakingsands/ffxiv-datamining-cn) 轉為繁體中文，可能與其他繁體中文版本的官方譯名不同。
+
+程式位於 [src](src/)，編譯與發布由 GitHub Actions 處理。原版已停用的跨服車頭功能維持停用；戰鬥輸出由玩家或其他插件負責。

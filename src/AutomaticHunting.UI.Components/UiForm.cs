@@ -74,7 +74,7 @@ public static class UiForm
 		{
 			if (!string.IsNullOrEmpty(text))
 			{
-				num = Math.Max(num, ImGui.CalcTextSize(text).X);
+				num = Math.Max(num, TraditionalText.CalcTextSize(text).X);
 			}
 		}
 		return num / Math.Max(0.01f, uiScale) + 10f;
@@ -117,11 +117,11 @@ public static class UiForm
 			ImGui.TableNextColumn();
 			ImGui.AlignTextToFramePadding();
 			ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextSecondary);
-			ImGui.TextUnformatted(arg0);
+			TraditionalText.TextUnformatted(arg0);
 			ImGui.PopStyleColor();
 			if (arg1 != null && ImGui.IsItemHovered())
 			{
-				ImGui.SetTooltip(arg1);
+				TraditionalText.SetTooltip(arg1);
 			}
 			ImGui.TableNextColumn();
 		}
@@ -218,7 +218,7 @@ public static class UiForm
 		UiIcons.DrawReset(ImGui.GetWindowDrawList(), arg3: flag ? Theme.U32(Theme.BrandGold) : Theme.U32(Theme.TextDisabled), arg1: (itemRectMin + itemRectMax) * 0.5f, arg2: size.X * 0.28f);
 		if (flag)
 		{
-			ImGui.SetTooltip(string.IsNullOrWhiteSpace(arg1) ? "恢复默认值" : ("恢复默认值（" + arg1 + "）"));
+			TraditionalText.SetTooltip(string.IsNullOrWhiteSpace(arg1) ? "恢復預設值" : ("恢復預設值（" + arg1 + "）"));
 		}
 		return result;
 	}

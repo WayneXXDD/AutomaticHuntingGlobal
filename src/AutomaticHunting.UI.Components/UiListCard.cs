@@ -25,5 +25,5 @@ public sealed class UiListCard
 
 	public Action<int>? OnDelete;
 
-	public string DeleteTooltip = "删除此配置";
+	public string DeleteTooltip = "刪除此設定";
 }

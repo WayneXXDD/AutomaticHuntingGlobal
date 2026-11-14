@@ -11,15 +11,15 @@ public static class TravelSavePolicy
 	{
 		if (!arg0)
 		{
-			return "请先选择服务器";
+			return "請先選擇伺服器";
 		}
 		if (!arg1)
 		{
-			return "请先选择地图";
+			return "請先選擇地圖";
 		}
 		if (!arg2)
 		{
-			return "请先选择水晶";
+			return "請先選擇水晶";
 		}
 		return null;
 	}

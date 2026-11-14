@@ -22,7 +22,7 @@ public static class UiTable
 		ImGui.PopStyleVar(2);
 		if (ImGui.IsItemHovered())
 		{
-			ImGui.SetTooltip(arg1);
+			TraditionalText.SetTooltip(arg1);
 		}
 	}
 
@@ -68,12 +68,12 @@ public static class UiTable
 		uint col3 = Theme.U32(Theme.TextSecondary);
 		uint col4 = Theme.U32(Theme.TextSecondary);
 		windowDrawList.PushClipRect(itemRectMin + Vector2.One, itemRectMax - Vector2.One, intersectWithCurrentClipRect: true);
-		Vector2 vector = ImGui.CalcTextSize(arg0.ServerName);
-		float x = ImGui.CalcTextSize("服务器名称").X;
-		windowDrawList.AddText(new Vector2(num + (x - vector.X) * 0.5f, y), col, arg0.ServerName);
+		Vector2 vector = TraditionalText.CalcTextSize(arg0.ServerName);
+		float x = TraditionalText.CalcTextSize("伺服器名稱").X;
+		TraditionalText.AddText(windowDrawList,new Vector2(num + (x - vector.X) * 0.5f, y), col, arg0.ServerName);
 		num += x + 7f * uiScale;
 		string text = $"{arg0.ExVersion + 2}.0";
-		Vector2 vector2 = ImGui.CalcTextSize(text);
+		Vector2 vector2 = TraditionalText.CalcTextSize(text);
 		float num2 = fontSize + 2f * uiScale;
 		float x2 = vector2.X + 8f * uiScale;
 		Vector2 vector3 = new Vector2(num, itemRectMin.Y + (itemRectMax.Y - itemRectMin.Y - num2) * 0.5f);
@@ -81,13 +81,13 @@ public static class UiTable
 		windowDrawList.AddRectFilled(vector3, pMax, Theme.U32(Theme.SurfaceTableHeader), 3f * uiScale);
 		windowDrawList.AddRect(vector3, pMax, Theme.U32(Theme.BorderCard), 3f * uiScale, 1f);
 		float y2 = vector3.Y + (num2 - vector2.Y) * 0.5f;
-		windowDrawList.AddText(new Vector2(vector3.X + 4f * uiScale, y2), Theme.U32(Theme.TextSecondary), text);
+		TraditionalText.AddText(windowDrawList,new Vector2(vector3.X + 4f * uiScale, y2), Theme.U32(Theme.TextSecondary), text);
 		num = pMax.X + 7f * uiScale;
-		windowDrawList.AddText(new Vector2(num, y), col2, arg0.MapName);
-		num += ImGui.CalcTextSize(arg0.MapName).X + 6f * uiScale;
-		windowDrawList.AddText(new Vector2(num, y), col3, "·");
-		num += ImGui.CalcTextSize("·").X + 6f * uiScale;
-		windowDrawList.AddText(new Vector2(num, y), col4, arg0.AetheryteName);
+		TraditionalText.AddText(windowDrawList,new Vector2(num, y), col2, arg0.MapName);
+		num += TraditionalText.CalcTextSize(arg0.MapName).X + 6f * uiScale;
+		TraditionalText.AddText(windowDrawList,new Vector2(num, y), col3, "·");
+		num += TraditionalText.CalcTextSize("·").X + 6f * uiScale;
+		TraditionalText.AddText(windowDrawList,new Vector2(num, y), col4, arg0.AetheryteName);
 		windowDrawList.PopClipRect();
 	}
 

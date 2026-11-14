@@ -5,7 +5,7 @@ namespace AutomaticHunting.UI.Components;
 
 public sealed class HudCardModel
 {
-	public string StatusText = "运行中";
+	public string StatusText = "執行中";
 
 	public string StatusGlyph = "●";
 
@@ -13,13 +13,13 @@ public sealed class HudCardModel
 
 	public string? ZoneName;
 
-	public string TargetLabel = "等待目标";
+	public string TargetLabel = "等待目標";
 
 	public Vector4 TargetColor = Theme.TextSecondary;
 
 	public string? TargetDistance;
 
-	public string LeaderText = "未设置";
+	public string LeaderText = "未設定";
 
 	public Vector4 LeaderColor = Theme.TextDisabled;
 
@@ -55,7 +55,7 @@ public sealed class HudCardModel
 
 	public Action? OnChainStop;
 
-	public string MainButtonLabel = "开始导航";
+	public string MainButtonLabel = "開始導航";
 
 	public UiVariant MainButtonVariant = UiVariant.Primary;
 
@@ -63,7 +63,7 @@ public sealed class HudCardModel
 
 	public bool MainButtonIsStop;
 
-	public string MainButtonTooltip = "开始跟车导航";
+	public string MainButtonTooltip = "開始跟車導航";
 
 	public Action? OnMain;
 
@@ -77,5 +77,5 @@ public sealed class HudCardModel
 
 	public Action? OnToggleEnabled;
 
-	public string ToggleEnabledTooltip = "右键：关闭自动狩猎";
+	public string ToggleEnabledTooltip = "右鍵：關閉自動狩獵";
 }

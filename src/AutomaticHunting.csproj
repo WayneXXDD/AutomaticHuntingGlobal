@@ -16,6 +16,8 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="AutomaticHunting.Help.help.json" />
+    <None Remove="TraditionalNames.zh-TW.json" />
+    <EmbeddedResource Include="TraditionalNames.zh-TW.json" LogicalName="AutomaticHunting.TraditionalNames.zh-TW.json" />
     <EmbeddedResource Include="AutomaticHunting.Help.help.json" LogicalName="AutomaticHunting.Help.help.json" />
     <PackageReference Include="ECommons" Version="3.2.1.22" />
     <Reference Include="Dalamud"><HintPath>$(DalamudLibPath)Dalamud.dll</HintPath><Private>false</Private></Reference>

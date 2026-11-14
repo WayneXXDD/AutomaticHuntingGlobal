@@ -40,7 +40,7 @@ public sealed class UiTabs
 		for (int i = 0; i < field_1176.Length; i++)
 		{
 			string text = field_1176[i];
-			Vector2 vector = ImGui.CalcTextSize(text);
+			Vector2 vector = TraditionalText.CalcTextSize(text);
 			float num3 = vector.X + 28f * uiScale;
 			bool flag = i == num;
 			if (flag)

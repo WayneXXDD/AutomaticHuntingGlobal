@@ -54,7 +54,7 @@ public static class UiBadge
 		float y = ImGui.GetStyle().FramePadding.Y;
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		string text = arg0 + " " + arg1;
-		Vector2 vector = ImGui.CalcTextSize(text);
+		Vector2 vector = TraditionalText.CalcTextSize(text);
 		Theme.DrawText(windowDrawList, ImGui.GetCursorScreenPos() + new Vector2(0f, y), arg2, text, 0f, Theme.HudTextShadow);
 		ImGui.Dummy(new Vector2(vector.X, ImGui.GetTextLineHeight()));
 	}
@@ -113,7 +113,7 @@ public static class UiBadge
 	private static float Method_1041(string arg0)
 	{
 		float uiScale = Theme.UiScale;
-		return 14f * uiScale + ImGui.CalcTextSize(arg0).X;
+		return 14f * uiScale + TraditionalText.CalcTextSize(arg0).X;
 	}
 
 	private static void Method_1042(ImDrawListPtr arg0, Vector2 arg1, string arg2, Vector4 arg3, Vector4 arg4, float arg5)

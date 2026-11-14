@@ -34,13 +34,30 @@ Copy-Item -LiteralPath README.md -Destination (Join-Path $package 'README.md')
 Copy-Item -LiteralPath NOTICE.md -Destination (Join-Path $package 'NOTICE.md')
 Copy-Item -LiteralPath third-party/ECommons.LICENSE.md -Destination (Join-Path $package 'ECommons.LICENSE.md')
 Invoke-WebRequest -Uri $manifest.IconUrl -OutFile (Join-Path $package 'icon.png')
+$fontDirectory = Join-Path $package 'fonts'
+[void](New-Item -ItemType Directory -Path $fontDirectory)
+$fontPath = Join-Path $fontDirectory 'NotoSansCJKtc-Regular.otf'
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/notofonts/noto-cjk/f8d157532fbfaeda587e826d4cd5b21a49186f7c/Sans/OTF/TraditionalChinese/NotoSansCJKtc-Regular.otf' -OutFile $fontPath
+$fontBytes = [IO.File]::ReadAllBytes($fontPath)
+if ($fontBytes.Length -ne 16435884) { throw 'Unexpected Traditional Chinese font size.' }
+$gitHash = [Security.Cryptography.IncrementalHash]::CreateHash([Security.Cryptography.HashAlgorithmName]::SHA1)
+try {
+    $gitHash.AppendData([Text.Encoding]::ASCII.GetBytes("blob $($fontBytes.Length)" + [char]0))
+    $gitHash.AppendData($fontBytes)
+    $fontBlob = [Convert]::ToHexString($gitHash.GetHashAndReset()).ToLowerInvariant()
+} finally { $gitHash.Dispose() }
+if ($fontBlob -cne 'f9376bae1d421520f73a3c6c9d50b22f89548301') { throw 'Traditional Chinese font differs from the pinned source.' }
+Copy-Item -LiteralPath third-party/NotoSansCJK.LICENSE -Destination (Join-Path $package 'NotoSansCJK.LICENSE')
+python .github/scripts/Validate-ZhTW.py $fontPath
+if ($LASTEXITCODE -ne 0) { throw 'Traditional Chinese text or font coverage validation failed.' }
 $distribution = Join-Path $env:GITHUB_WORKSPACE 'dist'
 [void](New-Item -ItemType Directory -Path $distribution -Force)
 $archive = Join-Path $distribution 'AutomaticHunting.zip'
 $zip = [IO.Compression.ZipFile]::Open($archive, [IO.Compression.ZipArchiveMode]::Create)
 try {
-    foreach ($file in Get-ChildItem -LiteralPath $package -File | Sort-Object Name) {
-        $entry = $zip.CreateEntry($file.Name, [IO.Compression.CompressionLevel]::Optimal)
+    foreach ($file in Get-ChildItem -LiteralPath $package -File -Recurse | Sort-Object FullName) {
+        $entryName = [IO.Path]::GetRelativePath($package, $file.FullName).Replace([char]92, [char]47)
+        $entry = $zip.CreateEntry($entryName, [IO.Compression.CompressionLevel]::Optimal)
         $entry.LastWriteTime = [DateTimeOffset]::new(2000,1,1,0,0,0,[TimeSpan]::Zero)
         $inputStream = [IO.File]::OpenRead($file.FullName)
         $outputStream = $entry.Open()
@@ -50,12 +67,12 @@ try {
 $verified = [IO.Compression.ZipFile]::OpenRead($archive)
 try {
     $names = @($verified.Entries.FullName)
-    foreach ($required in @('AutomaticHunting.dll','ECommons.dll','AutomaticHunting.json','NOTICE.md')) {
+    foreach ($required in @('AutomaticHunting.dll','ECommons.dll','AutomaticHunting.json','NOTICE.md','fonts/NotoSansCJKtc-Regular.otf','NotoSansCJK.LICENSE')) {
         if (@($names | Where-Object { $_ -ceq $required }).Count -ne 1) { throw "Missing or duplicate package entry $required" }
     }
     if (@($names | Where-Object { $_ -match '(^|/)(Dalamud|FFXIVClientStructs|Lumina|InteropGenerator)\.' }).Count) { throw 'Package contains Global host libraries.' }
 } finally { $verified.Dispose() }
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='23 command and matching assertions'; gameTested=$false} |
+[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='34 compatibility and Traditional Chinese display assertions'; gameTested=$false} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $distribution 'build-info.json') -Encoding utf8
 Write-Output "Verified Global package $version; SHA256 $hash"

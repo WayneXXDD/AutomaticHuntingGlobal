@@ -15,7 +15,7 @@ public static class UiCombo
 		ImGui.PushStyleColor(ImGuiCol.FrameBgActive, Theme.InputBgActive);
 		ImGui.PushStyleColor(ImGuiCol.Border, Theme.BorderControl);
 		ImGui.PushStyleColor(ImGuiCol.TextSelectedBg, Theme.StateSelected);
-		if (!ImGui.BeginCombo(arg0, arg1))
+		if (!TraditionalText.BeginCombo(arg0, arg1))
 		{
 			ImGui.PopStyleColor(6);
 			return false;
@@ -24,7 +24,7 @@ public static class UiCombo
 		foreach (string item in arg2)
 		{
 			bool flag = item == arg1;
-			if (ImGui.Selectable(item, flag))
+			if (TraditionalText.Selectable(item, flag))
 			{
 				arg3 = item;
 				result = true;

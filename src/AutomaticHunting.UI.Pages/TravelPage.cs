@@ -185,14 +185,14 @@ public sealed class TravelPage : SettingsPage
 	{
 		List<WorldTravelData.DcEntry> dcs = WorldTravelData.GetDcs();
 		string field_901 = WorldTravelData.GetCurrentDcName();
-		UiSection.Header("一键跨服", string.IsNullOrEmpty(field_901) ? "读取大区中..." : field_901);
+		UiSection.Header("一鍵跨服", string.IsNullOrEmpty(field_901) ? "讀取資料中心中..." : field_901);
 		List<string> list = dcs.FirstOrDefault((WorldTravelData.DcEntry dcEntry) => dcEntry.Name == field_901)?.Servers ?? new List<string>();
 		UiForm.Begin("##travelDest");
-		UiForm.Row("服务器");
+		UiForm.Row("伺服器");
 		string arg;
 		if (list.Count == 0)
 		{
-			ImGui.TextColored(Theme.Bad, "当前大区无可跨服服务器");
+			TraditionalText.TextColored(Theme.Bad, "目前資料中心無可跨服伺服器");
 		}
 		else if (UiCombo.Draw("##WTServer", Config.ManualServerName, list, out arg))
 		{
@@ -211,10 +211,10 @@ public sealed class TravelPage : SettingsPage
 		}
 		List<WorldTravelData.MapEntry> maps = WorldTravelData.GetMaps(Config.ManualExVersion);
 		WorldTravelData.MapEntry mapEntry = maps.FirstOrDefault((WorldTravelData.MapEntry mapEntry2) => mapEntry2.RowId == Config.ManualMapRowId);
-		UiForm.Row("地图");
+		UiForm.Row("地圖");
 		if (maps.Count == 0)
 		{
-			ImGui.TextDisabled("该版本无可传送地图");
+			ImGui.TextDisabled("該版本無可傳送地圖");
 		}
 		else
 		{
@@ -232,11 +232,11 @@ public sealed class TravelPage : SettingsPage
 		UiForm.Row("水晶");
 		if (mapEntry.Territory == 0)
 		{
-			ImGui.TextDisabled("先选择地图");
+			ImGui.TextDisabled("先選擇地圖");
 		}
 		else if (list3.Count == 0)
 		{
-			ImGui.TextDisabled("该地图无可传送水晶");
+			ImGui.TextDisabled("該地圖無可傳送水晶");
 		}
 		else
 		{
@@ -257,9 +257,9 @@ public sealed class TravelPage : SettingsPage
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		float x = ImGui.GetContentRegionAvail().X;
 		Vector2 vector = new Vector2(x, Theme.ControlHeight);
-		bool flag2 = UiButton.Draw("一键跨服", UiVariant.Accent, vector, "左键：执行当前选择的跨服与水晶传送。\n右键：保存当前选择（快捷操作）。");
+		bool flag2 = UiButton.Draw("一鍵跨服", UiVariant.Accent, vector, "左鍵：執行目前選擇的跨服與水晶傳送。\n右鍵：儲存目前選擇（快捷操作）。");
 		bool flag3 = ImGui.GetIO().MouseClicked[1] && ImGui.IsMouseHoveringRect(cursorScreenPos, cursorScreenPos + vector, clip: true);
-		bool flag4 = UiButton.Draw(arg3: flag ? "把当前的服务器 / 地图 / 水晶保存到下方列表" : (TravelSavePolicy.DisabledReason(arg7, arg8, arg9) ?? "请先完成选择"), arg0: "保存当前选择", arg1: UiVariant.Neutral, arg2: new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), arg4: flag);
+		bool flag4 = UiButton.Draw(arg3: flag ? "把目前的伺服器 / 地圖 / 水晶儲存到下方列表" : (TravelSavePolicy.DisabledReason(arg7, arg8, arg9) ?? "請先完成選擇"), arg0: "儲存目前選擇", arg1: UiVariant.Neutral, arg2: new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), arg4: flag);
 		if (flag2)
 		{
 			Method_955(list, mapEntry, list3);
@@ -283,7 +283,7 @@ public sealed class TravelPage : SettingsPage
 	{
 		if (!Method_953(arg0, arg1, arg2))
 		{
-			Plugin.PrintEcho("一键跨服: 请先选择服务器/地图/水晶");
+			Plugin.PrintEcho("一鍵跨服: 請先選擇伺服器/地圖/水晶");
 			return;
 		}
 		(uint, Vector3, string) tuple = arg2.FirstOrDefault(((uint Id, Vector3 Position, string Name) tuple2) => tuple2.Id == Config.ManualAetheryteId);
@@ -298,19 +298,19 @@ public sealed class TravelPage : SettingsPage
 		};
 		if (Config.SavedWorldTravels.Any((WorldTravelPreset arg3) => Method_958(arg3, field_904)))
 		{
-			AutomaticHunting.PrintEchoAlways("该一键跨服配置已保存，请勿重复保存");
+			AutomaticHunting.PrintEchoAlways("該一鍵跨服設定已儲存，請勿重複儲存");
 			return;
 		}
 		Config.SavedWorldTravels.Add(field_904);
 		Save();
-		Plugin.PrintEcho("已保存一键跨服配置");
+		Plugin.PrintEcho("已儲存一鍵跨服設定");
 	}
 
 	private void Method_955(List<string> arg0, WorldTravelData.MapEntry arg1, List<(uint Id, Vector3 Position, string Name)> arg2)
 	{
 		if (!Method_953(arg0, arg1, arg2))
 		{
-			Plugin.PrintEcho("一键跨服: 请先选择服务器/地图/水晶");
+			Plugin.PrintEcho("一鍵跨服: 請先選擇伺服器/地圖/水晶");
 			return;
 		}
 		(uint, Vector3, string) tuple = arg2.FirstOrDefault(((uint Id, Vector3 Position, string Name) tuple2) => tuple2.Id == Config.ManualAetheryteId);
@@ -319,7 +319,7 @@ public sealed class TravelPage : SettingsPage
 
 	private void Method_956()
 	{
-		UiSection.Header("已保存配置");
+		UiSection.Header("已儲存設定");
 		List<WorldTravelPreset> field_910 = Config.SavedWorldTravels;
 		string field_911 = WorldTravelData.GetCurrentDcName();
 		List<(int Index, WorldTravelPreset Preset)> field_912 = new List<(int, WorldTravelPreset)>();
@@ -332,7 +332,7 @@ public sealed class TravelPage : SettingsPage
 		}
 		if (field_912.Count == 0)
 		{
-			UiEmpty.Show("还没有保存的一键跨服配置", "选好服务器 / 地图 / 水晶后，点击上方「保存当前选择」即可保存到这里（右键「一键跨服」为快捷操作）");
+			UiEmpty.Show("還沒有儲存的一鍵跨服設定", "選好伺服器 / 地圖 / 水晶後，點擊上方「儲存目前選擇」即可儲存到這裡（右鍵「一鍵跨服」為快捷操作）");
 			return;
 		}
 		List<string> field_913 = WorldTravelData.GetDcs().FirstOrDefault((WorldTravelData.DcEntry arg0) => arg0.Name == field_911)?.Servers ?? new List<string>();
@@ -351,7 +351,7 @@ public sealed class TravelPage : SettingsPage
 				Title = field_915.MapName + " · " + field_915.AetheryteName,
 				Tooltip = tooltip,
 				Draggable = true,
-				DeleteTooltip = "删除此一键跨服配置",
+				DeleteTooltip = "刪除此一鍵跨服設定",
 				OnDelete = (int arg0) =>
 				{
 					field_914 = field_912[arg0].Index;
@@ -374,9 +374,9 @@ public sealed class TravelPage : SettingsPage
 			});
 			uiListCard.Actions.Add(new UiListCardAction
 			{
-				Label = "一键就位",
+				Label = "一鍵就位",
 				Variant = UiVariant.Success,
-				Tooltip = "切换到该服务器并传送到记录的水晶",
+				Tooltip = "切換到該伺服器並傳送到記錄的水晶",
 				OnClick = (int arg0) =>
 				{
 					Method_957(field_915, field_913);
@@ -397,7 +397,7 @@ public sealed class TravelPage : SettingsPage
 		{
 			field_910.RemoveAt(field_914);
 			Save();
-			Plugin.PrintEcho("已删除一键跨服配置");
+			Plugin.PrintEcho("已刪除一鍵跨服設定");
 		}
 	}
 
@@ -407,7 +407,7 @@ public sealed class TravelPage : SettingsPage
 		(uint, Vector3, string) tuple = WorldTravelData.GetAetherytes(arg2).FirstOrDefault(((uint Id, Vector3 Position, string Name) tuple2) => tuple2.Id == arg0.AetheryteId);
 		if (!arg1.Contains(arg0.ServerName) || arg2.Territory == 0 || tuple.Item1 == 0)
 		{
-			Plugin.PrintEcho("保存的跨服配置在当前大区不可用或目标已失效，请重新选择后点击「保存当前选择」");
+			Plugin.PrintEcho("儲存的跨服設定在目前資料中心不可用或目標已失效，請重新選擇後點擊「儲存目前選擇」");
 		}
 		else
 		{
@@ -430,9 +430,9 @@ public sealed class TravelPage : SettingsPage
 		Config.ManualAetheryteId = 0u;
 		var (field_899, field_900) = arg0 switch
 		{
-			5 => ("奥阔帕恰山", "瓦丘恩佩洛"), 
-			4 => ("萨维奈岛", "新港"), 
-			3 => ("雷克兰德", "乔布要塞"), 
+			5 => ("奧闊帕恰山", "瓦丘恩佩洛"), 
+			4 => ("薩維奈島", "新港"), 
+			3 => ("雷克蘭德", "喬布要塞"), 
 			_ => (null, null), 
 		};
 		if (field_899 == null || field_900 == null)

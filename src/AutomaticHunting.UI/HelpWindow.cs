@@ -19,7 +19,7 @@ public sealed class HelpWindow : Window
 	private int field_678;
 
 	public HelpWindow(AutomaticHunting arg0)
-		: base("使用说明###AutomaticHunting.Help")
+		: base("使用說明###AutomaticHunting.Help")
 	{
 		field_675 = arg0;
 		RespectCloseHotkey = false;
@@ -48,7 +48,7 @@ public sealed class HelpWindow : Window
 
 	public override void Draw()
 	{
-		ErrorBoundary.Run(field_675, "使用说明窗口", Method_707);
+		ErrorBoundary.Run(field_675, "使用說明視窗", Method_707);
 	}
 
 	private void Method_707()
@@ -59,7 +59,7 @@ public sealed class HelpWindow : Window
 		IReadOnlyList<HelpGroup> groups = HelpDocument.Groups;
 		if (groups.Count == 0)
 		{
-			UiEmpty.Show("帮助内容不可用", "内嵌帮助资源缺失，请重新安装插件");
+			UiEmpty.Show("幫助內容不可用", "內嵌幫助資源缺失，請重新安裝插件");
 			return;
 		}
 		field_677 = Math.Clamp(field_677, 0, groups.Count - 1);
@@ -83,7 +83,7 @@ public sealed class HelpWindow : Window
 		float num2 = 18f * uiScale;
 		float num3 = cursorScreenPos.Y + (num - num2) * 0.5f;
 		windowDrawList.AddRectFilled(new Vector2(cursorScreenPos.X, num3), new Vector2(cursorScreenPos.X + 3f * uiScale, num3 + num2), Theme.U32(Theme.BrandGold), 1.5f * uiScale);
-		Theme.DrawText(windowDrawList, new Vector2(cursorScreenPos.X + 12f * uiScale, cursorScreenPos.Y + (num - Theme.FsTitle) * 0.5f), Theme.TextPrimary, "使用说明", Theme.FsTitle);
+		Theme.DrawText(windowDrawList, new Vector2(cursorScreenPos.X + 12f * uiScale, cursorScreenPos.Y + (num - Theme.FsTitle) * 0.5f), Theme.TextPrimary, "使用說明", Theme.FsTitle);
 		float num4 = 20f * uiScale;
 		Vector2 vector = new Vector2(Theme.ContentRightX() - num4, cursorScreenPos.Y + (num - num4) * 0.5f);
 		ImGui.SetCursorScreenPos(vector);
@@ -114,7 +114,7 @@ public sealed class HelpWindow : Window
 			Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 			float x = ImGui.GetContentRegionAvail().X;
 			float num = 28f * uiScale;
-			Vector2 vector = ImGui.CalcTextSize(helpGroup.Title);
+			Vector2 vector = TraditionalText.CalcTextSize(helpGroup.Title);
 			bool flag2 = ImGui.IsMouseHoveringRect(cursorScreenPos, cursorScreenPos + new Vector2(x, num));
 			if (flag)
 			{
@@ -157,7 +157,7 @@ public sealed class HelpWindow : Window
 		field_678 = 0;
 		float x = ImGui.GetContentRegionAvail().X;
 		float num = Math.Max(40f, x - 12f * uiScale);
-		float y = ImGui.CalcTextSize("Ag中").Y;
+		float y = TraditionalText.CalcTextSize("Ag中").Y;
 		float num2 = y + 1f * uiScale;
 		List<string> list = Theme.WrapText(arg0.Title, num, Theme.FsSubtitle);
 		for (int i = 0; i < list.Count; i++)
@@ -206,18 +206,18 @@ public sealed class HelpWindow : Window
 	{
 		if (!UiHelpLink.IsAllowedUrl(arg0))
 		{
-			field_675.PrintEcho("该链接协议不受支持，已忽略");
+			field_675.PrintEcho("該連結協議不受支持，已忽略");
 			return;
 		}
 		try
 		{
 			Util.OpenLink(arg0);
-			field_675.PrintEcho("已在浏览器中打开链接");
+			field_675.PrintEcho("已在瀏覽器中開啟連結");
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 打开链接失败: " + arg0);
-			field_675.PrintEcho("打开链接失败，请手动复制网址到浏览器");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：開啟連結失敗: " + arg0);
+			field_675.PrintEcho("開啟連結失敗，請手動複製網址到瀏覽器");
 		}
 	}
 }

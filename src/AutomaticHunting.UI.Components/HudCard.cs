@@ -74,9 +74,9 @@ public static class HudCard
 	{
 		if (!arg0)
 		{
-			return "打开插件设置 · 右键关闭悬浮窗";
+			return "開啟插件設定 · 右鍵關閉狀態浮窗";
 		}
-		return "关闭插件设置 · 右键关闭悬浮窗";
+		return "關閉插件設定 · 右鍵關閉狀態浮窗";
 	}
 
 	public static bool ToggleSettingsOpen(bool arg0)
@@ -200,13 +200,13 @@ public static class HudCard
 			string? text3;
 			if (flag2)
 			{
-				text3 = arg0.ToggleEnabledTooltip + " · 拖动可移动 HUD";
+				text3 = arg0.ToggleEnabledTooltip + " · 拖動可移動 狀態浮窗";
 			}
 			else
 			{
-				text3 = (arg0.Locked ? "位置已锁定 · 在「概览」页解锁" : "拖动顶部状态行可移动 HUD");
+				text3 = (arg0.Locked ? "位置已鎖定 · 在「概覽」頁解鎖" : "拖動頂部狀態行可移動 狀態浮窗");
 			}
-			ImGui.SetTooltip(text3);
+			TraditionalText.SetTooltip(text3);
 		}
 		ImGui.SetCursorScreenPos(cursorScreenPos + new Vector2(0f, num));
 	}
@@ -216,11 +216,11 @@ public static class HudCard
 		float uiScale = Theme.UiScale;
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
-		string text = "尚未完成首次设置";
-		string text2 = "需要先确认前置插件与免责声明，";
-		string arg1 = "并设置车头";
-		Vector2 vector = ImGui.CalcTextSize(text);
-		Vector2 vector2 = ImGui.CalcTextSize(text2);
+		string text = "尚未完成首次設定";
+		string text2 = "需要先確認前置插件與免責宣告，";
+		string arg1 = "並設定車頭";
+		Vector2 vector = TraditionalText.CalcTextSize(text);
+		Vector2 vector2 = TraditionalText.CalcTextSize(text2);
 		float y = vector.Y + vector2.Y * 2f + 16f * uiScale;
 		Vector2 arg2 = cursorScreenPos;
 		Vector2 vector3 = cursorScreenPos + new Vector2(arg0, y);
@@ -254,7 +254,7 @@ public static class HudCard
 		ImGui.TableNextColumn();
 		Vector2 cursorScreenPos2 = ImGui.GetCursorScreenPos();
 		float x = ImGui.GetContentRegionAvail().X;
-		Method_997(windowDrawList, "目标", num3);
+		Method_997(windowDrawList, "目標", num3);
 		ImGui.TableNextColumn();
 		Vector2 cursorScreenPos3 = ImGui.GetCursorScreenPos();
 		float x2 = ImGui.GetContentRegionAvail().X;
@@ -264,7 +264,7 @@ public static class HudCard
 		ImGui.TableNextColumn();
 		cursorScreenPos2 = ImGui.GetCursorScreenPos();
 		x = ImGui.GetContentRegionAvail().X;
-		Method_997(windowDrawList, "车头", num3);
+		Method_997(windowDrawList, "車頭", num3);
 		ImGui.TableNextColumn();
 		cursorScreenPos3 = ImGui.GetCursorScreenPos();
 		x2 = ImGui.GetContentRegionAvail().X;
@@ -291,7 +291,7 @@ public static class HudCard
 	private static float Method_996()
 	{
 		float num = ((Theme.FsBody > 0f) ? (Theme.FsCaption / Theme.FsBody) : 1f);
-		return Math.Max(Math.Max(ImGui.CalcTextSize("目标").X * num, ImGui.CalcTextSize("车头").X * num), ImGui.CalcTextSize("S怪").X * num);
+		return Math.Max(Math.Max(TraditionalText.CalcTextSize("目標").X * num, TraditionalText.CalcTextSize("車頭").X * num), TraditionalText.CalcTextSize("S怪").X * num);
 	}
 
 	private static void Method_997(ImDrawListPtr arg0, string arg1, float arg2)
@@ -312,14 +312,14 @@ public static class HudCard
 		ImGui.Dummy(new Vector2(1f, arg4));
 		float num = cursorScreenPos.X + x - 8f * uiScale;
 		float num2 = ((Theme.FsBody > 0f) ? (Theme.FsCaption / Theme.FsBody) : 1f);
-		float num3 = (string.IsNullOrEmpty(arg3) ? 0f : (ImGui.CalcTextSize(arg3).X * num2 + 8f * uiScale));
+		float num3 = (string.IsNullOrEmpty(arg3) ? 0f : (TraditionalText.CalcTextSize(arg3).X * num2 + 8f * uiScale));
 		float arg5 = Math.Max(10f, num - cursorScreenPos.X - num3);
 		string arg6 = Theme.Ellipsis(arg1, arg5);
 		float y = cursorScreenPos.Y + (arg4 - Theme.FsBody) * 0.5f;
 		Theme.DrawText(arg0, new Vector2(cursorScreenPos.X, y), arg2, arg6, Theme.FsBody, Theme.HudTextShadow);
 		if (!string.IsNullOrEmpty(arg3))
 		{
-			float num4 = ImGui.CalcTextSize(arg3).X * num2;
+			float num4 = TraditionalText.CalcTextSize(arg3).X * num2;
 			Theme.DrawText(arg0, new Vector2(num - num4, cursorScreenPos.Y + (arg4 - Theme.FsCaption) * 0.5f), Theme.HudSecondaryText, arg3, Theme.FsCaption, Theme.HudTextShadow);
 		}
 	}
@@ -333,7 +333,7 @@ public static class HudCard
 		float num = cursorScreenPos.X + x - 8f * uiScale;
 		float num2 = ((Theme.FsBody > 0f) ? (Theme.FsCaption / Theme.FsBody) : 1f);
 		string text = $"{arg1.SMobHpPercent:0.0}%";
-		float num3 = ImGui.CalcTextSize(text).X * num2;
+		float num3 = TraditionalText.CalcTextSize(text).X * num2;
 		float arg3 = Math.Max(10f, num - cursorScreenPos.X - num3 - 8f * uiScale);
 		string arg4 = Theme.Ellipsis(arg1.SMobName, arg3);
 		float num4 = 4f * uiScale;
@@ -388,7 +388,7 @@ public static class HudCard
 			float fontSize = ImGui.GetFontSize();
 			float num = ((fontSize > 0f) ? (arg6 / fontSize) : 1f);
 			string text = Theme.Ellipsis(arg4, Math.Max(8f, (arg3 - arg7) / num));
-			Vector2 vector = ImGui.CalcTextSize(text);
+			Vector2 vector = TraditionalText.CalcTextSize(text);
 			float num2 = vector.X * num;
 			float num3 = vector.Y * num;
 			float num4 = 4f * uiScale;
@@ -412,11 +412,11 @@ public static class HudCard
 		field_972.ShowDecrease = arg0.ChainCanAdjust;
 		field_972.IncreaseEnabled = arg0.ChainCanAdjust;
 		field_972.DecreaseEnabled = arg0.ChainCanDecrease;
-		field_972.IncreaseTooltip = "当前站已击杀数量 +1；达标后自动进入下一站";
-		field_972.DecreaseTooltip = "当前站已击杀数量 -1，最低为 0";
+		field_972.IncreaseTooltip = "目前站已擊殺數量 +1；達標後自動進入下一站";
+		field_972.DecreaseTooltip = "目前站已擊殺數量 -1，最低為 0";
 		field_972.OnAdjust = arg0.OnChainAdjust;
 		field_972.TrailingLabel = "停止";
-		field_972.TrailingTooltip = "停止当前连车";
+		field_972.TrailingTooltip = "停止目前連車";
 		field_972.TrailingEnabled = true;
 		field_972.OnTrailing = arg0.OnChainStop;
 		field_972.TrailingButtonProbe = ChainStopButtonProbe;

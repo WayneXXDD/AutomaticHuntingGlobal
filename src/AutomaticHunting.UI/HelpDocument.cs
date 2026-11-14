@@ -37,7 +37,7 @@ public static class HelpDocument
 			using Stream stream = typeof(HelpDocument).Assembly.GetManifestResourceStream("AutomaticHunting.Help.help.json");
 			if (stream == null)
 			{
-				AutomaticHunting.Log.Warning("AutomaticHunting: 找不到内嵌帮助资源 AutomaticHunting.Help.help.json");
+				AutomaticHunting.Log.Warning("自動狩獵跟車：找不到內嵌幫助資源 AutomaticHunting.Help.help.json");
 				return list;
 			}
 			using JsonDocument jsonDocument = JsonDocument.Parse(stream);
@@ -94,7 +94,7 @@ public static class HelpDocument
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 内嵌帮助解析失败");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：內嵌幫助解析失敗");
 		}
 		return list;
 	}

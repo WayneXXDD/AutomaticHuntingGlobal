@@ -23,38 +23,38 @@ public static class Diagnostics
 	{
 		PluginConfiguration config = arg0.Config;
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.AppendLine("=== 自动狩猎跟车 · 诊断信息 ===");
-		stringBuilder.Append("生成时间: ").AppendLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
+		stringBuilder.AppendLine("=== 自動狩獵跟車 · 診斷資訊 ===");
+		stringBuilder.Append("產生時間: ").AppendLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture));
 		stringBuilder.Append("插件版本: ").AppendLine(typeof(Diagnostics).Assembly.GetName().Version?.ToString() ?? "未知");
 		var (value, value2, _) = UiState.RunStatus(arg0);
-		stringBuilder.Append("运行状态: ").Append(value2).Append(' ')
+		stringBuilder.Append("執行狀態: ").Append(value2).Append(' ')
 			.AppendLine(value);
-		stringBuilder.Append("总开关 Enabled: ").AppendLine(config.Enabled ? "开" : "关（受限模式）");
-		stringBuilder.Append("免责声明: ").AppendLine(config.DisclaimerAccepted ? "已同意" : "未同意");
-		stringBuilder.Append("向导完成: ").AppendLine(config.OnboardingCompleted ? "是" : "否");
+		stringBuilder.Append("總開關 Enabled: ").AppendLine(config.Enabled ? "開" : "關（受限模式）");
+		stringBuilder.Append("免責宣告: ").AppendLine(config.DisclaimerAccepted ? "已同意" : "未同意");
+		stringBuilder.Append("設定精靈完成: ").AppendLine(config.OnboardingCompleted ? "是" : "否");
 		stringBuilder.AppendLine();
 		stringBuilder.AppendLine("--- 前置插件 ---");
-		stringBuilder.Append("Lifestream: ").AppendLine(AutomaticHunting.IsPluginLoaded("Lifestream") ? "已加载" : "未加载");
-		stringBuilder.Append("vnavmesh: ").AppendLine(AutomaticHunting.IsPluginLoaded("vnavmesh") ? "已加载" : "未加载");
-		stringBuilder.Append("BossModReborn: ").AppendLine(arg0.IsBmrLoaded() ? "已加载" : "未加载");
+		stringBuilder.Append("Lifestream: ").AppendLine(AutomaticHunting.IsPluginLoaded("Lifestream") ? "已載入" : "未載入");
+		stringBuilder.Append("vnavmesh: ").AppendLine(AutomaticHunting.IsPluginLoaded("vnavmesh") ? "已載入" : "未載入");
+		stringBuilder.Append("BossModReborn: ").AppendLine(arg0.IsBmrLoaded() ? "已載入" : "未載入");
 		stringBuilder.AppendLine();
-		stringBuilder.AppendLine("--- 当前状态 ---");
-		stringBuilder.Append("区域: ").AppendLine(AutomaticHunting.GetCurrentTerritoryName());
-		stringBuilder.Append("车头: ").AppendLine(string.IsNullOrWhiteSpace(config.LeaderName) ? "未设置" : config.LeaderName);
+		stringBuilder.AppendLine("--- 目前狀態 ---");
+		stringBuilder.Append("區域: ").AppendLine(AutomaticHunting.GetCurrentTerritoryName());
+		stringBuilder.Append("車頭: ").AppendLine(string.IsNullOrWhiteSpace(config.LeaderName) ? "未設定" : config.LeaderName);
 		float? leaderDistance = arg0.GetLeaderDistance();
-		stringBuilder.Append("车头距离: ").AppendLine(leaderDistance.HasValue ? $"{leaderDistance.Value:0.0}m" : "未知");
+		stringBuilder.Append("車頭距離: ").AppendLine(leaderDistance.HasValue ? $"{leaderDistance.Value:0.0}m" : "未知");
 		var (value3, _, num) = arg0.GetTargetInfo();
-		stringBuilder.Append("目标: ").Append(value3);
+		stringBuilder.Append("目標: ").Append(value3);
 		stringBuilder.Append(num.HasValue ? $"  ({num.Value:0.0}m)" : string.Empty).AppendLine();
-		stringBuilder.Append("导航中: ").AppendLine(arg0.IsNavigating ? "是" : "否");
-		stringBuilder.Append("导航阶段: ").AppendLine(arg0.GetNavigationStageText());
-		stringBuilder.Append("跨服进行中: ").AppendLine(arg0.CrossWorldInProgress ? "是" : "否");
+		stringBuilder.Append("導航中: ").AppendLine(arg0.IsNavigating ? "是" : "否");
+		stringBuilder.Append("導航階段: ").AppendLine(arg0.GetNavigationStageText());
+		stringBuilder.Append("跨服進行中: ").AppendLine(arg0.CrossWorldInProgress ? "是" : "否");
 		AutomaticHunting.SMonitorStatus sMonitor = arg0.SMonitor;
 		StringBuilder stringBuilder2;
 		StringBuilder.AppendInterpolatedStringHandler handler;
 		if (sMonitor != null)
 		{
-			stringBuilder2 = stringBuilder.Append("S怪监控: ");
+			stringBuilder2 = stringBuilder.Append("S怪監控: ");
 			StringBuilder stringBuilder3 = stringBuilder2;
 			handler = new StringBuilder.AppendInterpolatedStringHandler(7, 3, stringBuilder2);
 			handler.AppendFormatted(sMonitor.MobName);
@@ -66,12 +66,12 @@ public static class Diagnostics
 			stringBuilder3.AppendLine(ref handler);
 		}
 		stringBuilder.AppendLine();
-		stringBuilder.AppendLine("--- 界面 ---");
-		stringBuilder.Append("HUD 可见: ").AppendLine(config.HudVisible ? "是" : "否");
-		stringBuilder.Append("HUD 透明度: ").AppendLine(config.HudAlpha.ToString("0.00", CultureInfo.InvariantCulture));
-		stringBuilder.Append("HUD 紧凑: ").AppendLine(config.HudCompact ? "是" : "否");
-		stringBuilder.Append("HUD 锁定: ").AppendLine(config.HudLocked ? "是" : "否");
-		stringBuilder2 = stringBuilder.Append("HUD 位置: ");
+		stringBuilder.AppendLine("--- 介面 ---");
+		stringBuilder.Append("狀態浮窗 可見: ").AppendLine(config.HudVisible ? "是" : "否");
+		stringBuilder.Append("狀態浮窗 透明度: ").AppendLine(config.HudAlpha.ToString("0.00", CultureInfo.InvariantCulture));
+		stringBuilder.Append("狀態浮窗 精簡: ").AppendLine(config.HudCompact ? "是" : "否");
+		stringBuilder.Append("狀態浮窗 鎖定: ").AppendLine(config.HudLocked ? "是" : "否");
+		stringBuilder2 = stringBuilder.Append("狀態浮窗 位置: ");
 		StringBuilder stringBuilder4 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(2, 2, stringBuilder2);
 		handler.AppendFormatted(config.HudPosX, "0");
@@ -80,51 +80,51 @@ public static class Diagnostics
 		stringBuilder4.AppendLine(ref handler);
 		try
 		{
-			stringBuilder.Append("UI 缩放: ").AppendLine(Theme.Scale.ToString("0.00", CultureInfo.InvariantCulture));
+			stringBuilder.Append("介面 縮放: ").AppendLine(Theme.Scale.ToString("0.00", CultureInfo.InvariantCulture));
 		}
 		catch (Exception ex)
 		{
-			stringBuilder.Append("UI 缩放: 读取失败 ").AppendLine(ex.Message);
+			stringBuilder.Append("介面 縮放: 讀取失敗 ").AppendLine(ex.Message);
 		}
 		stringBuilder.AppendLine();
-		stringBuilder.AppendLine("--- 关键配置 ---");
-		stringBuilder2 = stringBuilder.Append("传送阈值: ");
+		stringBuilder.AppendLine("--- 關鍵設定 ---");
+		stringBuilder2 = stringBuilder.Append("傳送門檻: ");
 		StringBuilder stringBuilder5 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(1, 1, stringBuilder2);
 		handler.AppendFormatted(config.TeleportThreshold, "0");
 		handler.AppendLiteral("m");
 		stringBuilder5.AppendLine(ref handler);
-		stringBuilder.Append("飞行导航: ").AppendLine(config.UseFlightNavigation ? "开" : "关");
-		stringBuilder.Append("设置 Flag: ").AppendLine(config.SetFlagOnNavigation ? "开" : "关");
-		stringBuilder.Append("落地模式: ").AppendLine(config.LandingMode ? "开" : "关");
-		stringBuilder.Append("S怪监控: ").AppendLine(config.SEnabled ? "开" : "关");
-		stringBuilder2 = stringBuilder.Append("S怪血量阈值: ");
+		stringBuilder.Append("飛行導航: ").AppendLine(config.UseFlightNavigation ? "開" : "關");
+		stringBuilder.Append("設定 地圖標記: ").AppendLine(config.SetFlagOnNavigation ? "開" : "關");
+		stringBuilder.Append("落地模式: ").AppendLine(config.LandingMode ? "開" : "關");
+		stringBuilder.Append("S怪監控: ").AppendLine(config.SEnabled ? "開" : "關");
+		stringBuilder2 = stringBuilder.Append("S怪血量門檻: ");
 		StringBuilder stringBuilder6 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(1, 1, stringBuilder2);
 		handler.AppendFormatted(config.SHpThreshold, "0");
 		handler.AppendLiteral("%");
 		stringBuilder6.AppendLine(ref handler);
-		stringBuilder.Append("跨服车头: ").AppendLine(string.IsNullOrWhiteSpace(config.CrossWorldLeader) ? "（空）" : config.CrossWorldLeader);
-		stringBuilder2 = stringBuilder.Append("已存跨服配置: ");
+		stringBuilder.Append("跨服車頭: ").AppendLine(string.IsNullOrWhiteSpace(config.CrossWorldLeader) ? "（空）" : config.CrossWorldLeader);
+		stringBuilder2 = stringBuilder.Append("已存跨服設定: ");
 		StringBuilder stringBuilder7 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(2, 1, stringBuilder2);
 		handler.AppendFormatted(config.SavedWorldTravels.Count);
-		handler.AppendLiteral(" 条");
+		handler.AppendLiteral(" 條");
 		stringBuilder7.AppendLine(ref handler);
-		stringBuilder2 = stringBuilder.Append("已存连车配置: ");
+		stringBuilder2 = stringBuilder.Append("已存連車設定: ");
 		StringBuilder stringBuilder8 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(2, 1, stringBuilder2);
 		handler.AppendFormatted(config.SavedHuntChains.Count);
-		handler.AppendLiteral(" 条");
+		handler.AppendLiteral(" 條");
 		stringBuilder8.AppendLine(ref handler);
-		stringBuilder2 = stringBuilder.Append("多线地图: ");
+		stringBuilder2 = stringBuilder.Append("多線地圖: ");
 		StringBuilder stringBuilder9 = stringBuilder2;
 		handler = new StringBuilder.AppendInterpolatedStringHandler(2, 1, stringBuilder2);
 		handler.AppendFormatted(config.MultiLineMaps.Count);
-		handler.AppendLiteral(" 条");
+		handler.AppendLiteral(" 條");
 		stringBuilder9.AppendLine(ref handler);
-		stringBuilder.Append("右键菜单: ").AppendLine(config.EnableContextMenu ? "开" : "关");
-		return stringBuilder.ToString();
+		stringBuilder.Append("右鍵選單: ").AppendLine(config.EnableContextMenu ? "開" : "關");
+		return TraditionalText.Translate(stringBuilder.ToString());
 	}
 
 	public static bool CopyReport(AutomaticHunting arg0)
@@ -136,7 +136,7 @@ public static class Diagnostics
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 复制诊断信息失败");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：複製診斷資訊失敗");
 			return false;
 		}
 	}
@@ -155,7 +155,7 @@ public static class Diagnostics
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 导出配置失败");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：匯出設定失敗");
 			return string.Empty;
 		}
 	}
@@ -178,7 +178,7 @@ public static class Diagnostics
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Error(exception, "AutomaticHunting: 导出日志失败");
+			AutomaticHunting.Log.Error(exception, "自動狩獵跟車：匯出日誌失敗");
 			return string.Empty;
 		}
 	}

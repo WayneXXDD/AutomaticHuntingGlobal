@@ -22,14 +22,14 @@ public static class ErrorBoundary
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (arg0 == 0)
 			{
-				if (UiButton.Draw("复制详情", UiVariant.Neutral, value, "复制异常类型与调用栈，便于反馈"))
+				if (UiButton.Draw("複製詳情", UiVariant.Neutral, value, "複製異常型別與呼叫棧，便於回報"))
 				{
 					ImGui.SetClipboardText(Method_693(field_662, field_663));
 				}
 			}
-			else if (UiButton.Draw("关闭插件", UiVariant.DangerSolid, value, "反复出错时可用 /auht off 关闭"))
+			else if (UiButton.Draw("關閉插件", UiVariant.DangerSolid, value, "反覆出錯時可用 /auht off 關閉"))
 			{
-				AutomaticHunting.Log.Error(field_663, "AutomaticHunting: 界面异常导致插件自动停用");
+				AutomaticHunting.Log.Error(field_663, "自動狩獵跟車：介面異常導致插件自動停用");
 				field_664.Config.Enabled = false;
 				field_664.ConfigService.Save();
 			}
@@ -44,7 +44,7 @@ public static class ErrorBoundary
 		}
 		catch (Exception ex)
 		{
-			AutomaticHunting.Log.Error(ex, "AutomaticHunting: " + arg1 + " 绘制异常");
+			AutomaticHunting.Log.Error(ex, "自動狩獵跟車：" + arg1 + " 繪製異常");
 			Method_692(arg0, arg1, ex);
 		}
 	}
@@ -58,8 +58,8 @@ public static class ErrorBoundary
 		float rounding = 6f * uiScale;
 		windowDrawList.AddRectFilled(cursorScreenPos, cursorScreenPos + contentRegionAvail, Theme.U32(Theme.WithAlpha(Theme.StatusDanger, 0.1f)), rounding);
 		windowDrawList.AddRect(cursorScreenPos, cursorScreenPos + contentRegionAvail, Theme.U32(Theme.WithAlpha(Theme.StatusDanger, 0.55f)), rounding);
-		string text = "「" + arg1 + "」绘制出错";
-		Vector2 vector = ImGui.CalcTextSize(text);
+		string text = "「" + arg1 + "」繪製出錯";
+		Vector2 vector = TraditionalText.CalcTextSize(text);
 		float num = 12f * uiScale;
 		Vector2 vector2 = new Vector2(cursorScreenPos.X + contentRegionAvail.X - 12f * uiScale - num, cursorScreenPos.Y + 12f * uiScale);
 		ImGui.SetCursorScreenPos(vector2);
@@ -68,7 +68,7 @@ public static class ErrorBoundary
 		UiIcons.DrawCross(windowDrawList, vector2 + new Vector2(num * 0.5f, num * 0.5f), num * 0.8f, Theme.U32(flag2 ? Theme.TextPrimary : Theme.TextDisabled));
 		if (flag2)
 		{
-			ImGui.SetTooltip("复制完整堆栈");
+			TraditionalText.SetTooltip("複製完整堆疊");
 		}
 		if (flag)
 		{
@@ -77,7 +77,7 @@ public static class ErrorBoundary
 		Theme.DrawText(windowDrawList, new Vector2(cursorScreenPos.X + 12f * uiScale, cursorScreenPos.Y + 12f * uiScale), Theme.StatusDanger, text, Theme.FsBody);
 		ImGui.SetCursorScreenPos(new Vector2(cursorScreenPos.X + 12f * uiScale, cursorScreenPos.Y + 12f * uiScale + vector.Y + 4f * uiScale));
 		ImGui.PushStyleColor(ImGuiCol.Text, Theme.TextSecondary);
-		ImGui.TextWrapped(arg2.Message);
+		TraditionalText.TextWrapped("發生介面錯誤。請複製詳細資料並回報問題，或暫時關閉插件。");
 		ImGui.PopStyleColor();
 		ImGui.SetCursorScreenPos(new Vector2(cursorScreenPos.X + 12f * uiScale, cursorScreenPos.Y + contentRegionAvail.Y - 12f * uiScale - Theme.ControlHeight));
 		UiLayout.EqualColumns("##errActions", 2, 8f, (int num2) =>
@@ -85,14 +85,14 @@ public static class ErrorBoundary
 			Vector2 value = new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight);
 			if (num2 == 0)
 			{
-				if (UiButton.Draw("复制详情", UiVariant.Neutral, value, "复制异常类型与调用栈，便于反馈"))
+				if (UiButton.Draw("複製詳情", UiVariant.Neutral, value, "複製異常型別與呼叫棧，便於回報"))
 				{
 					ImGui.SetClipboardText(Method_693(arg1, arg2));
 				}
 			}
-			else if (UiButton.Draw("关闭插件", UiVariant.DangerSolid, value, "反复出错时可用 /auht off 关闭"))
+			else if (UiButton.Draw("關閉插件", UiVariant.DangerSolid, value, "反覆出錯時可用 /auht off 關閉"))
 			{
-				AutomaticHunting.Log.Error(arg2, "AutomaticHunting: 界面异常导致插件自动停用");
+				AutomaticHunting.Log.Error(arg2, "自動狩獵跟車：介面異常導致插件自動停用");
 				arg0.Config.Enabled = false;
 				arg0.ConfigService.Save();
 			}

@@ -33,7 +33,7 @@ public sealed class SettingsWindow : Window
 		internal void Method_773()
 		{
 			field_708.field_699.StopNavigation();
-			field_708.field_699.PrintEcho("导航已停止");
+			field_708.field_699.PrintEcho("導航已停止");
 		}
 
 		internal void Method_774()
@@ -42,7 +42,7 @@ public sealed class SettingsWindow : Window
 		}
 	}
 
-	private static readonly string[] field_696 = new string[5] { "概览", "跟车", "跨服", "连车", "高级" };
+	private static readonly string[] field_696 = new string[5] { "概覽", "跟車", "跨服", "連車", "高級" };
 
 	private const float field_697 = 64f;
 
@@ -65,7 +65,7 @@ public sealed class SettingsWindow : Window
 	private Theme.ThemeScope? field_706;
 
 	public SettingsWindow(AutomaticHunting arg0)
-		: base("自动狩猎跟车###AutomaticHunting.Settings")
+		: base("自動狩獵跟車###AutomaticHunting.Settings")
 	{
 		field_699 = arg0;
 		RespectCloseHotkey = false;
@@ -105,7 +105,7 @@ public sealed class SettingsWindow : Window
 
 	public override void Draw()
 	{
-		ErrorBoundary.Run(field_699, "设置窗口", Method_759);
+		ErrorBoundary.Run(field_699, "設定視窗", Method_759);
 	}
 
 	private void Method_759()
@@ -211,8 +211,8 @@ public sealed class SettingsWindow : Window
 			else
 			{
 				bool isOpen = field_699.HudWindow.IsOpen;
-				string arg5 = (isOpen ? "隐藏常驻悬浮窗（当前：显示）" : "显示常驻悬浮窗（当前：隐藏）");
-				if (UiButton.Draw("HUD", UiVariant.Neutral, value, arg5))
+				string arg5 = (isOpen ? "隱藏常駐狀態浮窗（目前：顯示）" : "顯示常駐狀態浮窗（目前：隱藏）");
+				if (UiButton.Draw("狀態浮窗", UiVariant.Neutral, value, arg5))
 				{
 					field_699.HudWindow.IsOpen = !isOpen;
 					field_699.Config.HudVisible = field_699.HudWindow.IsOpen;
@@ -228,7 +228,7 @@ public sealed class SettingsWindow : Window
 		PluginConfiguration field_707 = field_699.Config;
 		if (!field_707.OnboardingCompleted)
 		{
-			return (Label: "开始配置", Variant: UiVariant.Primary, Tooltip: "打开首次运行向导", Enabled: true, Action: () =>
+			return (Label: "開始設定", Variant: UiVariant.Primary, Tooltip: "開啟首次執行設定精靈", Enabled: true, Action: () =>
 			{
 				field_707.SettingsTab = 0;
 				field_699.ConfigService.MarkDirty();
@@ -237,7 +237,7 @@ public sealed class SettingsWindow : Window
 		}
 		if (field_699.CrossWorldInProgress)
 		{
-			return (Label: "停止跨服", Variant: UiVariant.Danger, Tooltip: "中止跨服流程并恢复普通车头识别", Enabled: true, Action: () =>
+			return (Label: "停止跨服", Variant: UiVariant.Danger, Tooltip: "中止跨服流程並恢復普通車頭識別", Enabled: true, Action: () =>
 			{
 				field_699.StopCrossWorld();
 				field_699.PrintEcho("跨服已停止");
@@ -245,13 +245,13 @@ public sealed class SettingsWindow : Window
 		}
 		if (field_699.IsNavigating)
 		{
-			return (Label: "停止导航", Variant: UiVariant.Danger, Tooltip: "停止导航 · 结束当前跟车任务并清除当前流程", Enabled: true, Action: () =>
+			return (Label: "停止導航", Variant: UiVariant.Danger, Tooltip: "停止導航 · 結束目前跟車任務並清除目前流程", Enabled: true, Action: () =>
 			{
 				field_699.StopNavigation();
-				field_699.PrintEcho("导航已停止");
+				field_699.PrintEcho("導航已停止");
 			});
 		}
-		return (Label: "开始导航", Variant: UiVariant.Primary, Tooltip: "检测地图上已标好的 Flag，有则当作车头发送的 Flag 处理并导航；无则提示", Enabled: field_707.AutomationEnabled, Action: () =>
+		return (Label: "開始導航", Variant: UiVariant.Primary, Tooltip: "檢測地圖上已標好的 地圖標記，有則當作車頭髮送的 地圖標記 處理並導航；無則提示", Enabled: field_707.AutomationEnabled, Action: () =>
 		{
 			field_699.StartNavigation();
 		});
@@ -323,8 +323,8 @@ public sealed class SettingsWindow : Window
 		else
 		{
 			bool isOpen = field_699.HudWindow.IsOpen;
-			string arg5 = (isOpen ? "隐藏常驻悬浮窗（当前：显示）" : "显示常驻悬浮窗（当前：隐藏）");
-			if (UiButton.Draw("HUD", UiVariant.Neutral, value, arg5))
+			string arg5 = (isOpen ? "隱藏常駐狀態浮窗（目前：顯示）" : "顯示常駐狀態浮窗（目前：隱藏）");
+			if (UiButton.Draw("狀態浮窗", UiVariant.Neutral, value, arg5))
 			{
 				field_699.HudWindow.IsOpen = !isOpen;
 				field_699.Config.HudVisible = field_699.HudWindow.IsOpen;

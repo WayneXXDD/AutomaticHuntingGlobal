@@ -1,4 +1,4 @@
-name: Build and publish Global plugin
+name: 編譯並發布國際服插件
 on:
   workflow_dispatch:
   push:
@@ -11,6 +11,8 @@ on:
       - '.github/scripts/Publish-Global.ps1'
       - '.github/workflows/build.yml'
       - 'NOTICE.md'
+      - 'third-party/**'
+      - '.github/scripts/Validate-ZhTW.py'
 permissions:
   contents: read
 concurrency:
@@ -27,6 +29,14 @@ jobs:
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install pinned font validator
+        shell: pwsh
+        run: |
+          python -m pip install fonttools==4.68.0
+          if ($LASTEXITCODE -ne 0) { throw '字型檢查工具安裝失敗。' }
       - name: Validate build scripts
         shell: pwsh
         run: |

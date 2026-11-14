@@ -10,7 +10,7 @@ public static class UiState
 		PluginConfiguration config = arg0.Config;
 		if (!config.OnboardingCompleted)
 		{
-			return (Text: "待配置", Glyph: "◇", Color: Theme.StatusWarning);
+			return (Text: "待設定", Glyph: "◇", Color: Theme.StatusWarning);
 		}
 		if (!config.DisclaimerAccepted)
 		{
@@ -18,25 +18,25 @@ public static class UiState
 		}
 		if (!config.AutomationEnabled)
 		{
-			return (Text: "已禁用", Glyph: "□", Color: Theme.StatusIdle);
+			return (Text: "已停用", Glyph: "□", Color: Theme.StatusIdle);
 		}
 		if (!AutomaticHunting.IsPluginLoaded("Lifestream") || !AutomaticHunting.IsPluginLoaded("vnavmesh"))
 		{
-			return (Text: "前置缺失", Glyph: "✕", Color: Theme.StatusDanger);
+			return (Text: "前置缺失", Glyph: "x", Color: Theme.StatusDanger);
 		}
 		if (AutomaticHunting.Condition[ConditionFlag.InCombat])
 		{
-			return (Text: "战斗中", Glyph: "◆", Color: Theme.StatusDanger);
+			return (Text: "戰鬥中", Glyph: "◆", Color: Theme.StatusDanger);
 		}
 		if (arg0.IsNavigating)
 		{
-			return (Text: "导航中", Glyph: "▶", Color: Theme.StatusInfo);
+			return (Text: "導航中", Glyph: "▶", Color: Theme.StatusInfo);
 		}
 		if (string.IsNullOrWhiteSpace(config.LeaderName))
 		{
-			return (Text: "待设置车头", Glyph: "▸", Color: Theme.StatusIdle);
+			return (Text: "待設定車頭", Glyph: "▸", Color: Theme.StatusIdle);
 		}
-		return (Text: "运行中", Glyph: "●", Color: Theme.StatusSuccess);
+		return (Text: "執行中", Glyph: "●", Color: Theme.StatusSuccess);
 	}
 
 	public static string SanitizeGlyphs(string? arg0)
@@ -69,7 +69,7 @@ public static class UiState
 		{
 			return Theme.BrandGold;
 		}
-		if (arg0.Contains("Flag"))
+		if (arg0.Contains("地圖標記"))
 		{
 			return Theme.StatusInfo;
 		}
@@ -82,7 +82,7 @@ public static class UiState
 		{
 			return Theme.StatusIdle;
 		}
-		if (arg0.Phase.Contains("开怪"))
+		if (arg0.Phase.Contains("開怪"))
 		{
 			return Theme.StatusDanger;
 		}
@@ -99,7 +99,7 @@ public static class UiState
 		{
 			return "□";
 		}
-		if (arg0.Phase.Contains("开怪"))
+		if (arg0.Phase.Contains("開怪"))
 		{
 			return "■";
 		}
@@ -114,12 +114,12 @@ public static class UiState
 	{
 		if (arg1)
 		{
-			return (Text: "已加载", Glyph: "✓", Color: Theme.StatusSuccess);
+			return (Text: "已載入", Glyph: "+", Color: Theme.StatusSuccess);
 		}
 		if (arg2)
 		{
-			return (Text: "未加载", Glyph: "✕", Color: Theme.StatusDanger);
+			return (Text: "未載入", Glyph: "x", Color: Theme.StatusDanger);
 		}
-		return (Text: "未安装（选装）", Glyph: "□", Color: Theme.StatusIdle);
+		return (Text: "未安裝（選裝）", Glyph: "□", Color: Theme.StatusIdle);
 	}
 }

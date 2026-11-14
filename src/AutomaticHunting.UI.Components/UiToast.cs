@@ -43,12 +43,12 @@ public static class UiToast
 
 	public static void Success(string arg0, Action? arg1 = null)
 	{
-		Push(arg0, Theme.StatusSuccess, "✓", arg1);
+		Push(arg0, Theme.StatusSuccess, "+", arg1);
 	}
 
 	public static void Failure(string arg0)
 	{
-		Push(arg0, Theme.StatusDanger, "✕");
+		Push(arg0, Theme.StatusDanger, "x");
 	}
 
 	public static void Info(string arg0)
@@ -80,20 +80,20 @@ public static class UiToast
 		for (int num3 = field_1186.Count - 1; num3 >= 0; num3--)
 		{
 			UiToastItem uiToastItem = field_1186[num3];
-			float num4 = ImGui.CalcTextSize(uiToastItem.Text).X + 40f * uiScale;
+			float num4 = TraditionalText.CalcTextSize(uiToastItem.Text).X + 40f * uiScale;
 			float num5 = 28f * uiScale;
 			num2 -= num5 + 4f * uiScale;
 			Vector2 pMin = new Vector2(num - num4, num2);
 			Vector2 pMax = new Vector2(num, num2 + num5);
 			windowDrawList.AddRectFilled(pMin, pMax, Theme.U32(Theme.SurfacePopup), 6f * uiScale);
 			windowDrawList.AddRect(pMin, pMax, Theme.U32(Theme.WithAlpha(uiToastItem.Color, 0.55f)), 6f * uiScale, 1f);
-			Vector2 vector = ImGui.CalcTextSize(uiToastItem.Glyph);
+			Vector2 vector = TraditionalText.CalcTextSize(uiToastItem.Glyph);
 			Theme.DrawText(windowDrawList, new Vector2(pMin.X + 10f * uiScale, pMin.Y + (num5 - vector.Y) * 0.5f), uiToastItem.Color, uiToastItem.Glyph);
 			Theme.DrawText(windowDrawList, new Vector2(pMin.X + 10f * uiScale + vector.X + 6f * uiScale, pMin.Y + (num5 - vector.Y) * 0.5f), Theme.TextPrimary, Theme.Ellipsis(uiToastItem.Text, num4 - 40f * uiScale - vector.X - 6f * uiScale));
 			if (uiToastItem.Undo != null)
 			{
 				ImGui.SetCursorScreenPos(new Vector2(pMax.X - 52f * uiScale, pMin.Y + 4f * uiScale));
-				if (UiButton.Draw("撤销", UiVariant.Link, new Vector2(44f * uiScale, num5 - 8f * uiScale)))
+				if (UiButton.Draw("撤銷", UiVariant.Link, new Vector2(44f * uiScale, num5 - 8f * uiScale)))
 				{
 					uiToastItem.Undo();
 					field_1186.Remove(uiToastItem);

@@ -86,11 +86,11 @@ public sealed class UiCollapsible
 		}
 		float num3 = num + num2 + 6f * uiScale;
 		Theme.DrawText(windowDrawList, new Vector2(num3, cursorScreenPos.Y), Theme.TextPrimary, Title, Theme.FsSubtitle);
-		ImGui.SetCursorScreenPos(new Vector2(num3 + ImGui.CalcTextSize(Title).X + 8f * uiScale, cursorScreenPos.Y));
+		ImGui.SetCursorScreenPos(new Vector2(num3 + TraditionalText.CalcTextSize(Title).X + 8f * uiScale, cursorScreenPos.Y));
 		ImGui.Dummy(new Vector2(1f, textLineHeight));
 		if (!string.IsNullOrEmpty(Summary))
 		{
-			Vector2 vector2 = ImGui.CalcTextSize(Summary);
+			Vector2 vector2 = TraditionalText.CalcTextSize(Summary);
 			float x = Theme.ContentRightX() - vector2.X;
 			Theme.DrawText(windowDrawList, new Vector2(x, cursorScreenPos.Y + (textLineHeight - vector2.Y) * 0.5f), Theme.TextSecondary, Summary, Theme.FsCaption);
 		}

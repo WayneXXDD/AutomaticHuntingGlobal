@@ -28,7 +28,7 @@ public sealed class ChainPage : SettingsPage
 
 		internal string Method_886(HuntChainStep arg0, int arg1)
 		{
-			return $"{arg1 + 1}. {SettingsPage.FormatPreset(arg0.Preset)}  击杀{arg0.KillTarget}";
+			return $"{arg1 + 1}. {SettingsPage.FormatPreset(arg0.Preset)}  擊殺{arg0.KillTarget}";
 		}
 	}
 
@@ -105,7 +105,7 @@ public sealed class ChainPage : SettingsPage
 			bool flag = ImGui.InputInt(arg0, ref data);
 			if (ImGui.IsItemHovered())
 			{
-				ImGui.SetTooltip("本站需要击杀的A怪数量（跨线、跨图累计）；设为 0 时直接跳过本站");
+				TraditionalText.SetTooltip("本站需要擊殺的A怪數量（跨線、跨圖累計）；設為 0 時直接跳過本站");
 			}
 			if (flag)
 			{
@@ -136,7 +136,7 @@ public sealed class ChainPage : SettingsPage
 
 		internal void Method_897(int arg0)
 		{
-			field_878.Plugin.StopHuntChain("连车: 已停止");
+			field_878.Plugin.StopHuntChain("連車: 已停止");
 		}
 
 		internal void Method_898(int arg0, int arg1)
@@ -192,7 +192,7 @@ public sealed class ChainPage : SettingsPage
 				{
 					ImGui.BeginDisabled();
 				}
-				if (UiButton.Draw("确定", UiVariant.Primary, value))
+				if (UiButton.Draw("確定", UiVariant.Primary, value))
 				{
 					if (field_885.field_859 >= 0 && field_885.field_859 < field_885.Config.SavedHuntChains.Count)
 					{
@@ -208,11 +208,11 @@ public sealed class ChainPage : SettingsPage
 							field_885.field_862 = field_884;
 						}
 						field_885.Save();
-						field_885.Plugin.PrintEcho("连车配置已重命名：" + name + " → " + field_884);
+						field_885.Plugin.PrintEcho("連車設定已重新命名：" + name + " → " + field_884);
 					}
 					else
 					{
-						field_885.Plugin.PrintEcho($"连车配置改名失败：目标下标 {field_885.field_859} 无效");
+						field_885.Plugin.PrintEcho($"連車設定改名失敗：目標下標 {field_885.field_859} 無效");
 					}
 					field_885.field_859 = -1;
 					ImGui.CloseCurrentPopup();
@@ -237,7 +237,7 @@ public sealed class ChainPage : SettingsPage
 
 		internal bool Method_906(HuntChainPreset arg0)
 		{
-			return arg0.Name == $"连车配置 {field_886}";
+			return arg0.Name == $"連車設定 {field_886}";
 		}
 	}
 
@@ -267,12 +267,12 @@ public sealed class ChainPage : SettingsPage
 			field_889.Save();
 			if (!arg0 & field_890)
 			{
-				field_889.Plugin.StopHuntChain("连车: 已关闭连车开关，连车停止");
+				field_889.Plugin.StopHuntChain("連車: 已關閉連車開關，連車停止");
 			}
 		}
 	}
 
-	private const string field_856 = "重命名连车配置##HuntChainRenamePopup";
+	private const string field_856 = "重新命名連車設定##HuntChainRenamePopup";
 
 	private readonly UiCardList field_857 = new UiCardList();
 
@@ -308,19 +308,19 @@ public sealed class ChainPage : SettingsPage
 		}
 		string field_891 = WorldTravelData.GetCurrentDcName();
 		List<WorldTravelPreset> list = Config.SavedWorldTravels.Where((WorldTravelPreset arg0) => string.IsNullOrEmpty(field_891) || WorldTravelData.GetDcOfServer(arg0.ServerName) == field_891).ToList();
-		UiSection.Header("连车配置", string.IsNullOrEmpty(field_891) ? "读取大区中..." : field_891);
-		UiForm.BeginMeasured("##chainOptions", "启用连车", "到站建招募");
-		UiForm.Row("启用连车", "关闭后无法开始连车；运行中关闭会立即停止");
+		UiSection.Header("連車設定", string.IsNullOrEmpty(field_891) ? "讀取資料中心中..." : field_891);
+		UiForm.BeginMeasured("##chainOptions", "啟用連車", "到站建招募");
+		UiForm.Row("啟用連車", "關閉後無法開始連車；執行中關閉會立即停止");
 		UiForm.ToggleWithState("##HuntChainEnabled", field_888.Enabled, (bool arg0) =>
 		{
 			field_888.Enabled = arg0;
 			Save();
 			if (!arg0 & field_890)
 			{
-				Plugin.StopHuntChain("连车: 已关闭连车开关，连车停止");
+				Plugin.StopHuntChain("連車: 已關閉連車開關，連車停止");
 			}
-		}, field_888.Enabled ? "已启用" : "已关闭");
-		UiForm.Row("到站建招募", "每站到达后等待 1 秒创建狩猎招募；描述取「高级」页的招募描述");
+		}, field_888.Enabled ? "已啟用" : "已關閉");
+		UiForm.Row("到站建招募", "每站到達後等待 1 秒建立狩獵招募；描述取「高級」頁的招募描述");
 		bool v = field_888.CreatePfAfterTravel;
 		if (ImGui.Checkbox("##HuntChainCreatePf", ref v))
 		{
@@ -330,11 +330,11 @@ public sealed class ChainPage : SettingsPage
 		UiForm.End();
 		if (!Config.AutomationEnabled)
 		{
-			ImGui.TextColored(Theme.Warn, "需先在「概览」开启「自动狩猎」才能开始连车");
+			TraditionalText.TextColored(Theme.Warn, "需先在「概覽」開啟「自動狩獵」才能開始連車");
 		}
 		if (list.Count == 0)
 		{
-			ImGui.TextColored(Theme.Warn, "请先在「跨服」页保存至少一个一键跨服配置");
+			TraditionalText.TextColored(Theme.Warn, "請先在「跨服」頁儲存至少一個一鍵跨服設定");
 		}
 		UiSection.Gap();
 		Method_877(steps, list, field_890);
@@ -345,10 +345,10 @@ public sealed class ChainPage : SettingsPage
 
 	private void Method_877(List<HuntChainStep> arg0, List<WorldTravelPreset> arg1, bool arg2)
 	{
-		UiSection.Header("连车步骤", (field_862.Length > 0) ? ("正在编辑：" + field_862) : null);
+		UiSection.Header("連車步驟", (field_862.Length > 0) ? ("正在編輯：" + field_862) : null);
 		if (arg0.Count == 0)
 		{
-			UiEmpty.Show("尚未添加连车步骤", (arg1.Count > 0) ? "点击下方「添加连车步骤」开始编排" : "需要先在「跨服」页保存一个配置");
+			UiEmpty.Show("尚未新增連車步驟", (arg1.Count > 0) ? "點擊下方「新增連車步驟」開始編排" : "需要先在「跨服」頁儲存一個設定");
 		}
 		else
 		{
@@ -361,9 +361,9 @@ public sealed class ChainPage : SettingsPage
 				UiListCard uiListCard = new UiListCard
 				{
 					Id = $"hc{i}",
-					Title = ((i == 0) ? "起始位置" : "一键跨服"),
-					Tooltip = "拖动左侧手柄可调整连车顺序",
-					DeleteTooltip = "删除这一站",
+					Title = ((i == 0) ? "起始位置" : "一鍵跨服"),
+					Tooltip = "拖動左側手柄可調整連車順序",
+					DeleteTooltip = "刪除這一站",
 					OnDelete = (int num2) =>
 					{
 						field_871 = num2;
@@ -392,7 +392,7 @@ public sealed class ChainPage : SettingsPage
 					bool flag = ImGui.InputInt(text2, ref data);
 					if (ImGui.IsItemHovered())
 					{
-						ImGui.SetTooltip("本站需要击杀的A怪数量（跨线、跨图累计）；设为 0 时直接跳过本站");
+						TraditionalText.SetTooltip("本站需要擊殺的A怪數量（跨線、跨圖累計）；設為 0 時直接跳過本站");
 					}
 					if (flag)
 					{
@@ -432,7 +432,7 @@ public sealed class ChainPage : SettingsPage
 			{
 				ImGui.BeginDisabled();
 			}
-			if (UiButton.Draw("添加连车步骤", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "新增一站，默认使用当前大区第一个已保存配置，默认击杀 12"))
+			if (UiButton.Draw("新增連車步驟", UiVariant.Neutral, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "新增一站，預設使用目前資料中心第一個已儲存設定，預設擊殺 12"))
 			{
 				arg0.Add(new HuntChainStep
 				{
@@ -462,14 +462,14 @@ public sealed class ChainPage : SettingsPage
 		ImGui.BeginDisabled();
 		goto IL_0308;
 		IL_0308:
-		if (UiButton.Draw((field_862.Length > 0) ? "更新连车配置" : "保存为连车配置", UiVariant.Primary, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "直接保存上方步骤（未修改过已保存配置时自动命名）"))
+		if (UiButton.Draw((field_862.Length > 0) ? "更新連車設定" : "儲存為連車設定", UiVariant.Primary, new Vector2(ImGui.GetContentRegionAvail().X, Theme.ControlHeight), "直接儲存上方步驟（未修改過已儲存設定時自動命名）"))
 		{
 			List<HuntChainStep> steps = arg0.Select(SettingsPage.CloneStep).ToList();
 			HuntChainPreset huntChainPreset = (string.IsNullOrEmpty(field_862) ? null : Config.SavedHuntChains.FirstOrDefault((HuntChainPreset huntChainPreset2) => huntChainPreset2.Name == field_862));
 			if (huntChainPreset != null)
 			{
 				huntChainPreset.Steps = steps;
-				Plugin.PrintEcho("已更新连车配置：" + huntChainPreset.Name);
+				Plugin.PrintEcho("已更新連車設定：" + huntChainPreset.Name);
 			}
 			else
 			{
@@ -479,7 +479,7 @@ public sealed class ChainPage : SettingsPage
 					Name = text,
 					Steps = steps
 				});
-				Plugin.PrintEcho("已保存连车配置：" + text);
+				Plugin.PrintEcho("已儲存連車設定：" + text);
 			}
 			arg0.Clear();
 			field_862 = string.Empty;
@@ -493,11 +493,11 @@ public sealed class ChainPage : SettingsPage
 
 	private void Method_878(List<WorldTravelPreset> arg0, bool arg1)
 	{
-		UiSection.Header("已保存连车配置");
+		UiSection.Header("已儲存連車設定");
 		List<HuntChainPreset> field_879 = Config.SavedHuntChains;
 		if (field_879.Count == 0)
 		{
-			UiEmpty.Show("还没有保存的连车配置", "编排好步骤后点上方「保存为连车配置」");
+			UiEmpty.Show("還沒有儲存的連車設定", "編排好步驟後點上方「儲存為連車設定」");
 			return;
 		}
 		int field_880 = -1;
@@ -506,14 +506,14 @@ public sealed class ChainPage : SettingsPage
 		for (int i = 0; i < field_879.Count; i++)
 		{
 			HuntChainPreset field_882 = field_879[i];
-			string text = string.Join("\n", field_882.Steps.Select((HuntChainStep huntChainStep, int num) => $"{num + 1}. {SettingsPage.FormatPreset(huntChainStep.Preset)}  击杀{huntChainStep.KillTarget}"));
+			string text = string.Join("\n", field_882.Steps.Select((HuntChainStep huntChainStep, int num) => $"{num + 1}. {SettingsPage.FormatPreset(huntChainStep.Preset)}  擊殺{huntChainStep.KillTarget}"));
 			UiListCard uiListCard = new UiListCard
 			{
 				Id = $"hcSaved{i}",
 				Title = $"{field_882.Name} · {field_882.Steps.Count} 站",
-				Tooltip = text + "\n\n左键：载入到上方编辑器",
+				Tooltip = text + "\n\n左鍵：載入到上方編輯器",
 				Selected = (arg1 && field_863 == field_882.Name),
-				DeleteTooltip = "删除此连车配置",
+				DeleteTooltip = "刪除此連車設定",
 				OnDelete = (int num) =>
 				{
 					field_880 = num;
@@ -521,9 +521,9 @@ public sealed class ChainPage : SettingsPage
 			};
 			uiListCard.Actions.Add(new UiListCardAction
 			{
-				Label = "载入",
+				Label = "載入",
 				Variant = UiVariant.Neutral,
-				Tooltip = "把此配置载入到上方编辑器",
+				Tooltip = "把此設定載入到上方編輯器",
 				OnClick = (int num) =>
 				{
 					Method_881(field_882);
@@ -531,9 +531,9 @@ public sealed class ChainPage : SettingsPage
 			});
 			uiListCard.Actions.Add(new UiListCardAction
 			{
-				Label = "开始",
+				Label = "開始",
 				Variant = UiVariant.Success,
-				Tooltip = "只开始此配置，不覆盖上方内容",
+				Tooltip = "只開始此設定，不覆蓋上方內容",
 				Enabled = enabled,
 				OnClick = (int num) =>
 				{
@@ -547,18 +547,18 @@ public sealed class ChainPage : SettingsPage
 			{
 				Label = "停止",
 				Variant = UiVariant.Danger,
-				Tooltip = "停止当前连车",
+				Tooltip = "停止目前連車",
 				Enabled = arg1,
 				OnClick = (int num) =>
 				{
-					Plugin.StopHuntChain("连车: 已停止");
+					Plugin.StopHuntChain("連車: 已停止");
 				}
 			});
 			uiListCard.Actions.Add(new UiListCardAction
 			{
 				Label = "改名",
 				Variant = UiVariant.Neutral,
-				Tooltip = "重命名此配置",
+				Tooltip = "重新命名此設定",
 				OnClick = (int num) =>
 				{
 					field_859 = num;
@@ -581,7 +581,7 @@ public sealed class ChainPage : SettingsPage
 			if (arg1 && field_863 == name)
 			{
 				field_863 = string.Empty;
-				Plugin.StopHuntChain("连车: 运行中的配置已被删除，连车停止");
+				Plugin.StopHuntChain("連車: 執行中的設定已被刪除，連車停止");
 			}
 			if (field_862 == name)
 			{
@@ -589,7 +589,7 @@ public sealed class ChainPage : SettingsPage
 			}
 			field_879.RemoveAt(field_880);
 			Save();
-			Plugin.PrintEcho("已删除连车配置");
+			Plugin.PrintEcho("已刪除連車設定");
 		}
 		Method_879();
 	}
@@ -603,8 +603,8 @@ public sealed class ChainPage : SettingsPage
 		field_858.ShowDecrease = canAdjustHuntChainKills;
 		field_858.IncreaseEnabled = canAdjustHuntChainKills;
 		field_858.DecreaseEnabled = canAdjustHuntChainKills && Plugin.CanDecreaseHuntChainKills;
-		field_858.IncreaseTooltip = "当前站已击杀数量 +1；达标后自动进入下一站";
-		field_858.DecreaseTooltip = "当前站已击杀数量 -1，最低为 0";
+		field_858.IncreaseTooltip = "目前站已擊殺數量 +1；達標後自動進入下一站";
+		field_858.DecreaseTooltip = "目前站已擊殺數量 -1，最低為 0";
 		field_858.Draw("##chainKillAdjust");
 	}
 
@@ -613,13 +613,13 @@ public sealed class ChainPage : SettingsPage
 		if (field_861)
 		{
 			field_861 = false;
-			ImGui.OpenPopup("重命名连车配置##HuntChainRenamePopup");
+			ImGui.OpenPopup("重新命名連車設定##HuntChainRenamePopup");
 		}
-		if (!ImGui.BeginPopupModal("重命名连车配置##HuntChainRenamePopup", ImGuiWindowFlags.AlwaysAutoResize))
+		if (!ImGui.BeginPopupModal("重新命名連車設定##HuntChainRenamePopup", ImGuiWindowFlags.AlwaysAutoResize))
 		{
 			return;
 		}
-		ImGui.TextUnformatted("配置名称");
+		TraditionalText.TextUnformatted("設定名稱");
 		ImGui.SetNextItemWidth(260f);
 		ImGui.InputText("##huntChainRenameName", ref field_860, 64);
 		string field_884 = field_860.Trim();
@@ -632,7 +632,7 @@ public sealed class ChainPage : SettingsPage
 				{
 					ImGui.BeginDisabled();
 				}
-				if (UiButton.Draw("确定", UiVariant.Primary, value))
+				if (UiButton.Draw("確定", UiVariant.Primary, value))
 				{
 					if (field_859 >= 0 && field_859 < Config.SavedHuntChains.Count)
 					{
@@ -648,11 +648,11 @@ public sealed class ChainPage : SettingsPage
 							field_862 = field_884;
 						}
 						Save();
-						Plugin.PrintEcho("连车配置已重命名：" + name + " → " + field_884);
+						Plugin.PrintEcho("連車設定已重新命名：" + name + " → " + field_884);
 					}
 					else
 					{
-						Plugin.PrintEcho($"连车配置改名失败：目标下标 {field_859} 无效");
+						Plugin.PrintEcho($"連車設定改名失敗：目標下標 {field_859} 無效");
 					}
 					field_859 = -1;
 					ImGui.CloseCurrentPopup();
@@ -683,11 +683,11 @@ public sealed class ChainPage : SettingsPage
 	private string Method_882()
 	{
 		int field_886 = Config.SavedHuntChains.Count + 1;
-		while (Config.SavedHuntChains.Any((HuntChainPreset arg0) => arg0.Name == $"连车配置 {field_886}"))
+		while (Config.SavedHuntChains.Any((HuntChainPreset arg0) => arg0.Name == $"連車設定 {field_886}"))
 		{
 			field_886++;
 		}
-		return $"连车配置 {field_886}";
+		return $"連車設定 {field_886}";
 	}
 
 	[CompilerGenerated]

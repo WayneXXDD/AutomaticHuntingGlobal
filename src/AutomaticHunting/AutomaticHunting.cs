@@ -39,7 +39,7 @@ using Recovered;
 
 namespace AutomaticHunting;
 
-public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
+public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 {
 	public readonly struct RecoveredType_3 : IEquatable<RecoveredType_3>
 	{
@@ -564,16 +564,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				if (list.Count == 0)
 				{
-					PrintEchoAlways("前置插件已就绪");
+					PrintEchoAlways("前置插件已就緒");
 				}
 				else
 				{
-					PrintEchoAlways("前置插件仍未加载: " + string.Join(", ", list) + "（相关功能不可用，见设置-前置插件）");
+					PrintEchoAlways("前置插件仍未載入: " + string.Join(", ", list) + "（相關功能不可用，見設定-前置插件）");
 				}
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 前置插件复查失败");
+				Log.Warning(exception, "自動狩獵跟車：前置插件複查失敗");
 			}
 		}
 
@@ -634,7 +634,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 构建地名剔除表失败 [" + arg0 + "]");
+				Log.Warning(exception, "自動狩獵跟車：構建地名剔除表失敗 [" + arg0 + "]");
 			}
 			return list;
 		}
@@ -661,7 +661,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 读取当前服务器失败");
+				Log.Warning(exception, "自動狩獵跟車：讀取目前伺服器失敗");
 			}
 			return 0u;
 		}
@@ -682,7 +682,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 读取当前服务器名失败");
+				Log.Warning(exception, "自動狩獵跟車：讀取目前伺服器名失敗");
 			}
 			return string.Empty;
 		}
@@ -769,12 +769,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			try
 			{
 				GlobalCommands.Process(field_158);
-				Log.Information("AutomaticHunting: 执行切线命令 " + field_158);
+				Log.Information("自動狩獵跟車：執行切線命令 " + field_158);
 			}
 			catch (Exception exception)
 			{
-				field_159.PrintEcho("切线命令执行失败: " + field_158);
-				Log.Warning(exception, "AutomaticHunting: 切线命令失败 " + field_158);
+				field_159.PrintEcho("切線命令執行失敗: " + field_158);
+				Log.Warning(exception, "自動狩獵跟車：切線命令失敗 " + field_158);
 			}
 		}
 	}
@@ -792,7 +792,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, $"AutomaticHunting: 切线重发失败 {field_160}");
+				Log.Warning(exception, $"自動狩獵跟車：切線重發失敗 {field_160}");
 			}
 		}
 	}
@@ -895,7 +895,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行跨服命令失败 " + field_176);
+				Log.Warning(exception, "自動狩獵跟車：執行跨服命令失敗 " + field_176);
 			}
 		}
 	}
@@ -1305,7 +1305,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行突进技能失败 " + field_228);
+				Log.Warning(exception, "自動狩獵跟車：執行突進技能失敗 " + field_228);
 			}
 		}
 	}
@@ -1323,7 +1323,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行命令失败 " + field_229);
+				Log.Warning(exception, "自動狩獵跟車：執行命令失敗 " + field_229);
 			}
 		}
 	}
@@ -1657,7 +1657,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private static readonly object field_96 = new object();
 
-	public string Name => "自动狩猎跟车";
+	public string Name => "自動狩獵跟車";
 
 	[PluginService]
 	internal static IPluginLog Log
@@ -1967,17 +1967,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		string currentTerritoryName = GetCurrentTerritoryName();
 		if (string.IsNullOrWhiteSpace(currentTerritoryName))
 		{
-			PrintEcho("扫描A怪: 无法获取当前区域名称");
+			PrintEcho("掃描A怪: 無法取得目前區域名稱");
 			return;
 		}
 		if (!Config.ARealmMarks.TryGetValue(currentTerritoryName, out string[] value))
 		{
-			PrintEcho("扫描A怪: 当前区域 [" + currentTerritoryName + "] 不在A怪列表中");
+			PrintEcho("掃描A怪: 目前區域 [" + currentTerritoryName + "] 不在A怪列表中");
 			return;
 		}
-		PrintEcho($"扫描A怪: 区域={currentTerritoryName}, 目标={string.Join("/", value)}, 范围={100f:0}m, 附近对象={ObjectTable.Count()}");
+		PrintEcho($"掃描A怪: 區域={currentTerritoryName}, 目標={string.Join("/", value)}, 範圍={100f:0}m, 附近物件={ObjectTable.Count()}");
 		string text = Method_3();
-		PrintEcho(string.IsNullOrEmpty(text) ? $"扫描A怪: {100f:0}m内未找到匹配的目标" : ("已选中A怪: " + text));
+		PrintEcho(string.IsNullOrEmpty(text) ? $"掃描A怪: {100f:0}m內未找到匹配的目標" : ("已選中A怪: " + text));
 	}
 
 	private RecoveredType_4? Method_2()
@@ -2057,7 +2057,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (field_40 > 0 && currentInstanceNumber != field_40)
 			{
 				Method_4();
-				PrintEcho($"检测到分线变化({field_40}→{currentInstanceNumber})，已重置A怪计数");
+				PrintEcho($"檢測到分線變化({field_40}→{currentInstanceNumber})，已重置A怪計數");
 			}
 			field_40 = currentInstanceNumber;
 		}
@@ -2090,13 +2090,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				if (!value2.HasBeenDamaged && Method_205(item) < 80f)
 				{
 					value2.HasBeenDamaged = true;
-					PrintEcho("A怪已被攻击: " + field_247);
+					PrintEcho("A怪已被攻擊: " + field_247);
 				}
 				if (Method_205(item) <= 1f && field_37.Add(field_247))
 				{
 					field_38++;
 					Method_147();
-					PrintEcho($"已击杀A怪: {field_247} (本图累计:{field_38})");
+					PrintEcho($"已擊殺A怪: {field_247} (本圖累計:{field_38})");
 				}
 			}
 		}
@@ -2110,7 +2110,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				field_38++;
 				Method_147();
-				PrintEcho($"已击杀A怪: {item2.Value.Name} (本图累计:{field_38})");
+				PrintEcho($"已擊殺A怪: {item2.Value.Name} (本圖累計:{field_38})");
 			}
 			field_36.Remove(item2.Key);
 		}
@@ -2122,6 +2122,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		GlobalGameData.Migrate(Config);
 		ConfigService = new ConfigService(Config, PluginInterface);
 		ECommonsMain.Init(PluginInterface, this);
+		InitializeTraditionalChinese();
 		if (Config.BlacklistedAetheryteIds.Add(175u))
 		{
 			ConfigService.Save();
@@ -2137,8 +2138,8 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (list.Count > 0)
 		{
-			Log.Warning("AutomaticHunting: 前置插件尚未就绪: " + string.Join(", ", list) + "（继续初始化，就绪前相关功能降级）");
-			PrintEchoAlways("前置插件尚未加载: " + string.Join(", ", list) + "，5秒后复查提示");
+			Log.Warning("自動狩獵跟車：前置插件尚未就緒: " + string.Join(", ", list) + "（繼續初始化，就緒前相關功能降級）");
+			PrintEchoAlways("前置插件尚未載入: " + string.Join(", ", list) + "，5秒後複查提示");
 			Task.Run(async () =>
 			{
 				try
@@ -2155,22 +2156,22 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					}
 					if (list2.Count == 0)
 					{
-						PrintEchoAlways("前置插件已就绪");
+						PrintEchoAlways("前置插件已就緒");
 					}
 					else
 					{
-						PrintEchoAlways("前置插件仍未加载: " + string.Join(", ", list2) + "（相关功能不可用，见设置-前置插件）");
+						PrintEchoAlways("前置插件仍未載入: " + string.Join(", ", list2) + "（相關功能不可用，見設定-前置插件）");
 					}
 				}
 				catch (Exception exception)
 				{
-					Log.Warning(exception, "AutomaticHunting: 前置插件复查失败");
+					Log.Warning(exception, "自動狩獵跟車：前置插件複查失敗");
 				}
 			});
 		}
 		CommandManager.AddHandler("/auht", new CommandInfo(Method_48)
 		{
-			HelpMessage = "自动狩猎跟车 - /auht help"
+			HelpMessage = "自動狩獵跟車 - /auht help"
 		});
 		Method_44();
 		ChatGui.ChatMessage += Method_81;
@@ -2186,7 +2187,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		field_47.AddWindow(HudWindow);
 		field_47.AddWindow(OnboardingWindow);
 		field_47.AddWindow(HelpWindow);
-		PluginInterface.UiBuilder.Draw += field_47.Draw;
+		PluginInterface.UiBuilder.Draw += DrawTraditionalUi;
 		PluginInterface.UiBuilder.OpenConfigUi += Method_42;
 		PluginInterface.UiBuilder.OpenMainUi += Method_43;
 		field_48 = new HuntUIController(this);
@@ -2198,25 +2199,25 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				Config.Enabled = false;
 				ConfigService.Save();
 			}
-			Log.Warning("AutomaticHunting: 未确认免责声明，进入受限模式（所有自动化入口已关闭）");
+			Log.Warning("自動狩獵跟車：未確認免責宣告，進入受限模式（所有自動化入口已關閉）");
 		}
 		if (Config.DisclaimerAccepted && Config.DisclaimerAcceptedUtc == 0L)
 		{
 			Config.DisclaimerAcceptedUtc = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 			ConfigService.Save();
-			Log.Information("AutomaticHunting: 已补写免责声明同意时间戳（审计字段）");
+			Log.Information("自動狩獵跟車：已補寫免責宣告同意時間戳（審計欄位）");
 		}
 		if (LeaderRoster.EnsureMigrated(Config))
 		{
 			ConfigService.Save();
-			Log.Information("AutomaticHunting: 已迁移老车头配置到车头名单");
+			Log.Information("自動狩獵跟車：已遷移老車頭設定到車頭名單");
 		}
 		if (!Config.OnboardingCompleted)
 		{
 			OnboardingWindow.Open();
-			PrintEchoAlways("首次运行：请完成 4 步快速设置（或用 /auht setup 随时打开向导）");
+			PrintEchoAlways("首次執行：請完成 4 步快速設定（或用 /auht setup 隨時開啟設定精靈）");
 		}
-		Log.Information("AutomaticHunting: 插件加载完成");
+		Log.Information("自動狩獵跟車：插件載入完成");
 	}
 
 	public void Dispose()
@@ -2226,7 +2227,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			ChatGui.ChatMessage -= Method_81;
 			Framework.Update -= Method_57;
 			ClientState.TerritoryChanged -= Method_59;
-			PluginInterface.UiBuilder.Draw -= field_47.Draw;
+			PluginInterface.UiBuilder.Draw -= DrawTraditionalUi;
 			PluginInterface.UiBuilder.OpenConfigUi -= Method_42;
 			PluginInterface.UiBuilder.OpenMainUi -= Method_43;
 			CommandManager.RemoveHandler("/auht");
@@ -2234,8 +2235,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			StopNavigation();
 			ConfigService.Save();
 			Theme.PopAll();
+			traditionalFont?.Dispose();
 			ECommonsMain.Dispose();
-			Log.Information("AutomaticHunting: 插件已卸载");
+			Log.Information("自動狩獵跟車：插件已解除安裝");
 		}
 	}
 
@@ -2256,11 +2258,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_24 = PluginInterface.GetIpcSubscriber<bool>("vnavmesh.Nav.IsReady");
 			field_25 = PluginInterface.GetIpcSubscriber<Vector3, bool, bool>("vnavmesh.SimpleMove.PathfindAndMoveTo");
 			field_26 = PluginInterface.GetIpcSubscriber<Vector3, float, float, Vector3?>("vnavmesh.Query.Mesh.NearestPoint");
-			Log.Information("AutomaticHunting: vnavmesh IPC initialized");
+			Log.Information("自動狩獵跟車：導航介面初始化完成");
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: vnavmesh IPC init failed");
+			Log.Warning(exception, "自動狩獵跟車：導航介面初始化失敗");
 		}
 	}
 
@@ -2268,7 +2270,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		Config.Enabled = arg0;
 		ConfigService.Save();
-		PrintEcho(Config.Enabled ? "已启用" : "已禁用");
+		PrintEcho(Config.Enabled ? "已啟用" : "已停用");
 	}
 
 	private void Method_46()
@@ -2276,13 +2278,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		HudWindow.IsOpen = !HudWindow.IsOpen;
 		Config.HudVisible = HudWindow.IsOpen;
 		ConfigService.Save();
-		PrintEcho(HudWindow.IsOpen ? "悬浮窗已显示" : "悬浮窗已隐藏");
+		PrintEcho(HudWindow.IsOpen ? "狀態浮窗已顯示" : "狀態浮窗已隱藏");
 	}
 
 	public void PrintDisclaimer()
 	{
-		PrintEcho("自动化功能只限跟落地开的车，ET和倒数车产生不可预知的行为玩家自行承担后果。反馈bug及建议去DC频道：DR-插件讨论/omni-社区插件 搜索AutomaticHunting。");
-		ChatGui.Print("[自动狩猎] 自动化功能只限跟落地开的车，ET和倒数车产生不可预知的行为玩家自行承担后果。反馈bug及建议去DC频道：DR-插件讨论/omni-社区插件 搜索AutomaticHunting。");
+		PrintEcho("此功能適用抵達後立即開戰的狩獵隊伍。使用艾奧傑亞時間或倒數開戰的隊伍時，請自行確認動作時機。問題回報請至本專案的 GitHub 頁面。");
+		ChatGui.Print("此功能適用抵達後立即開戰的狩獵隊伍。使用艾奧傑亞時間或倒數開戰的隊伍時，請自行確認動作時機。問題回報請至本專案的 GitHub 頁面。");
 	}
 
 	private void Method_48(string arg0, string arg1)
@@ -2303,7 +2305,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (Method_51())
 			{
 				StopNavigation();
-				PrintEcho("导航已停止");
+				PrintEcho("導航已停止");
 			}
 			break;
 		case "overlay":
@@ -2320,7 +2322,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			break;
 		case "setup":
 			OnboardingWindow.Open();
-			PrintEcho("已打开首次运行向导");
+			PrintEcho("已開啟首次執行設定精靈");
 			break;
 		case "help":
 			HelpWindow.IsOpen = true;
@@ -2328,18 +2330,18 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		case "diag":
 			if (Diagnostics.CopyReport(this))
 			{
-				PrintEcho("诊断信息已复制到剪贴板");
+				PrintEcho("診斷資訊已複製到剪貼簿");
 			}
 			break;
 		case "lock":
 			Config.HudLocked = !Config.HudLocked;
 			ConfigService.Save();
-			PrintEcho(Config.HudLocked ? "HUD 位置已锁定" : "HUD 位置已解锁");
+			PrintEcho(Config.HudLocked ? "狀態浮窗 位置已鎖定" : "狀態浮窗 位置已解鎖");
 			break;
 		case "compact":
 			Config.HudCompact = !Config.HudCompact;
 			ConfigService.Save();
-			PrintEcho(Config.HudCompact ? "HUD 已切换到紧凑模式" : "HUD 已切换到完整模式");
+			PrintEcho(Config.HudCompact ? "狀態浮窗 已切換到精簡模式" : "狀態浮窗 已切換到完整模式");
 			break;
 		case "opacity":
 			Method_49(source.Skip(1).FirstOrDefault());
@@ -2357,13 +2359,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		if (string.IsNullOrWhiteSpace(arg0) || !float.TryParse(arg0, NumberStyles.Float, CultureInfo.InvariantCulture, out var result))
 		{
-			PrintEcho($"用法: /auht opacity <{0.62f:0.00}-1.00>（当前 {Config.HudAlpha:0.00}）");
+			PrintEcho($"用法: /auht opacity <{0.62f:0.00}-1.00>（目前 {Config.HudAlpha:0.00}）");
 		}
 		else
 		{
 			Config.HudAlpha = Math.Clamp(result, 0.62f, 1f);
 			ConfigService.Save();
-			PrintEcho($"HUD 透明度已设为 {Config.HudAlpha:0.00}");
+			PrintEcho($"狀態浮窗 透明度已設為 {Config.HudAlpha:0.00}");
 		}
 	}
 
@@ -2373,19 +2375,19 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 		case "reset":
 			HudWindow.ResetPosition();
-			PrintEcho("HUD 位置已复位到左上角");
+			PrintEcho("狀態浮窗 位置已復位到左上角");
 			break;
 		case "show":
 			HudWindow.IsOpen = true;
 			Config.HudVisible = true;
 			ConfigService.Save();
-			PrintEcho("HUD 已显示");
+			PrintEcho("狀態浮窗 已顯示");
 			break;
 		case "hide":
 			HudWindow.IsOpen = false;
 			Config.HudVisible = false;
 			ConfigService.Save();
-			PrintEcho("HUD 已隐藏");
+			PrintEcho("狀態浮窗 已隱藏");
 			break;
 		default:
 			PrintEcho("用法: /auht hud reset|show|hide");
@@ -2397,12 +2399,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		if (!Config.Enabled)
 		{
-			PrintEcho("自动狩猎未启用，无法操作");
+			PrintEcho("自動狩獵未啟用，無法操作");
 			return false;
 		}
 		if (!Config.DisclaimerAccepted)
 		{
-			PrintEcho("请先在设置中同意免责声明");
+			PrintEcho("請先在設定中同意免責宣告");
 			return false;
 		}
 		return true;
@@ -2414,7 +2416,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		BattleChara* localPlayer = Control.GetLocalPlayer();
 		if (localPlayer == null)
 		{
-			PrintEcho("无法获取角色信息");
+			PrintEcho("無法取得角色資訊");
 			return false;
 		}
 		fixed (byte* bytes = localPlayer->Name)
@@ -2423,12 +2425,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (string.IsNullOrWhiteSpace(empty))
 		{
-			PrintEcho("无法获取角色信息");
+			PrintEcho("無法取得角色資訊");
 			return false;
 		}
 		LeaderRoster.Add(Config, empty);
 		ConfigService.Save();
-		PrintEcho("车头已设置为自己: " + empty);
+		PrintEcho("車頭已設定為自己: " + empty);
 		return true;
 	}
 
@@ -2446,7 +2448,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				string text2 = arg1.Trim();
 				LeaderRoster.Add(Config, text2);
 				ConfigService.Save();
-				PrintEcho("车头已设置为: " + text2);
+				PrintEcho("車頭已設定為: " + text2);
 			}
 			else
 			{
@@ -2460,39 +2462,39 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				LeaderRoster.Add(Config, target.Name.TextValue);
 				ConfigService.Save();
-				PrintEcho("车头已设置为当前目标: " + target.Name.TextValue);
+				PrintEcho("車頭已設定為目前目標: " + target.Name.TextValue);
 			}
 			else
 			{
-				PrintEcho("未选中目标");
+				PrintEcho("未選中目標");
 			}
 		}
 	}
 
 	private void Method_54()
 	{
-		PrintEcho("=== 自动狩猎跟车 帮助 ===");
-		PrintEcho("/auht on - 启用插件");
-		PrintEcho("/auht off - 禁用插件");
-		PrintEcho("/auht stop - 停止导航");
-		PrintEcho("/auht status - 显示状态");
-		PrintEcho("/auht mount - 召唤坐骑");
-		PrintEcho("/auht overlay - 显示/隐藏悬浮窗");
-		PrintEcho("/auht setup - 打开首次运行向导");
-		PrintEcho("/auht help - 打开使用说明窗口");
-		PrintEcho("/auht diag - 复制诊断信息");
-		PrintEcho("/auht lock - 锁定/解锁 HUD 位置");
-		PrintEcho("/auht compact - 切换 HUD 紧凑模式");
-		PrintEcho("/auht opacity <0.62-1.00> - 设置 HUD 透明度");
-		PrintEcho("/auht hud reset|show|hide - HUD 位置 / 显隐");
+		PrintEcho("=== 自動狩獵跟車 幫助 ===");
+		PrintEcho("/auht on - 啟用插件");
+		PrintEcho("/auht off - 停用插件");
+		PrintEcho("/auht stop - 停止導航");
+		PrintEcho("/auht status - 顯示狀態");
+		PrintEcho("/auht mount - 召喚坐騎");
+		PrintEcho("/auht overlay - 顯示/隱藏狀態浮窗");
+		PrintEcho("/auht setup - 開啟首次執行設定精靈");
+		PrintEcho("/auht help - 開啟使用說明視窗");
+		PrintEcho("/auht diag - 複製診斷資訊");
+		PrintEcho("/auht lock - 鎖定/解鎖 狀態浮窗 位置");
+		PrintEcho("/auht compact - 切換 狀態浮窗 精簡模式");
+		PrintEcho("/auht opacity <0.62-1.00> - 設定 狀態浮窗 透明度");
+		PrintEcho("/auht hud reset|show|hide - 狀態浮窗 位置 / 顯隱");
 	}
 
 	private void Method_55()
 	{
-		PrintEcho("状态: " + (Config.Enabled ? "启用" : "禁用"));
-		PrintEcho("车头: " + (string.IsNullOrWhiteSpace(Config.LeaderName) ? "未设置" : Config.LeaderName));
-		PrintEcho("导航: " + GetNavigationStageText());
-		PrintEcho($"传送阈值: {Config.TeleportThreshold:0}m");
+		PrintEcho("狀態: " + (Config.Enabled ? "啟用" : "停用"));
+		PrintEcho("車頭: " + (string.IsNullOrWhiteSpace(Config.LeaderName) ? "未設定" : Config.LeaderName));
+		PrintEcho("導航: " + GetNavigationStageText());
+		PrintEcho($"傳送門檻: {Config.TeleportThreshold:0}m");
 	}
 
 	public static void OpenUsageDoc()
@@ -2502,21 +2504,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			string directoryName = Path.GetDirectoryName(PluginInterface.AssemblyLocation.FullName);
 			if (string.IsNullOrEmpty(directoryName))
 			{
-				Log.Warning("AutomaticHunting: 无法定位插件安装目录");
+				Log.Warning("自動狩獵跟車：無法定位插件安裝目錄");
 				return;
 			}
 			List<string> list = new List<string>
 			{
-				Path.Combine(directoryName, "使用说明.md"),
-				Path.Combine(directoryName, "..", "使用说明.md"),
-				Path.Combine(directoryName, "..", "..", "使用说明.md")
+				Path.Combine(directoryName, "使用說明.md"),
+				Path.Combine(directoryName, "..", "使用說明.md"),
+				Path.Combine(directoryName, "..", "..", "使用說明.md")
 			};
 			InlineArray5<string> arg = default;
 			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 0) = directoryName;
 			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 1) = "..";
 			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 2) = "..";
 			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 3) = "..";
-			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 4) = "使用说明.md";
+			RecoveredType_202.Method_1214<InlineArray5<string>, string>(ref arg, 4) = "使用說明.md";
 			list.Add(Path.Combine(RecoveredType_202.Method_1213<InlineArray5<string>, string>(in arg, 5)));
 			string text = null;
 			foreach (string item in list)
@@ -2529,7 +2531,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (text == null)
 			{
-				PrintEchoAlways("未找到使用说明（已检查 " + directoryName + "）");
+				PrintEchoAlways("未找到使用說明（已檢查 " + directoryName + "）");
 				return;
 			}
 			try
@@ -2546,12 +2548,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					UseShellExecute = true
 				});
 			}
-			Log.Information("AutomaticHunting: 已打开使用说明 " + text);
-			PrintEchoAlways("已打开使用说明: " + Path.GetFileName(text));
+			Log.Information("自動狩獵跟車：已開啟使用說明 " + text);
+			PrintEchoAlways("已開啟使用說明: " + Path.GetFileName(text));
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 打开使用说明失败");
+			Log.Warning(exception, "自動狩獵跟車：開啟使用說明失敗");
 		}
 	}
 
@@ -2569,7 +2571,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			RecoveredType_3 value = field_32.Value;
 			field_32 = null;
-			PrintEcho(field_34 ? "S怪监控结束，开始执行延迟的Flag" : "战斗结束，开始执行延迟的导航");
+			PrintEcho(field_34 ? "S怪監控結束，開始執行延遲的地圖標記" : "戰鬥結束，開始執行延遲的導航");
 			field_34 = false;
 			Method_156(value.TerritoryType, value.Position);
 		}
@@ -2577,7 +2579,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			(string, uint, uint, Vector3) value2 = field_73.Value;
 			field_73 = null;
-			PrintEcho("战斗结束，开始执行一键跨服");
+			PrintEcho("戰鬥結束，開始執行一鍵跨服");
 			StartManualWorldTravel(value2.Item1, value2.Item2, value2.Item3, value2.Item4);
 		}
 		if (Config.AutoBmrAi && Method_132())
@@ -2585,12 +2587,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (flag && !field_35)
 			{
 				GlobalCommands.Process("/bmrai on");
-				PrintEcho("BMR AI 已开启");
+				PrintEcho("BMR AI 已開啟");
 			}
 			else if (!flag && field_35)
 			{
 				GlobalCommands.Process("/bmrai off");
-				PrintEcho("BMR AI 已关闭");
+				PrintEcho("BMR AI 已關閉");
 			}
 			field_35 = flag;
 		}
@@ -2619,13 +2621,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (!Method_62(arg0))
 		{
-			PrintEcho($"多线检查: 当前区域未配置(terr={arg0}, 配置数={Config.MultiLineMaps.Count})");
+			PrintEcho($"多線檢查: 目前區域未設定(terr={arg0}, 設定數={Config.MultiLineMaps.Count})");
 			return;
 		}
 		DateTime utcNow = DateTime.UtcNow;
 		if (utcNow - field_46 < TimeSpan.FromSeconds(8L))
 		{
-			PrintEcho("多线检查: 防抖中，跳过重复切线");
+			PrintEcho("多線檢查: 防抖中，跳過重複切線");
 			return;
 		}
 		field_46 = utcNow;
@@ -2635,11 +2637,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			Config.CurrentInstanceNumber = 1;
 			Method_176();
-			PrintEcho($"进入多线地图(terr={arg0}): 已在1线，无需切线");
+			PrintEcho($"進入多線地圖(terr={arg0}): 已在1線，無需切線");
 		}
 		else
 		{
-			PrintEcho($"进入多线地图(terr={arg0}): 等待稳定后切换到1线开始打A怪");
+			PrintEcho($"進入多線地圖(terr={arg0}): 等待穩定後切換到1線開始打A怪");
 			_ = Method_61(1);
 		}
 	}
@@ -2667,12 +2669,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				await Task.Delay(500);
 			}
-			PrintEcho("进入多线地图: 区域已稳定，执行切线");
+			PrintEcho("進入多線地圖: 區域已穩定，執行切線");
 			SwitchToInstance(arg0);
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 等待稳定后切线失败");
+			Log.Warning(exception, "自動狩獵跟車：等待穩定後切線失敗");
 		}
 	}
 
@@ -2694,7 +2696,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 读取当前分线失败");
+			Log.Warning(exception, "自動狩獵跟車：讀取目前分線失敗");
 			return 0;
 		}
 	}
@@ -2707,7 +2709,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			Config.CurrentInstanceNumber = num;
 			Method_176();
-			PrintEcho($"已在 {num} 线，无需切线");
+			PrintEcho($"已在 {num} 線，無需切線");
 			return;
 		}
 		Config.CurrentInstanceNumber = num;
@@ -2718,15 +2720,15 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			try
 			{
 				GlobalCommands.Process(field_158);
-				Log.Information("AutomaticHunting: 执行切线命令 " + field_158);
+				Log.Information("自動狩獵跟車：執行切線命令 " + field_158);
 			}
 			catch (Exception exception)
 			{
-				PrintEcho("切线命令执行失败: " + field_158);
-				Log.Warning(exception, "AutomaticHunting: 切线命令失败 " + field_158);
+				PrintEcho("切線命令執行失敗: " + field_158);
+				Log.Warning(exception, "自動狩獵跟車：切線命令失敗 " + field_158);
 			}
 		});
-		PrintEcho("正在切换副本线: " + field_158);
+		PrintEcho("正在切換副本線: " + field_158);
 		_ = Method_65(num);
 	}
 
@@ -2743,7 +2745,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (switchRetryAtAetheryte)
 			{
 				await Method_69();
-				PrintEcho($"切线未确认，重发命令 /ahglobal instance {arg0}");
+				PrintEcho($"切線未確認，重發命令 /ahglobal instance {arg0}");
 				await Framework.RunOnFrameworkThread(() =>
 				{
 					try
@@ -2752,7 +2754,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					}
 					catch (Exception exception2)
 					{
-						Log.Warning(exception2, $"AutomaticHunting: 切线重发失败 {arg0}");
+						Log.Warning(exception2, $"自動狩獵跟車：切線重發失敗 {arg0}");
 					}
 				});
 			}
@@ -2761,12 +2763,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				Method_67(arg0);
 				return;
 			}
-			PrintEcho($"切线确认超时，真实线未达到目标 {arg0} 线");
-			Log.Warning($"AutomaticHunting: 切线确认超时(目标 {arg0} 线)");
+			PrintEcho($"切線確認超時，真實線未達到目標 {arg0} 線");
+			Log.Warning($"自動狩獵跟車：切線確認超時(目標 {arg0} 線)");
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 切线确认失败");
+			Log.Warning(exception, "自動狩獵跟車：切線確認失敗");
 		}
 	}
 
@@ -2788,7 +2790,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		Config.CurrentInstanceNumber = arg0;
 		Method_176();
-		PrintEcho($"切线完成，已确认在 {arg0} 线");
+		PrintEcho($"切線完成，已確認在 {arg0} 線");
 		Method_68(arg0);
 	}
 
@@ -2806,7 +2808,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_44 = null;
 			field_45 = DateTime.MinValue;
 		}
-		PrintEcho($"真实线已确认在 {arg0} 线，开始导航到Flag");
+		PrintEcho($"真實線已確認在 {arg0} 線，開始導航到地圖標記");
 		Method_156(value.TerritoryType, value.Position);
 	}
 
@@ -2829,7 +2831,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			(uint, Vector3, string) tuple = list.MinBy(((uint Id, Vector3 Position, string Name) arg0) => Vector3.DistanceSquared(arg0.Position, field_162.Value));
 			if (!(Vector3.Distance(tuple.Item2, field_162.Value) <= 60f))
 			{
-				PrintEcho("切线未生效，传送到最近以太之光(" + tuple.Item3 + ")后重试");
+				PrintEcho("切線未生效，傳送到最近以太之光(" + tuple.Item3 + ")後重試");
 				if (await Method_123(tuple.Item1, CancellationToken.None))
 				{
 					await Method_163(field_161, CancellationToken.None);
@@ -2838,7 +2840,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 切线重试传送到以太之光失败");
+			Log.Warning(exception, "自動狩獵跟車：切線重試傳送到以太之光失敗");
 		}
 	}
 
@@ -2863,12 +2865,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return field_56 switch
 			{
-				RecoveredType_8.field_117 => "等待传送", 
-				RecoveredType_8.field_118 => "召唤坐骑", 
-				RecoveredType_8.field_119 => "前往Flag", 
+				RecoveredType_8.field_117 => "等待傳送", 
+				RecoveredType_8.field_118 => "召喚坐騎", 
+				RecoveredType_8.field_119 => "前往地圖標記", 
 				RecoveredType_8.field_120 => "前往A怪", 
 				RecoveredType_8.field_121 => "前往S怪", 
-				_ => "空闲", 
+				_ => "空閒", 
 			};
 		}
 	}
@@ -2878,7 +2880,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		Vector3? localPlayerPosition = GetLocalPlayerPosition();
 		if (!localPlayerPosition.HasValue)
 		{
-			return (Label: "等待目标", Color: UiColorDisabled, Distance: null);
+			return (Label: "等待目標", Color: UiColorDisabled, Distance: null);
 		}
 		RecoveredType_4? recoveredType_ = Method_2();
 		if (recoveredType_.HasValue)
@@ -2889,9 +2891,9 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		if (LastFlagPosition.HasValue)
 		{
 			float value2 = Method_197(localPlayerPosition.Value, LastFlagPosition.Value);
-			return (Label: "▸ Flag 目标", Color: UiColorNav, Distance: value2);
+			return (Label: "▸ 地圖標記 目標", Color: UiColorNav, Distance: value2);
 		}
-		return (Label: "等待目标", Color: UiColorDisabled, Distance: null);
+		return (Label: "等待目標", Color: UiColorDisabled, Distance: null);
 	}
 
 	public void BeginSMonitor(string arg0, string arg1, float arg2, float arg3)
@@ -2930,7 +2932,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return UiColorDisabled;
 		}
-		if (arg0.Phase.Contains("开怪"))
+		if (arg0.Phase.Contains("開怪"))
 		{
 			return UiColorError;
 		}
@@ -2970,7 +2972,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (ptr == null)
 			{
 				OwnedMounts = list;
-				MountNames = new string[1] { "随机飞行坐骑" };
+				MountNames = new string[1] { "隨機飛行坐騎" };
 				SelectedMountIndex = 0;
 				return;
 			}
@@ -2978,7 +2980,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (excelSheet == null)
 			{
 				OwnedMounts = list;
-				MountNames = new string[1] { "随机飞行坐骑" };
+				MountNames = new string[1] { "隨機飛行坐騎" };
 				SelectedMountIndex = 0;
 				return;
 			}
@@ -3000,7 +3002,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			list.Sort((MountInfo arg0, MountInfo arg1) => string.Compare(arg0.Name, arg1.Name, StringComparison.OrdinalIgnoreCase));
 			OwnedMounts = list;
-			List<string> list2 = new List<string> { "随机飞行坐骑" };
+			List<string> list2 = new List<string> { "隨機飛行坐騎" };
 			list2.AddRange(list.Select((MountInfo arg0) => arg0.Name));
 			MountNames = list2.ToArray();
 			if (Config.SelectedMountId == 0)
@@ -3012,13 +3014,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				int num = list.FindIndex((MountInfo arg0) => arg0.RowId == Config.SelectedMountId);
 				SelectedMountIndex = ((num >= 0) ? (num + 1) : 0);
 			}
-			Log.Information($"AutomaticHunting: Refreshed mount list, {list.Count} mounts found");
+			Log.Information($"自動狩獵跟車：已更新坐騎清單，共 {list.Count} 隻坐騎");
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Failed to refresh mount list");
+			Log.Warning(exception, "自動狩獵跟車：更新坐騎清單失敗");
 			OwnedMounts = new List<MountInfo>();
-			MountNames = new string[1] { "随机飞行坐骑" };
+			MountNames = new string[1] { "隨機飛行坐騎" };
 			SelectedMountIndex = 0;
 		}
 	}
@@ -3046,7 +3048,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: chat message handler failed");
+			Log.Warning(exception, "自動狩獵跟車：處理聊天訊息失敗");
 		}
 	}
 
@@ -3114,17 +3116,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			field_41 = text2;
 			Config.CurrentInstanceFingerprint = text2;
-			PrintEcho($"副本区指纹: '{text2}' 当前目标线:{Config.CurrentInstanceNumber}");
+			PrintEcho($"副本區指紋: '{text2}' 目前目標線:{Config.CurrentInstanceNumber}");
 			string text3 = field_44;
 			RecoveredType_3 arg2;
 			if (field_43.HasValue && !string.IsNullOrEmpty(text3) && text3 != text2 && Method_87(out var arg1))
 			{
-				PrintEcho($"副本区已切换到位(指纹变化 '{text3}'→'{text2}')，开始导航到Flag");
+				PrintEcho($"副本區已切換到位(指紋變化 '{text3}'→'{text2}')，開始導航到地圖標記");
 				Method_156(arg1.TerritoryType, arg1.Position);
 			}
 			else if (field_43.HasValue && field_45 != DateTime.MinValue && DateTime.UtcNow - field_45 > TimeSpan.FromSeconds(15L) && Method_87(out arg2))
 			{
-				PrintEcho("切换副本线确认超时(15s)，改按当前指纹 '" + text2 + "' 导航到Flag");
+				PrintEcho("切換副本線確認超時(15s)，改按目前指紋 '" + text2 + "' 導航到地圖標記");
 				Method_156(arg2.TerritoryType, arg2.Position);
 			}
 		}
@@ -3176,7 +3178,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (DateTime.UtcNow - field_60 > TimeSpan.FromSeconds(3L))
 			{
 				field_60 = DateTime.UtcNow;
-				PrintEcho("跨服流程进行中，忽略普通车头指令");
+				PrintEcho("跨服流程進行中，忽略普通車頭指令");
 			}
 		}
 		else
@@ -3187,12 +3189,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (!Method_94(text, Config.LeaderName))
 			{
-				Log.Debug($"AutomaticHunting: 车头消息发送者不匹配: sender='{text}' (norm='{Method_95(text ?? "")}') vs leader='{Config.LeaderName}' (norm='{Method_95(Config.LeaderName)}')");
+				Log.Debug($"自動狩獵跟車：車頭訊息傳送者不匹配: sender='{text}' (norm='{Method_95(text ?? "")}') vs leader='{Config.LeaderName}' (norm='{Method_95(Config.LeaderName)}')");
 				return;
 			}
 			if (Config.LeaderYellOnly && arg0.LogKind != XivChatType.Shout)
 			{
-				Log.Debug($"AutomaticHunting: 忽略非喊话频道车头消息 kind={arg0.LogKind}");
+				Log.Debug($"自動狩獵跟車：忽略非喊話頻道車頭訊息 kind={arg0.LogKind}");
 				return;
 			}
 			uint arg2;
@@ -3217,7 +3219,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			bool flag = DateTime.UtcNow - field_29 < TimeSpan.FromSeconds(60L);
 			if ((text2 == field_27) & flag)
 			{
-				PrintEcho("忽略60秒内重复Flag");
+				PrintEcho("忽略60秒內重複地圖標記");
 				return;
 			}
 			field_27 = text2;
@@ -3227,7 +3229,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				float num = Vector2.Distance(new Vector2(LastFlagPosition.Value.X, LastFlagPosition.Value.Z), new Vector2(arg4.X, arg4.Z));
 				if (num < 50f)
 				{
-					PrintEcho($"忽略附近重复Flag（距上次{num:0.0}m）");
+					PrintEcho($"忽略附近重複地圖標記（距上次{num:0.0}m）");
 					return;
 				}
 			}
@@ -3236,7 +3238,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				float num2 = Vector2.Distance(new Vector2(LastFlagPosition.Value.X, LastFlagPosition.Value.Z), new Vector2(arg4.X, arg4.Z));
 				if (num2 < 50f)
 				{
-					PrintEcho($"疑似误触坐标（距当前{num2:0.0}m），不执行");
+					PrintEcho($"疑似誤觸座標（距目前{num2:0.0}m），不執行");
 					return;
 				}
 			}
@@ -3245,7 +3247,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_31 = Method_127(arg2);
 			if (Config.SetFlagOnNavigation && !Method_126(arg2, arg3, arg4))
 			{
-				PrintEcho("设置地图Flag失败");
+				PrintEcho("設定地圖地圖標記失敗");
 			}
 			Method_92(arg2, arg3, arg4);
 		}
@@ -3277,7 +3279,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		arg1 = ClientState.TerritoryType;
 		arg2 = map.Value.RowId;
 		arg3 = new Vector3(vector.X, 0f, vector.Y);
-		Log.Debug($"AutomaticHunting: 文本坐标解析 ({num:0.0},{num2:0.0}) → 世界 ({vector.X:0.0},{vector.Y:0.0})");
+		Log.Debug($"自動狩獵跟車：文本座標解析 ({num:0.0},{num2:0.0}) → 世界 ({vector.X:0.0},{vector.Y:0.0})");
 		return true;
 	}
 
@@ -3331,7 +3333,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		field_43 = new RecoveredType_3(arg0, arg1);
 		field_45 = DateTime.UtcNow;
 		SwitchToNextInstance();
-		PrintEcho($"{Config.CurrentInstanceNumber}线A怪击杀达标，已切换，等待副本区确认后导航");
+		PrintEcho($"{Config.CurrentInstanceNumber}線A怪擊殺達標，已切換，等待副本區確認後導航");
 	}
 
 	private static bool Method_94(string? arg0, string arg1)
@@ -3414,7 +3416,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 构建地名剔除表失败 [" + text2 + "]");
+				Log.Warning(exception, "自動狩獵跟車：構建地名剔除表失敗 [" + text2 + "]");
 			}
 			return list;
 		}))
@@ -3470,12 +3472,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (field_65)
 			{
-				PrintEcho("跨服流程正在进行中，忽略新的跨服指令");
+				PrintEcho("跨服流程正在進行中，忽略新的跨服指令");
 				return;
 			}
 			if (!arg2 && string.Equals(arg0, field_74, StringComparison.OrdinalIgnoreCase) && DateTime.UtcNow - field_75 < TimeSpan.FromSeconds(60L))
 			{
-				Log.Debug("AutomaticHunting: 已在服务器[" + arg0 + "]（60秒冷却内），忽略重复跨服指令");
+				Log.Debug("自動狩獵跟車：已在伺服器[" + arg0 + "]（60秒冷卻內），忽略重複跨服指令");
 				return;
 			}
 			field_65 = true;
@@ -3493,29 +3495,29 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		if (!arg4 && IsHuntChainRunning)
 		{
 			Method_145();
-			PrintEcho("连车: 检测到手动一键跨服，连车已停止");
+			PrintEcho("連車: 檢測到手動一鍵跨服，連車已停止");
 		}
 		if (Condition[ConditionFlag.InCombat])
 		{
 			field_73 = (arg0, arg1, arg2, arg3);
-			PrintEcho("战斗中，已保存一键跨服，战斗结束后执行");
+			PrintEcho("戰鬥中，已儲存一鍵跨服，戰鬥結束後執行");
 			return;
 		}
 		if (CrossWorldInProgress)
 		{
-			PrintEcho("跨服流程正在进行中，忽略一键跨服");
+			PrintEcho("跨服流程正在進行中，忽略一鍵跨服");
 			return;
 		}
 		if (!CrossWorldData.ServerWorldTravel.TryGetValue(arg0, out string value))
 		{
-			PrintEcho("服务器[" + arg0 + "]无跨服命令，无法跨服");
+			PrintEcho("伺服器[" + arg0 + "]無跨服命令，無法跨服");
 			return;
 		}
 		lock (field_62)
 		{
 			if (field_65)
 			{
-				PrintEcho("跨服流程正在进行中，忽略一键跨服");
+				PrintEcho("跨服流程正在進行中，忽略一鍵跨服");
 				return;
 			}
 			field_70 = arg1;
@@ -3541,7 +3543,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		Method_145();
 		StopNavigation();
-		PrintEcho("已停止跨服流程，恢复普通车头识别");
+		PrintEcho("已停止跨服流程，恢復普通車頭識別");
 	}
 
 	private async Task Method_103(string arg0, uint arg1, string arg2, CancellationToken arg3)
@@ -3551,7 +3553,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (arg1 == 0)
 			{
-				PrintEcho("无法识别目标服务器: " + arg0 + "，跨服中止");
+				PrintEcho("無法識別目標伺服器: " + arg0 + "，跨服中止");
 				return;
 			}
 			uint num = 0u;
@@ -3566,7 +3568,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (num == 0)
 			{
-				PrintEcho("无法读取当前服务器，跨服中止");
+				PrintEcho("無法讀取目前伺服器，跨服中止");
 				return;
 			}
 			bool flag = num == arg1;
@@ -3576,12 +3578,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (flag)
 			{
-				PrintEcho("已在服务器[" + arg0 + "]，跳过跨服");
+				PrintEcho("已在伺服器[" + arg0 + "]，跳過跨服");
 				Method_97(arg0);
 				await Method_104(arg3);
 				return;
 			}
-			PrintEcho("执行跨服: " + arg2);
+			PrintEcho("執行跨服: " + arg2);
 			await Method_108(arg2);
 			DateTime utcNow = DateTime.UtcNow;
 			DateTime utcNow2 = DateTime.UtcNow;
@@ -3598,7 +3600,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				if (flag5 && !flag3)
 				{
 					flag3 = true;
-					PrintEcho("检测到跨服状态92(ReadyingVisitOtherWorld)：跨服指令已生效");
+					PrintEcho("檢測到跨服狀態92(ReadyingVisitOtherWorld)：跨服指令已生效");
 				}
 				if (flag5 | flag6)
 				{
@@ -3627,7 +3629,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					num2++;
 					if (num2 == 1 || num2 % 6 == 0)
 					{
-						PrintEcho($"跨服指令未受理，重发第{num2}次: {arg2}");
+						PrintEcho($"跨服指令未受理，重發第{num2}次: {arg2}");
 					}
 				}
 				if (DateTime.UtcNow - utcNow3 > TimeSpan.FromSeconds(60L))
@@ -3639,23 +3641,23 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (!flag2)
 			{
-				PrintEcho("跨服超时未到达目标服务器(10分钟)，流程中止");
+				PrintEcho("跨服超時未到達目標伺服器(10分鐘)，流程中止");
 				return;
 			}
 			await Task.Delay(5000, arg3);
-			PrintEcho("跨服完成，已到达服务器[" + arg0 + "]");
+			PrintEcho("跨服完成，已到達伺服器[" + arg0 + "]");
 			Method_97(arg0);
 			await Method_104(arg3);
 		}
 		catch (OperationCanceledException)
 		{
-			Log.Information("AutomaticHunting: 跨服流程被手动中断");
-			PrintEcho("跨服流程已中断");
+			Log.Information("自動狩獵跟車：跨服流程被手動中斷");
+			PrintEcho("跨服流程已中斷");
 		}
 		catch (Exception ex2)
 		{
-			Log.Warning(ex2, "AutomaticHunting: 跨服流程异常");
-			PrintEcho("跨服流程异常: " + ex2.Message);
+			Log.Warning(ex2, "自動狩獵跟車：跨服流程異常");
+			PrintEcho("跨服流程異常: " + ex2.Message);
 		}
 		finally
 		{
@@ -3692,7 +3694,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			await Method_105(num, num2, arg1, arg0);
 			return;
 		}
-		PrintEcho("开始处理目标Flag");
+		PrintEcho("開始處理目標地圖標記");
 		string arg2;
 		uint field_174;
 		Vector3 vector;
@@ -3704,7 +3706,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (field_174 == 0)
 		{
-			PrintEcho("跨服完成但无目标Flag，跳过");
+			PrintEcho("跨服完成但無目標地圖標記，跳過");
 			return;
 		}
 		LastFlagPosition = vector;
@@ -3718,7 +3720,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		try
 		{
 			arg3.ThrowIfCancellationRequested();
-			PrintEcho("跨服完成，传送到所选水晶...");
+			PrintEcho("跨服完成，傳送到所選水晶...");
 			bool flag = await Method_123(arg1, arg3);
 			if (flag)
 			{
@@ -3729,21 +3731,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				LastFlagPosition = arg2;
 				field_28 = arg0;
 				field_31 = await Framework.RunOnFrameworkThread(() => Method_127(arg0));
-				PrintEcho("已到达目标地图的所选水晶");
+				PrintEcho("已到達目標地圖的所選水晶");
 			}
 			else
 			{
-				PrintEcho("传送到所选水晶失败");
+				PrintEcho("傳送到所選水晶失敗");
 			}
 		}
 		catch (OperationCanceledException)
 		{
-			PrintEcho("一键跨服传送已中断");
+			PrintEcho("一鍵跨服傳送已中斷");
 		}
 		catch (Exception ex2)
 		{
-			Log.Warning(ex2, "AutomaticHunting: 一键跨服传送异常");
-			PrintEcho("一键跨服传送异常: " + ex2.Message);
+			Log.Warning(ex2, "自動狩獵跟車：一鍵跨服傳送異常");
+			PrintEcho("一鍵跨服傳送異常: " + ex2.Message);
 		}
 		finally
 		{
@@ -3779,14 +3781,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f));
 			if (!string.IsNullOrWhiteSpace(arg2))
 			{
-				PrintEcho("跨服目标切线: " + arg2);
+				PrintEcho("跨服目標切線: " + arg2);
 				await Method_108(arg2);
 				await Task.Delay(3000);
 			}
 			Method_196(RecoveredType_8.field_118, cancellationTokenSource);
 			if (!(await Method_182(token)))
 			{
-				PrintEcho("召唤坐骑失败，跨服导航已取消");
+				PrintEcho("召喚坐騎失敗，跨服導航已取消");
 				return;
 			}
 			await Task.Delay(500, token);
@@ -3794,11 +3796,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (OperationCanceledException)
 		{
-			Log.Information("AutomaticHunting: 跨服导航取消");
+			Log.Information("自動狩獵跟車：跨服導航取消");
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 跨服导航失败");
+			Log.Warning(exception, "自動狩獵跟車：跨服導航失敗");
 		}
 		finally
 		{
@@ -3825,7 +3827,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行跨服命令失败 " + arg0);
+				Log.Warning(exception, "自動狩獵跟車：執行跨服命令失敗 " + arg0);
 			}
 		});
 	}
@@ -3844,7 +3846,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 读取当前服务器失败");
+				Log.Warning(exception, "自動狩獵跟車：讀取目前伺服器失敗");
 			}
 			return 0u;
 		});
@@ -3868,7 +3870,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 读取当前服务器名失败");
+				Log.Warning(exception, "自動狩獵跟車：讀取目前伺服器名失敗");
 			}
 			return string.Empty;
 		});
@@ -3902,7 +3904,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 查询服务器[" + arg0 + "]失败");
+			Log.Warning(exception, "自動狩獵跟車：查詢伺服器[" + arg0 + "]失敗");
 		}
 		return 0u;
 	}
@@ -4012,7 +4014,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Failed to snap position to navmesh");
+			Log.Warning(exception, "自動狩獵跟車：無法對齊導航網格位置");
 			return null;
 		}
 	}
@@ -4072,7 +4074,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Unable to query Lifestream busy state");
+			Log.Warning(exception, "自動狩獵跟車：無法讀取 Lifestream 的忙碌狀態");
 			return true;
 		}
 	}
@@ -4165,12 +4167,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (DateTime.UtcNow >= dateTime2)
 			{
-				PrintEcho($"等待传送开始(id={arg0}，已尝试{field_185}次)...");
+				PrintEcho($"等待傳送開始(id={arg0}，已嘗試{field_185}次)...");
 				dateTime2 = DateTime.UtcNow.AddSeconds(10.0);
 			}
 			await Task.Delay(100, arg1);
 		}
-		PrintEcho($"传送失败: 60秒内未进入过图(id={arg0})");
+		PrintEcho($"傳送失敗: 60秒內未進入過圖(id={arg0})");
 		return false;
 	}
 
@@ -4212,7 +4214,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Failed to set map flag");
+			Log.Warning(exception, "自動狩獵跟車：設定地圖標記失敗");
 			return false;
 		}
 	}
@@ -4270,24 +4272,26 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void PrintEcho(string arg0)
 	{
+		arg0 = TraditionalText.Translate(arg0);
 		Log.Information(arg0);
 		if (Config.EchoMessages)
 		{
 			ChatGui.Print(new XivChatEntry
 			{
 				Type = XivChatType.Echo,
-				Message = new SeStringBuilder().AddUiForeground("[自动狩猎] ", 37).AddText(arg0).Build()
+				Message = new SeStringBuilder().AddUiForeground("[自動狩獵] ", 37).AddText(arg0).Build()
 			});
 		}
 	}
 
 	public static void PrintEchoAlways(string arg0)
 	{
+		arg0 = TraditionalText.Translate(arg0);
 		Log.Information(arg0);
 		ChatGui.Print(new XivChatEntry
 		{
 			Type = XivChatType.Echo,
-			Message = new SeStringBuilder().AddUiForeground("[自动狩猎] ", 37).AddText(arg0).Build()
+			Message = new SeStringBuilder().AddUiForeground("[自動狩獵] ", 37).AddText(arg0).Build()
 		});
 	}
 
@@ -4354,20 +4358,20 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public string GetHuntChainStatusText(bool arg0 = false)
 	{
-		string text = (arg0 ? string.Empty : "连车: ");
+		string text = (arg0 ? string.Empty : "連車: ");
 		List<HuntChainStep> list = field_79;
 		if (field_80 < 0 || field_80 >= list.Count)
 		{
-			return text + ((field_78 == RecoveredType_9.field_126) ? "已完成全部站点" : "未运行");
+			return text + ((field_78 == RecoveredType_9.field_126) ? "已完成全部站點" : "未執行");
 		}
 		string text2 = $"第 {field_80 + 1}/{list.Count} 站";
 		int killTarget = list[field_80].KillTarget;
 		return field_78 switch
 		{
 			RecoveredType_9.field_124 => text + text2 + " · 前往中", 
-			RecoveredType_9.field_125 => arg0 ? $"{text}{text2} · {field_81}/{killTarget}" : $"{text}{text2} · 击杀 {field_81}/{killTarget}", 
-			RecoveredType_9.field_126 => text + "已完成全部站点", 
-			_ => text + "未运行", 
+			RecoveredType_9.field_125 => arg0 ? $"{text}{text2} · {field_81}/{killTarget}" : $"{text}{text2} · 擊殺 {field_81}/{killTarget}", 
+			RecoveredType_9.field_126 => text + "已完成全部站點", 
+			_ => text + "未執行", 
 		};
 	}
 
@@ -4375,24 +4379,24 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		if (!Config.AutomationEnabled)
 		{
-			PrintEcho("连车: 请先开启自动狩猎");
+			PrintEcho("連車: 請先開啟自動狩獵");
 			return false;
 		}
 		if (IsHuntChainRunning)
 		{
-			PrintEcho("连车: 正在运行中");
+			PrintEcho("連車: 正在執行中");
 			return false;
 		}
 		IReadOnlyList<HuntChainStep> readOnlyList = arg0 ?? Config.HuntChain.Steps;
 		if (readOnlyList.Count == 0)
 		{
-			PrintEcho("连车: 请先添加连车步骤");
+			PrintEcho("連車: 請先新增連車步驟");
 			return false;
 		}
 		string currentDcName = WorldTravelData.GetCurrentDcName();
 		if (string.IsNullOrEmpty(currentDcName))
 		{
-			PrintEcho("连车: 无法识别当前大区");
+			PrintEcho("連車: 無法識別目前資料中心");
 			return false;
 		}
 		for (int i = 0; i < readOnlyList.Count; i++)
@@ -4400,29 +4404,29 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			HuntChainStep huntChainStep = readOnlyList[i];
 			if (huntChainStep.KillTarget < 0)
 			{
-				PrintEcho($"连车: 第 {i + 1} 站击杀数不能小于 0");
+				PrintEcho($"連車: 第 {i + 1} 站擊殺數不能小於 0");
 				return false;
 			}
 			if (huntChainStep.KillTarget != 0)
 			{
 				if (string.IsNullOrWhiteSpace(huntChainStep.Preset.ServerName) || WorldTravelData.GetDcOfServer(huntChainStep.Preset.ServerName) != currentDcName)
 				{
-					PrintEcho($"连车: 第 {i + 1} 站不在当前大区({currentDcName})，请重新选择");
+					PrintEcho($"連車: 第 {i + 1} 站不在目前資料中心({currentDcName})，請重新選擇");
 					return false;
 				}
 				if (!CrossWorldData.ServerWorldTravel.ContainsKey(huntChainStep.Preset.ServerName))
 				{
-					PrintEcho($"连车: 第 {i + 1} 站服务器[{huntChainStep.Preset.ServerName}]无跨服命令");
+					PrintEcho($"連車: 第 {i + 1} 站伺服器[{huntChainStep.Preset.ServerName}]無跨服命令");
 					return false;
 				}
 				if (!Method_153(huntChainStep.Preset, out var _, out var _, out var _))
 				{
-					PrintEcho($"连车: 第 {i + 1} 站配置已失效，请重新选择");
+					PrintEcho($"連車: 第 {i + 1} 站設定已失效，請重新選擇");
 					return false;
 				}
 				if (!Config.ARealmMarks.ContainsKey(huntChainStep.Preset.MapName))
 				{
-					PrintEcho($"连车: 第 {i + 1} 站地图[{huntChainStep.Preset.MapName}]未配置A怪名单，无法计数");
+					PrintEcho($"連車: 第 {i + 1} 站地圖[{huntChainStep.Preset.MapName}]未設定A怪名單，無法計數");
 					return false;
 				}
 			}
@@ -4435,7 +4439,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		field_83 = DateTime.MinValue;
 		field_84 = DateTime.MinValue;
 		field_78 = RecoveredType_9.field_124;
-		PrintEcho($"连车: 已开始，共 {field_79.Count} 站");
+		PrintEcho($"連車: 已開始，共 {field_79.Count} 站");
 		Method_152();
 		return true;
 	}
@@ -4493,7 +4497,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (!Config.AutomationEnabled)
 		{
-			StopHuntChain("连车: 自动狩猎已关闭，连车停止");
+			StopHuntChain("連車: 自動狩獵已關閉，連車停止");
 			return;
 		}
 		if (!string.IsNullOrEmpty(field_85))
@@ -4501,14 +4505,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			string currentDcName = WorldTravelData.GetCurrentDcName();
 			if (!string.IsNullOrEmpty(currentDcName) && currentDcName != field_85)
 			{
-				StopHuntChain($"连车: 大区已变化({field_85}→{currentDcName})，连车停止");
+				StopHuntChain($"連車: 資料中心已變化({field_85}→{currentDcName})，連車停止");
 				return;
 			}
 		}
 		List<HuntChainStep> list = field_79;
 		if (field_80 < 0 || field_80 >= list.Count)
 		{
-			StopHuntChain("连车: 步骤数据异常，连车停止");
+			StopHuntChain("連車: 步驟資料異常，連車停止");
 		}
 		else if (field_78 == RecoveredType_9.field_125)
 		{
@@ -4543,7 +4547,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_84 = DateTime.MinValue;
 			if (field_78 != RecoveredType_9.field_123 && Config.AutomationEnabled && Config.HuntChain.CreatePfAfterTravel)
 			{
-				PrintEcho("连车: 已到达站点，创建狩猎招募");
+				PrintEcho("連車: 已到達站點，建立狩獵招募");
 				HuntPfController.Create(Config.PfComment);
 			}
 		}
@@ -4558,11 +4562,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				field_78 = RecoveredType_9.field_126;
 				field_82 = false;
-				PrintEcho("连车: 最后一站击杀达标，全部完成");
+				PrintEcho("連車: 最後一站擊殺達標，全部完成");
 				return;
 			}
 			field_80++;
-			PrintEcho($"连车: 第 {field_80} 站达标，前往第 {field_80 + 1} 站");
+			PrintEcho($"連車: 第 {field_80} 站達標，前往第 {field_80 + 1} 站");
 			Method_152();
 		}
 	}
@@ -4571,7 +4575,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		if (!Method_153(arg0.Preset, out var arg1, out var arg2, out var _))
 		{
-			StopHuntChain($"连车: 第 {field_80 + 1} 站配置已失效，连车停止");
+			StopHuntChain($"連車: 第 {field_80 + 1} 站設定已失效，連車停止");
 		}
 		else if (Method_154(arg0.Preset, arg1))
 		{
@@ -4581,7 +4585,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				field_81 = 0;
 				field_82 = false;
 				field_83 = DateTime.MinValue;
-				PrintEcho($"连车: 已到达第 {field_80 + 1} 站 {arg0.Preset.ServerName} {arg0.Preset.MapName}，开始计数");
+				PrintEcho($"連車: 已到達第 {field_80 + 1} 站 {arg0.Preset.ServerName} {arg0.Preset.MapName}，開始計數");
 				Method_148();
 			}
 		}
@@ -4589,7 +4593,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (DateTime.UtcNow > field_83)
 			{
-				StopHuntChain("连车: 前往下一站超时，连车停止");
+				StopHuntChain("連車: 前往下一站超時，連車停止");
 			}
 		}
 		else if (!Condition[ConditionFlag.InCombat] && !CrossWorldInProgress)
@@ -4610,30 +4614,30 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		List<HuntChainStep> list = field_79;
 		if (field_80 < 0 || field_80 >= list.Count)
 		{
-			StopHuntChain("连车: 步骤数据异常，连车停止");
+			StopHuntChain("連車: 步驟資料異常，連車停止");
 			return;
 		}
 		while (field_80 < list.Count && list[field_80].KillTarget == 0)
 		{
-			PrintEcho($"连车: 第 {field_80 + 1} 站数量为 0，已跳过");
+			PrintEcho($"連車: 第 {field_80 + 1} 站數量為 0，已跳過");
 			field_80++;
 		}
 		if (field_80 >= list.Count)
 		{
 			field_78 = RecoveredType_9.field_126;
-			PrintEcho("连车: 已无需要执行的站点，全部完成");
+			PrintEcho("連車: 已無需要執行的站點，全部完成");
 			return;
 		}
 		HuntChainStep huntChainStep = list[field_80];
 		if (Method_153(huntChainStep.Preset, out var arg, out var _, out var _) && Method_154(huntChainStep.Preset, arg) && !CrossWorldInProgress)
 		{
 			field_78 = RecoveredType_9.field_125;
-			PrintEcho($"连车: 第 {field_80 + 1} 站已在目标地图，开始计数");
+			PrintEcho($"連車: 第 {field_80 + 1} 站已在目標地圖，開始計數");
 			Method_148();
 		}
 		else
 		{
-			PrintEcho($"连车: 前往第 {field_80 + 1} 站 {huntChainStep.Preset.ServerName} {huntChainStep.Preset.MapName} · {huntChainStep.Preset.AetheryteName}");
+			PrintEcho($"連車: 前往第 {field_80 + 1} 站 {huntChainStep.Preset.ServerName} {huntChainStep.Preset.MapName} · {huntChainStep.Preset.AetheryteName}");
 		}
 	}
 
@@ -4687,7 +4691,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 读取当前服务器名失败");
+			Log.Warning(exception, "自動狩獵跟車：讀取目前伺服器名失敗");
 		}
 		return string.Empty;
 	}
@@ -4696,7 +4700,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		if (!Config.AutomationEnabled)
 		{
-			PrintEcho("自动狩猎未启用，无法导航");
+			PrintEcho("自動狩獵未啟用，無法導航");
 			return;
 		}
 		RecoveredType_3 recoveredType_ = new RecoveredType_3(arg0, arg1);
@@ -4704,13 +4708,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			field_32 = recoveredType_;
 			field_34 = false;
-			PrintEcho("战斗中，已保存最新Flag，战斗结束后执行");
+			PrintEcho("戰鬥中，已儲存最新地圖標記，戰鬥結束後執行");
 		}
 		else if (field_33)
 		{
 			field_32 = recoveredType_;
 			field_34 = true;
-			PrintEcho("S怪监控中，已保存最新Flag，S怪结束后执行");
+			PrintEcho("S怪監控中，已儲存最新地圖標記，S怪結束後執行");
 		}
 		else
 		{
@@ -4767,7 +4771,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			Method_196(RecoveredType_8.field_118, arg1);
 			if (!(await Method_182(token)))
 			{
-				PrintEcho("召唤坐骑失败，导航已取消");
+				PrintEcho("召喚坐騎失敗，導航已取消");
 				return;
 			}
 			await Task.Delay(100, token);
@@ -4775,14 +4779,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (OperationCanceledException)
 		{
-			Log.Information("AutomaticHunting: Navigation cancelled");
+			Log.Information("自動狩獵跟車：導航已取消");
 			FinishSMonitor("已停止");
 		}
 		catch (Exception ex2)
 		{
-			Log.Warning(ex2, "AutomaticHunting: Navigation workflow failed");
-			PrintEcho("导航异常: " + ex2.Message);
-			FinishSMonitor("导航异常");
+			Log.Warning(ex2, "自動狩獵跟車：導航流程失敗");
+			PrintEcho("導航異常: " + ex2.Message);
+			FinishSMonitor("導航異常");
 		}
 		finally
 		{
@@ -4812,10 +4816,10 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (tuple.SameTerritory)
 		{
-			PrintEcho("无法传送，改用直接导航");
+			PrintEcho("無法傳送，改用直接導航");
 			return RecoveredType_10.field_128;
 		}
-		PrintEcho("跨图传送未开始，导航已取消");
+		PrintEcho("跨圖傳送未開始，導航已取消");
 		return RecoveredType_10.field_130;
 	}
 
@@ -4829,7 +4833,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (num != arg0.TerritoryType)
 			{
-				PrintEcho("目标区域没有可用水晶，导航已取消");
+				PrintEcho("目標區域沒有可用水晶，導航已取消");
 				return RecoveredType_10.field_130;
 			}
 			return RecoveredType_10.field_128;
@@ -4841,7 +4845,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		if (num != arg0.TerritoryType)
 		{
 			(arg1, _, _) = item;
-			PrintEcho("传送到 " + item.Item3 + " (距标点最近，修正后)");
+			PrintEcho("傳送到 " + item.Item3 + " (距標點最近，修正後)");
 			return RecoveredType_10.field_129;
 		}
 		if (!localPlayerPosition.HasValue)
@@ -4855,7 +4859,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			return RecoveredType_10.field_128;
 		}
 		(arg1, _, _) = item;
-		PrintEcho($"传送更快: 玩家到Flag {num2:0.0}m，水晶到Flag {num3:0.0}m");
+		PrintEcho($"傳送更快: 玩家到地圖標記 {num2:0.0}m，水晶到地圖標記 {num3:0.0}m");
 		return RecoveredType_10.field_129;
 	}
 
@@ -4884,13 +4888,13 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return arg0;
 		}
-		PrintEcho($"水晶{arg0.Id}已拉黑，替换为{result.Item3}");
+		PrintEcho($"水晶{arg0.Id}已拉黑，替換為{result.Item3}");
 		return result;
 	}
 
 	private async Task<bool> Method_163(uint arg0, CancellationToken arg1)
 	{
-		PrintEcho("等待传送完成...");
+		PrintEcho("等待傳送完成...");
 		DateTime utcNow = DateTime.UtcNow;
 		while (DateTime.UtcNow - utcNow < TimeSpan.FromSeconds(45L))
 		{
@@ -4904,21 +4908,21 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				continue;
 			}
-			PrintEcho($"传送读条结束，等待{Config.WaitAfterTeleport:0}秒状态稳定...");
+			PrintEcho($"傳送讀條結束，等待{Config.WaitAfterTeleport:0}秒狀態穩定...");
 			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f), arg1);
 			for (int num = 0; num < 30; num++)
 			{
 				if (await Framework.RunOnFrameworkThread(() => !Method_133() && !Condition[ConditionFlag.Casting] && Method_116() == arg0 && GetLocalPlayerPosition().HasValue))
 				{
-					PrintEcho("传送完成");
+					PrintEcho("傳送完成");
 					return true;
 				}
 				await Task.Delay(500, arg1);
 			}
-			PrintEcho("传送后状态未稳定，导航已取消");
+			PrintEcho("傳送後狀態未穩定，導航已取消");
 			return false;
 		}
-		PrintEcho("等待传送超时(45s)，导航已取消");
+		PrintEcho("等待傳送超時(45s)，導航已取消");
 		return false;
 	}
 
@@ -4946,16 +4950,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					if (!(await Method_181(arg1)))
 					{
-						PrintEcho("启动导航失败: vnavmesh未就绪(等待加载超时)");
+						PrintEcho("啟動導航失敗: vnavmesh未就緒(等待載入超時)");
 						return;
 					}
 					if (!(await Framework.RunOnFrameworkThread(() => !Config.SetFlagOnNavigation || Method_126(arg0.TerritoryType, 0u, arg0.Position))))
 					{
-						PrintEcho("设置地图Flag失败");
+						PrintEcho("設定地圖地圖標記失敗");
 					}
 					await Task.Delay(150, arg1);
 					Method_179("/vnav flyflag");
-					PrintEcho("开始导航: /vnav flyflag");
+					PrintEcho("開始導航: /vnav flyflag");
 					flag2 = true;
 				}
 				if (flag2)
@@ -4964,16 +4968,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				if (j < 2)
 				{
-					PrintEcho("寻路失败，2秒后重新寻路...");
+					PrintEcho("尋路失敗，2秒後重新尋路...");
 					await Task.Delay(TimeSpan.FromSeconds(2L), arg1);
 				}
 			}
 			if (!flag2)
 			{
-				PrintEcho("导航失败: vnavmesh未就绪或无法规划路径");
+				PrintEcho("導航失敗: vnavmesh未就緒或無法規劃路徑");
 				return;
 			}
-			PrintEcho(flag ? "导航已开始(前往A怪真实坐标)" : "导航已开始(前往标点)");
+			PrintEcho(flag ? "導航已開始(前往A怪真實座標)" : "導航已開始(前往標點)");
 			bool flag3 = false;
 			int num = 0;
 			for (int j = 0; j < 240; j++)
@@ -4988,7 +4992,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				if (!flag && j - num >= 60)
 				{
 					num = j;
-					PrintEcho($"飞向标点中(距标点{num2:0.0}m)");
+					PrintEcho($"飛向標點中(距標點{num2:0.0}m)");
 				}
 				if (!flag && num2 < 100f)
 				{
@@ -4998,7 +5002,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						Method_179("/vnav stop");
 						field_209 = recoveredType_.Value.Position + Method_114(recoveredType_.Value.Position);
 						flag3 = true;
-						PrintEcho("发现A怪: " + recoveredType_.Value.Name + "，切换到落点(偏移后)");
+						PrintEcho("發現A怪: " + recoveredType_.Value.Name + "，切換到落點(偏移後)");
 						break;
 					}
 					if (Config.SEnabled)
@@ -5007,7 +5011,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						if (recoveredType_2.HasValue)
 						{
 							Method_179("/vnav stop");
-							PrintEcho($"未发现A怪，发现S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，开始悬停监控");
+							PrintEcho($"未發現A怪，發現S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，開始懸停監控");
 							await Method_165(recoveredType_2.Value, arg2, arg1);
 							return;
 						}
@@ -5015,7 +5019,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					if (num2 < 50f)
 					{
 						Method_179("/vnav stop");
-						PrintEcho("到达标点附近未发现A怪");
+						PrintEcho("到達標點附近未發現A怪");
 						return;
 					}
 				}
@@ -5027,38 +5031,38 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				string text = await Framework.RunOnFrameworkThread((Func<string>)Method_3);
 				if (!string.IsNullOrEmpty(text))
 				{
-					PrintEcho("已选中A怪: " + text);
+					PrintEcho("已選中A怪: " + text);
 				}
 				else
 				{
-					PrintEcho("落点附近未扫描到A怪");
+					PrintEcho("落點附近未掃描到A怪");
 				}
 				if (landingMode)
 				{
 					if (await Method_167(arg1))
 					{
-						PrintEcho("已下坐骑，开始战斗");
+						PrintEcho("已下坐騎，開始戰鬥");
 					}
 					else
 					{
-						PrintEcho("下坐骑失败(5s)，仍开始战斗");
+						PrintEcho("下坐騎失敗(5s)，仍開始戰鬥");
 					}
 				}
 				else
 				{
-					PrintEcho("悬停在A怪上方，保持坐骑");
+					PrintEcho("懸停在A怪上方，保持坐騎");
 				}
 				return;
 			}
 			if (!flag && !flag3)
 			{
 				Method_179("/vnav stop");
-				PrintEcho("120秒未接近标点，导航结束");
+				PrintEcho("120秒未接近標點，導航結束");
 				return;
 			}
 		}
 		Method_179("/vnav stop");
-		PrintEcho("120秒未到达A怪落点，导航结束");
+		PrintEcho("120秒未到達A怪落點，導航結束");
 	}
 
 	private async Task Method_165(RecoveredType_5 arg0, CancellationTokenSource arg1, CancellationToken arg2)
@@ -5085,17 +5089,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				if (i < 2)
 				{
-					PrintEcho("S怪寻路失败，2秒后重新寻路...");
+					PrintEcho("S怪尋路失敗，2秒後重新尋路...");
 					await Task.Delay(TimeSpan.FromSeconds(2L), arg2);
 				}
 			}
 			if (!flag)
 			{
-				PrintEcho("S怪导航失败: vnavmesh未就绪或无法规划路径");
-				FinishSMonitor("寻路失败");
+				PrintEcho("S怪導航失敗: vnavmesh未就緒或無法規劃路徑");
+				FinishSMonitor("尋路失敗");
 				return;
 			}
-			PrintEcho($"S怪导航已开始(悬停高度{Config.SHoverHeight:0}m)，悬停期间监控血量...");
+			PrintEcho($"S怪導航已開始(懸停高度{Config.SHoverHeight:0}m)，懸停期間監控血量...");
 			for (int i = 0; i < 120; i++)
 			{
 				await Task.Delay(500, arg2);
@@ -5118,7 +5122,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				if (field_216.Value.HpPercent <= Config.SHpThreshold)
 				{
 					await Method_166(field_216.Value, field_216.Value.HpPercent, arg2);
-					FinishSMonitor("已开怪");
+					FinishSMonitor("已開怪");
 					return;
 				}
 				if (!(num <= Config.SHoverDistance))
@@ -5127,7 +5131,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				Method_179("/vnav stop");
 				string text = await Framework.RunOnFrameworkThread(() => Method_204(field_216.Value));
-				PrintEcho($"已悬停到S怪附近({num:0.0}m)，已选中S怪:{text ?? field_216.Value.Name}，当前血量:{field_216.Value.HpPercent:0.0}%，等待血量降至{Config.SHpThreshold:0}%");
+				PrintEcho($"已懸停到S怪附近({num:0.0}m)，已選中S怪:{text ?? field_216.Value.Name}，目前血量:{field_216.Value.HpPercent:0.0}%，等待血量降至{Config.SHpThreshold:0}%");
 				float num2 = -1f;
 				float num3 = 0f;
 				float num4 = 0f;
@@ -5160,7 +5164,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					});
 					if (tuple.kind == 2)
 					{
-						PrintEcho("S怪已死亡，悬停监控结束");
+						PrintEcho("S怪已死亡，懸停監控結束");
 						FinishSMonitor("S怪已死亡");
 						return;
 					}
@@ -5169,7 +5173,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						num5 = 0f;
 						if (flag2 && tuple.kind == 3)
 						{
-							PrintEcho("目标已重新选中: " + arg0.Name);
+							PrintEcho("目標已重新選中: " + arg0.Name);
 						}
 						flag2 = false;
 						float num6 = ((tuple.player.HasValue && tuple.isS) ? Method_197(tuple.player.Value, tuple.pos) : 0f);
@@ -5187,14 +5191,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 							if (flag3 && (DateTime.UtcNow - dateTime2).TotalSeconds >= 10.0)
 							{
 								dateTime2 = DateTime.UtcNow;
-								PrintEcho($"S怪已移动，距离 {num6:0.0}m，重新悬停跟随");
+								PrintEcho($"S怪已移動，距離 {num6:0.0}m，重新懸停跟隨");
 							}
 						}
 						float item = tuple.hp;
 						SMonitorStatus sMonitor2 = SMonitor;
 						if (sMonitor2 != null)
 						{
-							sMonitor2.Phase = "悬停监控";
+							sMonitor2.Phase = "懸停監控";
 							sMonitor2.HpPercent = item;
 							sMonitor2.WaitedSeconds = num4;
 							sMonitor2.TargetLost = false;
@@ -5202,18 +5206,18 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						if (Math.Abs(item - num2) >= 5f)
 						{
 							num2 = item;
-							PrintEcho($"悬停监控中: S怪血量 {item:0.0}%");
+							PrintEcho($"懸停監控中: S怪血量 {item:0.0}%");
 						}
 						if (item <= Config.SHpThreshold)
 						{
 							await Method_166(arg0, item, arg2);
-							FinishSMonitor("已开怪");
+							FinishSMonitor("已開怪");
 							return;
 						}
 						if (num4 - num3 >= 60f)
 						{
 							num3 = num4;
-							PrintEcho($"悬停监控中: 已等待{num4:0}秒, S怪血量 {item:0.0}%");
+							PrintEcho($"懸停監控中: 已等待{num4:0}秒, S怪血量 {item:0.0}%");
 						}
 					}
 					else
@@ -5223,7 +5227,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						SMonitorStatus sMonitor3 = SMonitor;
 						if (sMonitor3 != null)
 						{
-							sMonitor3.Phase = "目标丢失";
+							sMonitor3.Phase = "目標丟失";
 							sMonitor3.TargetLost = true;
 							sMonitor3.LostSeconds = num5;
 						}
@@ -5233,12 +5237,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 						}
 					}
 				}
-				PrintEcho("目标丢失30秒，悬停监控结束");
-				FinishSMonitor("目标丢失30秒");
+				PrintEcho("目標丟失30秒，懸停監控結束");
+				FinishSMonitor("目標丟失30秒");
 				return;
 			}
-			PrintEcho("S怪悬停监控超时");
-			FinishSMonitor("悬停导航超时");
+			PrintEcho("S怪懸停監控超時");
+			FinishSMonitor("懸停導航超時");
 		}
 		finally
 		{
@@ -5252,42 +5256,42 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		SMonitorStatus sMonitor = SMonitor;
 		if (sMonitor != null)
 		{
-			sMonitor.Phase = "开怪中";
+			sMonitor.Phase = "開怪中";
 			sMonitor.HpPercent = arg1;
 		}
 		else
 		{
-			BeginSMonitor(arg0.Name, "开怪中", arg1, Config.SHpThreshold);
+			BeginSMonitor(arg0.Name, "開怪中", arg1, Config.SHpThreshold);
 		}
 		if (!Config.SPathToEngage)
 		{
-			PrintEcho($"S怪血量{arg1:0.0}%≤{Config.SHpThreshold:0}%，原地开怪: 下坐骑");
+			PrintEcho($"S怪血量{arg1:0.0}%≤{Config.SHpThreshold:0}%，原地開怪: 下坐騎");
 			if (await Method_167(arg2))
 			{
-				PrintEcho("已下坐骑，执行突进: " + Config.SDashCommand);
+				PrintEcho("已下坐騎，執行突進: " + Config.SDashCommand);
 			}
 			else
 			{
-				PrintEcho("下坐骑失败(5s)，仍执行突进");
+				PrintEcho("下坐騎失敗(5s)，仍執行突進");
 			}
 			await Method_168(arg2);
 			return;
 		}
-		string value = ((Method_114(arg0.Position) == Vector3.Zero) ? "" : "（含落点偏移）");
-		PrintEcho($"S怪血量{arg1:0.0}%≤{Config.SHpThreshold:0}%，寻路开怪: 前往 {arg0.Name} 坐标{value}");
+		string value = ((Method_114(arg0.Position) == Vector3.Zero) ? "" : "（含落點偏移）");
+		PrintEcho($"S怪血量{arg1:0.0}%≤{Config.SHpThreshold:0}%，尋路開怪: 前往 {arg0.Name} 座標{value}");
 		bool flag = await Method_169(arg0, arg2);
 		Method_179("/vnav stop");
 		if (!flag)
 		{
-			PrintEcho("寻路开怪: 未到达S怪坐标(失败/超时)，原地下坐骑开怪");
+			PrintEcho("尋路開怪: 未到達S怪座標(失敗/超時)，原地下坐騎開怪");
 		}
 		if (await Method_167(arg2))
 		{
-			PrintEcho("已下坐骑，执行突进: " + Config.SDashCommand);
+			PrintEcho("已下坐騎，執行突進: " + Config.SDashCommand);
 		}
 		else
 		{
-			PrintEcho("下坐骑失败(5s)，仍执行突进");
+			PrintEcho("下坐騎失敗(5s)，仍執行突進");
 		}
 		await Method_168(arg2);
 	}
@@ -5325,7 +5329,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				if (i < 2)
 				{
-					PrintEcho("寻路开怪: 寻路失败，2秒后重试...");
+					PrintEcho("尋路開怪: 尋路失敗，2秒後重試...");
 					await Task.Delay(TimeSpan.FromSeconds(2L), arg1);
 				}
 				continue;
@@ -5353,7 +5357,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					num += 0.5f;
 					if (num >= 5f)
 					{
-						PrintEcho($"寻路开怪: S怪已消失{num:0}秒，中止");
+						PrintEcho($"尋路開怪: S怪已消失{num:0}秒，中止");
 						return false;
 					}
 					continue;
@@ -5378,11 +5382,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					if (!((DateTime.UtcNow - dateTime2).TotalSeconds < 3.0))
 					{
 						dateTime2 = DateTime.UtcNow;
-						PrintEcho($"寻路开怪: 目标已移动 {num2:0.0}m，重新寻路");
+						PrintEcho($"尋路開怪: 目標已移動 {num2:0.0}m，重新尋路");
 					}
 				}
 			}
-			PrintEcho("寻路开怪: 60秒未到达，重试寻路...");
+			PrintEcho("尋路開怪: 60秒未到達，重試尋路...");
 		}
 		return false;
 	}
@@ -5434,12 +5438,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void LoadDrPresets()
 	{
-		PrintEcho("Global 前置：Lifestream " + (IsPluginLoaded("Lifestream") ? "已載入" : "未載入") + "；vnavmesh " + (IsPluginLoaded("vnavmesh") ? "已載入" : "未載入"));
+		PrintEcho("國際服 前置：Lifestream " + (IsPluginLoaded("Lifestream") ? "已載入" : "未載入") + "；vnavmesh " + (IsPluginLoaded("vnavmesh") ? "已載入" : "未載入"));
 	}
 
 	public void LoadFastInstanceSwitch()
 	{
-		PrintEcho("Global 切線使用 Lifestream：" + (IsPluginLoaded("Lifestream") ? "已載入；靠近水晶後即可切線" : "請先安裝並啟用 Lifestream"));
+		PrintEcho("國際服 切線使用 Lifestream：" + (IsPluginLoaded("Lifestream") ? "已載入；靠近水晶後即可切線" : "請先安裝並啟用 Lifestream"));
 	}
 
 	public void SwitchToNextInstance()
@@ -5468,7 +5472,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		Config.CurrentInstanceNumber = num;
 		Method_176();
 		GlobalCommands.Process($"/ahglobal instance {num}");
-		PrintEcho($"正在切换到 {num} 线 (/ahglobal instance {num})");
+		PrintEcho($"正在切換到 {num} 線 (/ahglobal instance {num})");
 		_ = Method_65(num);
 	}
 
@@ -5485,11 +5489,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			IGameObject target = TargetManager.Target;
 			if (target == null || !(target is IBattleChara))
 			{
-				PrintEcho("未选中目标，请先选中一个怪再监控血量");
+				PrintEcho("未選中目標，請先選中一個怪再監控血量");
 				return;
 			}
-			BeginSMonitor(target.Name.TextValue, "血量监控", Method_206(string.Empty, out var arg) ? arg : (-1f), Config.SHpThreshold);
-			PrintEcho($"开始监控当前目标血量(阈值{Config.SHpThreshold:0}%)...");
+			BeginSMonitor(target.Name.TextValue, "血量監控", Method_206(string.Empty, out var arg) ? arg : (-1f), Config.SHpThreshold);
+			PrintEcho($"開始監控目前目標血量(門檻{Config.SHpThreshold:0}%)...");
 			float num = -1f;
 			DateTime utcNow = DateTime.UtcNow;
 			IGameObject target2;
@@ -5500,20 +5504,20 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				SMonitorStatus sMonitor = SMonitor;
 				if (sMonitor != null && sMonitor.Finished)
 				{
-					PrintEcho("监控已停止");
+					PrintEcho("監控已停止");
 					return;
 				}
 				target2 = TargetManager.Target;
 				if (target2 == null)
 				{
-					PrintEcho("目标丢失，监控结束");
-					FinishSMonitor("目标丢失");
+					PrintEcho("目標丟失，監控結束");
+					FinishSMonitor("目標丟失");
 					return;
 				}
 				if (target2 is IBattleChara { CurrentHp: 0u })
 				{
-					PrintEcho("目标已死亡，监控结束");
-					FinishSMonitor("目标已死亡");
+					PrintEcho("目標已死亡，監控結束");
+					FinishSMonitor("目標已死亡");
 					return;
 				}
 				if (Method_206(string.Empty, out arg2))
@@ -5521,14 +5525,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					SMonitorStatus sMonitor2 = SMonitor;
 					if (sMonitor2 != null)
 					{
-						sMonitor2.Phase = "血量监控";
+						sMonitor2.Phase = "血量監控";
 						sMonitor2.HpPercent = arg2;
 						sMonitor2.WaitedSeconds = (float)(DateTime.UtcNow - utcNow).TotalSeconds;
 					}
 					if (Math.Abs(arg2 - num) >= 5f)
 					{
 						num = arg2;
-						PrintEcho($"监控中: 当前目标血量 {arg2:0.0}%");
+						PrintEcho($"監控中: 目前目標血量 {arg2:0.0}%");
 					}
 					if (arg2 <= Config.SHpThreshold)
 					{
@@ -5537,14 +5541,14 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 			}
 			RecoveredType_5 arg3 = new RecoveredType_5(target2.Name.TextValue, target2.Position, arg2);
-			PrintEcho($"血量{arg2:0.0}%≤{Config.SHpThreshold:0}%，开始开怪(与S怪流程一致): {Config.SDashCommand}");
+			PrintEcho($"血量{arg2:0.0}%≤{Config.SHpThreshold:0}%，開始開怪(與S怪流程一致): {Config.SDashCommand}");
 			await Method_166(arg3, arg2, CancellationToken.None);
-			FinishSMonitor("已开怪");
+			FinishSMonitor("已開怪");
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Target HP monitor failed");
-			FinishSMonitor("监控异常");
+			Log.Warning(exception, "自動狩獵跟車：監控目標血量失敗");
+			FinishSMonitor("監控異常");
 		}
 	}
 
@@ -5577,7 +5581,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行突进技能失败 " + field_228);
+				Log.Warning(exception, "自動狩獵跟車：執行突進技能失敗 " + field_228);
 			}
 		});
 	}
@@ -5592,7 +5596,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			catch (Exception exception)
 			{
-				Log.Warning(exception, "AutomaticHunting: 执行命令失败 " + arg0);
+				Log.Warning(exception, "自動狩獵跟車：執行命令失敗 " + arg0);
 			}
 		});
 	}
@@ -5614,7 +5618,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 					Lumina.Excel.Sheets.Action action = excelSheet.FirstOrDefault((Lumina.Excel.Sheets.Action action2) => string.Equals(action2.Name.ExtractText(), arg0, StringComparison.OrdinalIgnoreCase));
 					if (action.RowId == 0)
 					{
-						Log.Warning("AutomaticHunting: 未找到技能 " + arg0);
+						Log.Warning("自動狩獵跟車：未找到技能 " + arg0);
 						return false;
 					}
 					value = action.RowId;
@@ -5628,12 +5632,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			ulong num = TargetManager.Target?.GameObjectId ?? 0;
 			bool flag = ptr->UseAction(ActionType.Action, value, num, 0u, ActionManager.UseActionMode.None, 0u, null);
-			Log.Information($"AutomaticHunting: 使用技能 {arg0} (id={value}, target={num}) => {flag}");
+			Log.Information($"自動狩獵跟車：使用技能 {arg0} (id={value}, target={num}) => {flag}");
 			return flag;
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: 查找或使用技能失败 " + arg0);
+			Log.Warning(exception, "自動狩獵跟車：查詢或使用技能失敗 " + arg0);
 		}
 		return false;
 	}
@@ -5673,7 +5677,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (!(await Framework.RunOnFrameworkThread((Func<bool>)Method_184)))
 		{
-			PrintEcho("等待区域加载/动作就绪...");
+			PrintEcho("等待區域載入/動作就緒...");
 			DateTime utcNow = DateTime.UtcNow;
 			while (DateTime.UtcNow - utcNow < TimeSpan.FromSeconds(5L))
 			{
@@ -5684,7 +5688,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 			}
 		}
-		PrintEcho("召唤坐骑...");
+		PrintEcho("召喚坐騎...");
 		for (int num = 1; num <= 5; num++)
 		{
 			if (await Framework.RunOnFrameworkThread(() => (Config.SelectedMountId != 0) ? Method_198(Config.SelectedMountId) : Method_199()))
@@ -5773,7 +5777,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Manual mount summon failed");
+			Log.Warning(exception, "自動狩獵跟車：手動召喚坐騎失敗");
 		}
 	}
 
@@ -5811,11 +5815,11 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		Vector3 arg3;
 		if (!Config.AutomationEnabled)
 		{
-			PrintEcho("自动狩猎未启用，无法导航");
+			PrintEcho("自動狩獵未啟用，無法導航");
 		}
 		else if (!Method_190(out arg, out arg2, out arg3))
 		{
-			PrintEcho("当前没有 Flag 或 vnav 未就绪");
+			PrintEcho("目前沒有 地圖標記 或 vnav 未就緒");
 		}
 		else
 		{
@@ -5905,28 +5909,28 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			Method_196(RecoveredType_8.field_118, arg2);
 			if (!(await Method_182(token)))
 			{
-				PrintEcho("召唤坐骑失败，导航已取消");
+				PrintEcho("召喚坐騎失敗，導航已取消");
 				return;
 			}
 			await Task.Delay(100, token);
 			if (!(await Method_181(token)))
 			{
-				PrintEcho("启动导航失败: vnavmesh未就绪");
+				PrintEcho("啟動導航失敗: vnavmesh未就緒");
 				return;
 			}
 			Method_196(RecoveredType_8.field_119, arg2);
-			PrintEcho("开始导航: /vnav flyflag");
+			PrintEcho("開始導航: /vnav flyflag");
 			Method_179("/vnav flyflag");
 			await Method_193(arg1, arg2, token);
 		}
 		catch (OperationCanceledException)
 		{
-			Log.Information("AutomaticHunting: FlyFlag navigation cancelled");
+			Log.Information("自動狩獵跟車：前往地圖標記的導航已取消");
 		}
 		catch (Exception ex2)
 		{
-			Log.Warning(ex2, "AutomaticHunting: FlyFlag navigation failed");
-			PrintEcho("导航异常: " + ex2.Message);
+			Log.Warning(ex2, "自動狩獵跟車：前往地圖標記的導航失敗");
+			PrintEcho("導航異常: " + ex2.Message);
 		}
 		finally
 		{
@@ -5963,7 +5967,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (recoveredType_.HasValue)
 			{
 				Method_179("/vnav stop");
-				PrintEcho("发现A怪: " + recoveredType_.Value.Name + "，切换到真实坐标");
+				PrintEcho("發現A怪: " + recoveredType_.Value.Name + "，切換到真實座標");
 				await Method_194(recoveredType_.Value.Position, landingMode, arg1, arg2);
 				return;
 			}
@@ -5973,7 +5977,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 				if (recoveredType_2.HasValue)
 				{
 					Method_179("/vnav stop");
-					PrintEcho($"未发现A怪，发现S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，开始悬停监控");
+					PrintEcho($"未發現A怪，發現S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，開始懸停監控");
 					await Method_165(recoveredType_2.Value, arg1, arg2);
 					return;
 				}
@@ -5981,12 +5985,12 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (num < 50f)
 			{
 				Method_179("/vnav stop");
-				PrintEcho("到达Flag附近未发现A怪");
+				PrintEcho("到達地圖標記附近未發現A怪");
 				return;
 			}
 		}
 		Method_179("/vnav stop");
-		PrintEcho("到达Flag附近未发现A怪");
+		PrintEcho("到達地圖標記附近未發現A怪");
 	}
 
 	private async Task Method_194(Vector3 arg0, bool arg1, CancellationTokenSource arg2, CancellationToken arg3)
@@ -6008,16 +6012,16 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (i < 2)
 			{
-				PrintEcho("A怪寻路失败，2秒后重新寻路...");
+				PrintEcho("A怪尋路失敗，2秒後重新尋路...");
 				await Task.Delay(TimeSpan.FromSeconds(2L), arg3);
 			}
 		}
 		if (!flag)
 		{
-			PrintEcho("A怪导航失败: vnavmesh未就绪或无法规划路径");
+			PrintEcho("A怪導航失敗: vnavmesh未就緒或無法規劃路徑");
 			return;
 		}
-		PrintEcho("导航已开始(前往A怪落点)");
+		PrintEcho("導航已開始(前往A怪落點)");
 		for (int i = 0; i < 240; i++)
 		{
 			await Task.Delay(500, arg3);
@@ -6030,30 +6034,30 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 			string text = await Framework.RunOnFrameworkThread((Func<string>)Method_3);
 			if (!string.IsNullOrEmpty(text))
 			{
-				PrintEcho("已选中A怪: " + text);
+				PrintEcho("已選中A怪: " + text);
 			}
 			else
 			{
-				PrintEcho("落点附近未扫描到A怪");
+				PrintEcho("落點附近未掃描到A怪");
 			}
 			if (arg1)
 			{
 				if (await Method_167(arg3))
 				{
-					PrintEcho("已下坐骑，开始战斗");
+					PrintEcho("已下坐騎，開始戰鬥");
 				}
 				else
 				{
-					PrintEcho("下坐骑失败(5s)，仍开始战斗");
+					PrintEcho("下坐騎失敗(5s)，仍開始戰鬥");
 				}
 			}
 			else
 			{
-				PrintEcho("悬停在A怪上方，保持坐骑");
+				PrintEcho("懸停在A怪上方，保持坐騎");
 			}
 			return;
 		}
-		PrintEcho("120秒未到达A怪落点，导航结束");
+		PrintEcho("120秒未到達A怪落點，導航結束");
 	}
 
 	private Task Method_195()
@@ -6113,17 +6117,17 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		string currentTerritoryName = GetCurrentTerritoryName();
 		if (string.IsNullOrWhiteSpace(currentTerritoryName))
 		{
-			PrintEcho("扫描S怪: 无法获取当前区域名称");
+			PrintEcho("掃描S怪: 無法取得目前區域名稱");
 			return;
 		}
 		if (!Config.SRealmMarks.TryGetValue(currentTerritoryName, out string[] value))
 		{
-			PrintEcho("扫描S怪: 当前区域 [" + currentTerritoryName + "] 不在S怪列表中");
+			PrintEcho("掃描S怪: 目前區域 [" + currentTerritoryName + "] 不在S怪列表中");
 			return;
 		}
-		PrintEcho($"扫描S怪: 区域={currentTerritoryName}, 目标={string.Join("/", value)}, 范围={100f:0}m");
+		PrintEcho($"掃描S怪: 區域={currentTerritoryName}, 目標={string.Join("/", value)}, 範圍={100f:0}m");
 		RecoveredType_5? recoveredType_ = Method_202();
-		PrintEcho(recoveredType_.HasValue ? $"已找到S怪: {recoveredType_.Value.Name} 血量 {recoveredType_.Value.HpPercent:0.0}%" : $"扫描S怪: {100f:0}m内未找到匹配的目标");
+		PrintEcho(recoveredType_.HasValue ? $"已找到S怪: {recoveredType_.Value.Name} 血量 {recoveredType_.Value.HpPercent:0.0}%" : $"掃描S怪: {100f:0}m內未找到匹配的目標");
 	}
 
 	private RecoveredType_5? Method_202()
@@ -6200,7 +6204,7 @@ public sealed class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		catch (Exception exception)
 		{
-			Log.Warning(exception, "AutomaticHunting: Failed to read S mob HP");
+			Log.Warning(exception, "自動狩獵跟車：讀取 S 級怪物血量失敗");
 		}
 		return 100f;
 	}

@@ -20,12 +20,12 @@ public sealed class HudWindow : Window
 		{
 			if (!field_682.DisclaimerAccepted)
 			{
-				field_683.field_679.PrintEcho("请先在首次向导中同意免责声明，再开启自动狩猎");
+				field_683.field_679.PrintEcho("請先在首次設定精靈中同意免責宣告，再開啟自動狩獵");
 				return;
 			}
 			field_682.Enabled = !field_682.Enabled;
 			field_683.field_679.ConfigService.MarkDirty();
-			field_683.field_679.PrintEcho(field_682.Enabled ? "自动狩猎已启用" : "自动狩猎已关闭");
+			field_683.field_679.PrintEcho(field_682.Enabled ? "自動狩獵已啟用" : "自動狩獵已關閉");
 		}
 
 		internal void Method_730(int arg0)
@@ -35,7 +35,7 @@ public sealed class HudWindow : Window
 
 		internal void Method_731()
 		{
-			field_683.field_679.StopHuntChain("连车: 已停止");
+			field_683.field_679.StopHuntChain("連車: 已停止");
 		}
 
 		internal void Method_732()
@@ -47,7 +47,7 @@ public sealed class HudWindow : Window
 		internal void Method_733()
 		{
 			field_683.field_679.StopNavigation();
-			field_683.field_679.PrintEcho("导航已停止");
+			field_683.field_679.PrintEcho("導航已停止");
 		}
 
 		internal void Method_734()
@@ -65,7 +65,7 @@ public sealed class HudWindow : Window
 	public float Alpha => Math.Clamp(field_679.Config.HudAlpha, 0.62f, 1f);
 
 	public HudWindow(AutomaticHunting arg0)
-		: base("自动狩猎跟车###AutomaticHunting.Hud")
+		: base("自動狩獵跟車###AutomaticHunting.Hud")
 	{
 		field_679 = arg0;
 		RespectCloseHotkey = false;
@@ -92,7 +92,7 @@ public sealed class HudWindow : Window
 
 	public override void Draw()
 	{
-		ErrorBoundary.Run(field_679, "HUD 悬浮窗", Method_717);
+		ErrorBoundary.Run(field_679, "狀態浮窗 狀態浮窗", Method_717);
 	}
 
 	private void Method_717()
@@ -123,18 +123,18 @@ public sealed class HudWindow : Window
 			OnboardingPending = !field_682.OnboardingCompleted,
 			Restricted = !field_682.DisclaimerAccepted
 		};
-		hudCardModel.ToggleEnabledTooltip = (field_682.Enabled ? "右键：关闭自动狩猎" : "右键：启用自动狩猎");
+		hudCardModel.ToggleEnabledTooltip = (field_682.Enabled ? "右鍵：關閉自動狩獵" : "右鍵：啟用自動狩獵");
 		hudCardModel.OnToggleEnabled = () =>
 		{
 			if (!field_682.DisclaimerAccepted)
 			{
-				field_679.PrintEcho("请先在首次向导中同意免责声明，再开启自动狩猎");
+				field_679.PrintEcho("請先在首次設定精靈中同意免責宣告，再開啟自動狩獵");
 			}
 			else
 			{
 				field_682.Enabled = !field_682.Enabled;
 				field_679.ConfigService.MarkDirty();
-				field_679.PrintEcho(field_682.Enabled ? "自动狩猎已启用" : "自动狩猎已关闭");
+				field_679.PrintEcho(field_682.Enabled ? "自動狩獵已啟用" : "自動狩獵已關閉");
 			}
 		};
 		(string Label, Vector4 Color, float? Distance) targetInfo = field_679.GetTargetInfo();
@@ -156,7 +156,7 @@ public sealed class HudWindow : Window
 		}
 		else
 		{
-			hudCardModel.LeaderText = "未设置";
+			hudCardModel.LeaderText = "未設定";
 			hudCardModel.LeaderColor = Theme.TextDisabled;
 		}
 		AutomaticHunting.SMonitorStatus sMonitor = field_679.SMonitor;
@@ -183,17 +183,17 @@ public sealed class HudWindow : Window
 			};
 			hudCardModel.OnChainStop = () =>
 			{
-				field_679.StopHuntChain("连车: 已停止");
+				field_679.StopHuntChain("連車: 已停止");
 			};
 		}
 		hudCardModel.Compact = Method_721();
 		if (!field_682.OnboardingCompleted)
 		{
-			hudCardModel.MainButtonLabel = "开始配置";
+			hudCardModel.MainButtonLabel = "開始設定";
 			hudCardModel.MainButtonVariant = UiVariant.Primary;
 			hudCardModel.MainButtonEnabled = true;
 			hudCardModel.MainButtonIsStop = false;
-			hudCardModel.MainButtonTooltip = "打开首次运行向导";
+			hudCardModel.MainButtonTooltip = "開啟首次執行設定精靈";
 			hudCardModel.OnMain = Method_727;
 		}
 		else if (field_679.CrossWorldInProgress)
@@ -202,7 +202,7 @@ public sealed class HudWindow : Window
 			hudCardModel.MainButtonVariant = UiVariant.Danger;
 			hudCardModel.MainButtonEnabled = true;
 			hudCardModel.MainButtonIsStop = true;
-			hudCardModel.MainButtonTooltip = "停止跨服 · 中断跨服流程并留在当前服务器";
+			hudCardModel.MainButtonTooltip = "停止跨服 · 中斷跨服流程並留在目前伺服器";
 			hudCardModel.OnMain = () =>
 			{
 				field_679.StopCrossWorld();
@@ -211,24 +211,24 @@ public sealed class HudWindow : Window
 		}
 		else if (field_679.IsNavigating)
 		{
-			hudCardModel.MainButtonLabel = "停止导航";
+			hudCardModel.MainButtonLabel = "停止導航";
 			hudCardModel.MainButtonVariant = UiVariant.Danger;
 			hudCardModel.MainButtonEnabled = true;
 			hudCardModel.MainButtonIsStop = true;
-			hudCardModel.MainButtonTooltip = "停止导航 · 结束当前跟车任务并停在原地";
+			hudCardModel.MainButtonTooltip = "停止導航 · 結束目前跟車任務並停在原地";
 			hudCardModel.OnMain = () =>
 			{
 				field_679.StopNavigation();
-				field_679.PrintEcho("导航已停止");
+				field_679.PrintEcho("導航已停止");
 			};
 		}
 		else
 		{
-			hudCardModel.MainButtonLabel = "开始导航";
+			hudCardModel.MainButtonLabel = "開始導航";
 			hudCardModel.MainButtonVariant = UiVariant.Primary;
 			hudCardModel.MainButtonEnabled = field_682.AutomationEnabled;
 			hudCardModel.MainButtonIsStop = false;
-			hudCardModel.MainButtonTooltip = "开始跟车导航";
+			hudCardModel.MainButtonTooltip = "開始跟車導航";
 			hudCardModel.OnMain = () =>
 			{
 				field_679.StartNavigation();
@@ -245,7 +245,7 @@ public sealed class HudWindow : Window
 	{
 		SettingsWindow settingsWindow = field_679.SettingsWindow;
 		settingsWindow.IsOpen = HudCard.ToggleSettingsOpen(settingsWindow.IsOpen);
-		field_679.PrintEcho(settingsWindow.IsOpen ? "插件设置已打开" : "插件设置已关闭");
+		field_679.PrintEcho(settingsWindow.IsOpen ? "插件設定已開啟" : "插件設定已關閉");
 	}
 
 	private void Method_720()
@@ -253,7 +253,7 @@ public sealed class HudWindow : Window
 		IsOpen = false;
 		field_679.Config.HudVisible = false;
 		field_679.ConfigService.MarkDirty();
-		field_679.PrintEcho("悬浮窗已隐藏");
+		field_679.PrintEcho("狀態浮窗已隱藏");
 	}
 
 	private bool Method_721()
@@ -299,8 +299,8 @@ public sealed class HudWindow : Window
 		{
 			field_679.Config.HudPosX = 16f;
 			field_679.Config.HudPosY = 16f;
-			AutomaticHunting.Log.Warning("AutomaticHunting: HUD 位置超出屏幕，已复位到左上角");
-			AutomaticHunting.PrintEchoAlways("HUD 位置超出屏幕，已复位到左上角");
+			AutomaticHunting.Log.Warning("自動狩獵跟車：狀態浮窗 位置超出螢幕，已復位到左上角");
+			AutomaticHunting.PrintEchoAlways("狀態浮窗 位置超出螢幕，已復位到左上角");
 		}
 	}
 

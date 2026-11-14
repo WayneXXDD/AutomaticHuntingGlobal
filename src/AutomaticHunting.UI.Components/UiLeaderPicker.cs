@@ -65,7 +65,7 @@ public sealed class UiLeaderPicker
 		field_1166 = ImGui.GetItemRectMax();
 		if (ImGui.IsItemHovered())
 		{
-			UiButton.ShowTooltip("输入车头名字后按 回车 保存到下面的列表");
+			UiButton.ShowTooltip("輸入車頭名字後按 回車 儲存到下面的列表");
 		}
 		if (flag2)
 		{
@@ -96,7 +96,7 @@ public sealed class UiLeaderPicker
 		if (flag4)
 		{
 			var (value, num2) = LeaderRoster.Counts(arg1);
-			UiButton.ShowTooltip((num2 == 0) ? "还没有保存的车头；输入名字按回车即可添加" : $"已保存 {num2} 个车头，其中 {value} 个生效（点这里展开勾选）");
+			UiButton.ShowTooltip((num2 == 0) ? "還沒有儲存的車頭；輸入名字按回車即可新增" : $"已儲存 {num2} 個車頭，其中 {value} 個生效（點這裡展開勾選）");
 		}
 		if (field_1164)
 		{
@@ -127,7 +127,7 @@ public sealed class UiLeaderPicker
 		bool flag = false;
 		if (leaderEntries == null || leaderEntries.Count == 0)
 		{
-			ImGui.TextDisabled("还没有保存的车头");
+			ImGui.TextDisabled("還沒有儲存的車頭");
 			return false;
 		}
 		if (!(arg1 > 0f))
@@ -167,7 +167,7 @@ public sealed class UiLeaderPicker
 				Method_1172(ImGui.GetWindowDrawList(), vector, vector2, enabled, flag4, uiScale);
 				if (flag4)
 				{
-					UiButton.ShowTooltip(enabled ? "取消勾选（不再跟这个车头）" : "勾选（跟这个车头）");
+					UiButton.ShowTooltip(enabled ? "取消勾選（不再跟這個車頭）" : "勾選（跟這個車頭）");
 				}
 				float num5 = vector2.X + 8f * uiScale;
 				Vector2 vector3 = new Vector2(num4 - 30f * uiScale, cursorScreenPos.Y);
@@ -175,7 +175,7 @@ public sealed class UiLeaderPicker
 				float num6 = cursorScreenPos.Y + (num - ImGui.GetTextLineHeight()) * 0.5f;
 				Vector2 vector4 = new Vector2(num5, num6);
 				Theme.DrawText(ImGui.GetWindowDrawList(), vector4, enabled ? Theme.TextPrimary : Theme.TextDisabled, text, Theme.FsBody);
-				Vector2 vector5 = ImGui.CalcTextSize(text);
+				Vector2 vector5 = TraditionalText.CalcTextSize(text);
 				Vector2 arg4 = new Vector2(num5 + vector5.X, num6 + vector5.Y);
 				Vector2 vector6 = new Vector2(num4, cursorScreenPos.Y + num);
 				ImGui.SetCursorScreenPos(vector3);
@@ -191,7 +191,7 @@ public sealed class UiLeaderPicker
 				UiDeleteStyle.Draw(ImGui.GetWindowDrawList(), vector3, vector6 - vector3, flag6, flag5, uiScale);
 				if (flag5)
 				{
-					UiButton.ShowTooltip(flag6 ? "再点一次确认删除" : "从列表删除这个车头（不影响其他车头）");
+					UiButton.ShowTooltip(flag6 ? "再點一次確認刪除" : "從列表刪除這個車頭（不影響其他車頭）");
 				}
 				RowProbe?.Invoke(new LeaderRowGeometry(i, vector, vector2, vector4, arg4, vector3, vector6, cursorScreenPos, new Vector2(num4, cursorScreenPos.Y + num), enabled));
 				ImGui.SetCursorScreenPos(new Vector2(cursorScreenPos.X, cursorScreenPos.Y + num));

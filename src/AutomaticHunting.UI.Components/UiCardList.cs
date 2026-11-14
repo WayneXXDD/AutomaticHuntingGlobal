@@ -37,7 +37,7 @@ public sealed class UiCardList
 
 	private DateTime field_1100;
 
-	private string field_1101 = "DEFAULT";
+	private string field_1101 = "預設";
 
 	private float[] field_1102 = Array.Empty<float>();
 
@@ -266,7 +266,7 @@ public sealed class UiCardList
 	private static float Method_1075(UiListCardAction arg0)
 	{
 		float uiScale = Theme.UiScale;
-		float x = ImGui.CalcTextSize(arg0.Label).X;
+		float x = TraditionalText.CalcTextSize(arg0.Label).X;
 		float x2 = ImGui.GetStyle().FramePadding.X;
 		return x + x2 * 2f + 2f * uiScale;
 	}
@@ -297,7 +297,7 @@ public sealed class UiCardList
 					{
 						num3 = uiListCardPrefix.Chars;
 					}
-					float x = ImGui.CalcTextSize(uiListCardPrefix.Text ?? string.Empty).X;
+					float x = TraditionalText.CalcTextSize(uiListCardPrefix.Text ?? string.Empty).X;
 					if (x > num2)
 					{
 						num2 = x;
@@ -321,7 +321,7 @@ public sealed class UiCardList
 		{
 			return 0f;
 		}
-		return ImGui.CalcTextSize(new string('中', num)).X;
+		return TraditionalText.CalcTextSize(new string('中', num)).X;
 	}
 
 	private static PrefixGeometry Method_1078(string arg0, UiListCardPrefix arg1, float arg2)
@@ -330,7 +330,7 @@ public sealed class UiCardList
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		string text = arg1.Text ?? string.Empty;
-		float x = ImGui.CalcTextSize(text).X;
+		float x = TraditionalText.CalcTextSize(text).X;
 		float num = 4f * uiScale;
 		float x2 = (arg1.Center ? (cursorScreenPos.X + (arg2 - x) * 0.5f) : (cursorScreenPos.X + num));
 		float num2 = cursorScreenPos.Y + Math.Max(0f, (24f * uiScale - Theme.FsBody) * 0.5f);
@@ -378,12 +378,12 @@ public sealed class UiCardList
 		{
 			field_1095 = arg2;
 			ImGui.SetDragDropPayload(field_1101, default);
-			ImGui.TextUnformatted(arg1.Title);
+			TraditionalText.TextUnformatted(arg1.Title);
 			ImGui.EndDragDropSource();
 		}
 		if (flag)
 		{
-			ImGui.SetTooltip(arg1.Draggable ? "按住拖动调整顺序" : "此条目不可拖动");
+			TraditionalText.SetTooltip(arg1.Draggable ? "按住拖動調整順序" : "此條目不可拖動");
 		}
 		return new IconButtonGeometry(arg2, CardIconKind.Handle, itemRectMin, itemRectMax, arg1.Draggable);
 	}
@@ -398,15 +398,15 @@ public sealed class UiCardList
 		string arg5;
 		if (arg2)
 		{
-			arg5 = (flag ? "上移（已是第一项）" : "上移");
+			arg5 = (flag ? "上移（已是第一項）" : "上移");
 		}
 		else
 		{
-			arg5 = (flag2 ? "下移（已是最后一项）" : "下移");
+			arg5 = (flag2 ? "下移（已是最後一項）" : "下移");
 		}
 		if (!arg3.Draggable)
 		{
-			arg5 = (arg2 ? "上移（此条目不可排序）" : "下移（此条目不可排序）");
+			arg5 = (arg2 ? "上移（此條目不可排序）" : "下移（此條目不可排序）");
 		}
 		ImGui.GetCursorScreenPos();
 		if (!flag3)
@@ -463,8 +463,8 @@ public sealed class UiCardList
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		bool flag = !string.IsNullOrEmpty(arg1.Subtitle);
-		Vector2 vector = ImGui.CalcTextSize(arg1.Title);
-		Vector2 vector2 = (flag ? ImGui.CalcTextSize(arg1.Subtitle) : Vector2.Zero);
+		Vector2 vector = TraditionalText.CalcTextSize(arg1.Title);
+		Vector2 vector2 = (flag ? TraditionalText.CalcTextSize(arg1.Subtitle) : Vector2.Zero);
 		float y;
 		if (flag)
 		{
@@ -509,7 +509,7 @@ public sealed class UiCardList
 		UiDeleteStyle.Draw(ImGui.GetWindowDrawList(), cursorScreenPos, vector, flag3, flag2, uiScale);
 		if (flag2)
 		{
-			ImGui.SetTooltip(flag3 ? "再点一次确认删除" : arg1.DeleteTooltip);
+			TraditionalText.SetTooltip(flag3 ? "再點一次確認刪除" : arg1.DeleteTooltip);
 		}
 		if (flag)
 		{

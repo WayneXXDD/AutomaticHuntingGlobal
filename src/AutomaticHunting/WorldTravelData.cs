@@ -358,7 +358,7 @@ public static class WorldTravelData
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Warning(exception, "AutomaticHunting: 构建大区列表失败");
+			AutomaticHunting.Log.Warning(exception, "自動狩獵跟車：構建資料中心列表失敗");
 		}
 		field_646 = list;
 		return list;
@@ -401,7 +401,7 @@ public static class WorldTravelData
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Warning(exception, "AutomaticHunting: 读取当前大区失败");
+			AutomaticHunting.Log.Warning(exception, "自動狩獵跟車：讀取目前資料中心失敗");
 			return "";
 		}
 	}
@@ -446,7 +446,7 @@ public static class WorldTravelData
 		}
 		catch (Exception exception)
 		{
-			AutomaticHunting.Log.Warning(exception, $"AutomaticHunting: 构建地图列表失败(ExVersion={arg0})");
+			AutomaticHunting.Log.Warning(exception, $"自動狩獵跟車：構建地圖列表失敗(ExVersion={arg0})");
 		}
 		field_647[arg0] = list;
 		return list;

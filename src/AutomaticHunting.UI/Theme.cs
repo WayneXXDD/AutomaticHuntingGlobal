@@ -763,7 +763,7 @@ public static class Theme
 		{
 			return 0f;
 		}
-		float x = ImGui.CalcTextSize(arg0).X;
+		float x = TraditionalText.CalcTextSize(arg0).X;
 		float fsBody = FsBody;
 		if (arg1 <= 0f || fsBody <= 0f || Math.Abs(arg1 - fsBody) < 0.0001f)
 		{
@@ -774,7 +774,7 @@ public static class Theme
 
 	public static float MeasureTextHeight(float arg0 = 0f)
 	{
-		float y = ImGui.CalcTextSize("Ag中").Y;
+		float y = TraditionalText.CalcTextSize("Ag中").Y;
 		float fsBody = FsBody;
 		if (arg0 <= 0f || fsBody <= 0f || Math.Abs(arg0 - fsBody) < 0.0001f)
 		{
@@ -795,6 +795,7 @@ public static class Theme
 
 	public static string Ellipsis(string? arg0, float arg1, float arg2 = 0f)
 	{
+		arg0 = TraditionalText.Translate(arg0);
 		if (string.IsNullOrEmpty(arg0))
 		{
 			return string.Empty;
@@ -837,6 +838,7 @@ public static class Theme
 
 	public static List<string> WrapText(string? arg0, float arg1, float arg2 = 0f)
 	{
+		arg0 = TraditionalText.Translate(arg0);
 		RecoveredType_127 arg3 = default;
 		arg3.field_844 = arg1;
 		arg3.field_842 = new List<string>();
@@ -899,12 +901,12 @@ public static class Theme
 			if (arg5)
 			{
 				uint col2 = U32(TextShadow);
-				arg0.AddText(ImGui.GetFont(), fontSize, arg1 + new Vector2(-1f, 0f), col2, arg3);
-				arg0.AddText(ImGui.GetFont(), fontSize, arg1 + new Vector2(1f, 0f), col2, arg3);
-				arg0.AddText(ImGui.GetFont(), fontSize, arg1 + new Vector2(0f, -1f), col2, arg3);
-				arg0.AddText(ImGui.GetFont(), fontSize, arg1 + new Vector2(0f, 1f), col2, arg3);
+				TraditionalText.AddText(arg0,ImGui.GetFont(), fontSize, arg1 + new Vector2(-1f, 0f), col2, arg3);
+				TraditionalText.AddText(arg0,ImGui.GetFont(), fontSize, arg1 + new Vector2(1f, 0f), col2, arg3);
+				TraditionalText.AddText(arg0,ImGui.GetFont(), fontSize, arg1 + new Vector2(0f, -1f), col2, arg3);
+				TraditionalText.AddText(arg0,ImGui.GetFont(), fontSize, arg1 + new Vector2(0f, 1f), col2, arg3);
 			}
-			arg0.AddText(ImGui.GetFont(), fontSize, arg1, col, arg3);
+			TraditionalText.AddText(arg0,ImGui.GetFont(), fontSize, arg1, col, arg3);
 		}
 	}
 
