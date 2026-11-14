@@ -1,0 +1,44 @@
+name: Inspect original AutomaticHunting DLL
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/inspect-original.yml'
+      - '.github/scripts/Inspect-Original.ps1'
+permissions:
+  contents: write
+concurrency:
+  group: inspect-original
+  cancel-in-progress: false
+jobs:
+  inspect:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Inspect and decompile the original package without executing it
+        shell: pwsh
+        run: ./.github/scripts/Inspect-Original.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: AutomaticHunting-original-analysis
+          path: analysis/original/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Save inspection sources
+        shell: pwsh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- analysis/original
+          git diff --cached --quiet
+          if ($LASTEXITCODE -eq 0) { exit 0 }
+          if ($LASTEXITCODE -ne 1) { throw 'Unable to inspect staged source changes.' }
+          git commit -m "Record static decompilation of upstream AutomaticHunting 2.4.5.0"
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to commit analysis.' }
+          git push origin HEAD:main
+          if ($LASTEXITCODE -ne 0) { throw 'Unable to push analysis; retrieve the uploaded artifact.' }
