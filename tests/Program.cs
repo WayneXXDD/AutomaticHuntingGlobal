@@ -32,3 +32,13 @@ Check(formatter.Translate("未知名稱") == "未知名稱", "unknown name prese
 for (var i = 0; i < 1100; i++) formatter.Translate("測試文字" + i);
 Check(formatter.Translate("Queen Hawk") == "女王鷹蜂", "translation remains correct after cache eviction");
 Console.WriteLine("Passed " + assertions + " total compatibility and Traditional Chinese display assertions.");
+
+Check(formatter.Matches("Queen Hawk", "女王"), "Traditional Chinese search");
+Check(formatter.Matches("Queen Hawk", "hawk"), "native name search");
+Check(!formatter.Matches("Queen Hawk", "不死鳥"), "unrelated search");
+Check(formatter.Translate("\u8fde\u8f66\u914d\u7f6e 1") == "連車設定 1", "old generated preset title");
+Check(formatter.Translate("狀態\uFFFD\uE0BB") == "狀態", "unsupported display markers removed");
+formatter.PreserveName("Queen Hawk");
+Check(formatter.Translate("Queen Hawk") == "Queen Hawk", "new player identity preserved");
+Check(nativeNames["Queen Hawk"] == "女王鷹蜂", "source catalogue remains unchanged");
+Console.WriteLine("Passed " + assertions + " total compatibility, localization, search and identity assertions.");

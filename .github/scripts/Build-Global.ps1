@@ -73,6 +73,6 @@ try {
     if (@($names | Where-Object { $_ -match '(^|/)(Dalamud|FFXIVClientStructs|Lumina|InteropGenerator)\.' }).Count) { throw 'Package contains Global host libraries.' }
 } finally { $verified.Dispose() }
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='34 compatibility and Traditional Chinese display assertions'; gameTested=$false} |
+[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='compatibility, Traditional Chinese display, search, identity and glyph checks'; gameTested=$false} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $distribution 'build-info.json') -Encoding utf8
 Write-Output "Verified Global package $version; SHA256 $hash"

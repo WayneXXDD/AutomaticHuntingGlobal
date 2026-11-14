@@ -365,7 +365,7 @@ public static class HudCard
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		float num = 22f * uiScale;
-		Method_1002(windowDrawList, cursorScreenPos, num, arg1, "▸ " + arg0.StageText, Theme.StatusInfo, Theme.FsCaption, 2f * uiScale);
+		Method_1002(windowDrawList, cursorScreenPos, num, arg1, "> " + arg0.StageText, Theme.StatusInfo, Theme.FsCaption, 2f * uiScale);
 		ImGui.SetCursorScreenPos(cursorScreenPos + new Vector2(0f, num));
 	}
 

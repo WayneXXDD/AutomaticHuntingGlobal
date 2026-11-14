@@ -2891,7 +2891,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		if (LastFlagPosition.HasValue)
 		{
 			float value2 = Method_197(localPlayerPosition.Value, LastFlagPosition.Value);
-			return (Label: "▸ 地圖標記 目標", Color: UiColorNav, Distance: value2);
+			return (Label: "> 地圖標記 目標", Color: UiColorNav, Distance: value2);
 		}
 		return (Label: "等待目標", Color: UiColorDisabled, Distance: null);
 	}

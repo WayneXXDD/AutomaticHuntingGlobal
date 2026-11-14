@@ -298,7 +298,7 @@ public sealed class AdvancedPage : SettingsPage
 		List<int> list = new List<int>();
 		for (int num = 0; num < Plugin.MountNames.Length; num++)
 		{
-			if (string.IsNullOrWhiteSpace(Plugin.MountSearchText) || Plugin.MountNames[num].Contains(Plugin.MountSearchText, StringComparison.OrdinalIgnoreCase))
+			if (string.IsNullOrWhiteSpace(Plugin.MountSearchText) || TraditionalText.Matches(Plugin.MountNames[num], Plugin.MountSearchText))
 			{
 				list.Add(num);
 			}

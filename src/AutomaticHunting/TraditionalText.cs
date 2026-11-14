@@ -42,6 +42,14 @@ internal static class TraditionalText
         }
     }
 
+    internal static void PreservePlayerNames(PluginConfiguration config)
+    {
+        formatter.PreserveName(config.LeaderName);
+        foreach (var entry in config.LeaderEntries) formatter.PreserveName(entry.Name);
+        if (AutomaticHunting.ObjectTable.LocalPlayer is { } player) formatter.PreserveName(player.Name.TextValue);
+    }
+
+    internal static bool Matches(string native, string query) => formatter.Matches(native, query);
     internal static string Translate(string? text) => formatter.Translate(text);
     internal static void Text(string? text) => ImGui.TextUnformatted(Translate(text));
     internal static void TextUnformatted(string? text) => ImGui.TextUnformatted(Translate(text));

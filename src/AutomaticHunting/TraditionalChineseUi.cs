@@ -37,6 +37,7 @@ public sealed partial class AutomaticHunting
             }
             return;
         }
+        TraditionalText.PreservePlayerNames(Config);
         using (traditionalFont.Push()) field_47.Draw();
     }
 }

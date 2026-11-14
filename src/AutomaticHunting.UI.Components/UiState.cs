@@ -34,7 +34,7 @@ public static class UiState
 		}
 		if (string.IsNullOrWhiteSpace(config.LeaderName))
 		{
-			return (Text: "待設定車頭", Glyph: "▸", Color: Theme.StatusIdle);
+			return (Text: "待設定車頭", Glyph: ">", Color: Theme.StatusIdle);
 		}
 		return (Text: "執行中", Glyph: "●", Color: Theme.StatusSuccess);
 	}
