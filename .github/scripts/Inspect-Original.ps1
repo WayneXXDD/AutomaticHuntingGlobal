@@ -98,7 +98,7 @@ foreach ($file in Get-ChildItem -LiteralPath $normalizedSource -Recurse -File) {
 }
 Copy-Item -LiteralPath ([IO.Path]::ChangeExtension($normalizedDll, '.names.json')) -Destination (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/metadata-names.json')
 [xml]$project = Get-Content -LiteralPath (Join-Path $normalizedOutput 'AutomaticHunting.csproj') -Raw
-foreach ($reference in $project.Project.ItemGroup.Reference) {
+foreach ($reference in $project.SelectNodes('/Project/ItemGroup/Reference')) {
     if ($null -eq $reference) { continue }
     if ($reference.Include -eq 'ECommons') { $reference.HintPath = Join-Path $package 'ECommons.dll' }
     else { $reference.HintPath = Join-Path $dalamud.Directory.FullName ($reference.Include + '.dll') }
@@ -110,3 +110,5 @@ Get-Content -LiteralPath (Join-Path $taskRoot 'compile.log')
 Copy-Item -LiteralPath (Join-Path $taskRoot 'compile.log') -Destination (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/compile.log')
 "Global reference trial build exit code: $buildExit" | Set-Content -LiteralPath (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/build-result.txt')
 # The trial may fail; retain the diagnostics for source restoration. No plugin package is published.
+
+exit 0
