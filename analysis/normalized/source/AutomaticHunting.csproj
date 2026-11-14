@@ -19,22 +19,27 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Dalamud">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\dalamud\Dalamud.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\Dalamud.dll</HintPath>
     </Reference>
     <Reference Include="FFXIVClientStructs">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\dalamud\FFXIVClientStructs.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\FFXIVClientStructs.dll</HintPath>
     </Reference>
     <Reference Include="Lumina">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\dalamud\Lumina.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\Lumina.dll</HintPath>
     </Reference>
     <Reference Include="Lumina.Excel">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\dalamud\Lumina.Excel.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\Lumina.Excel.dll</HintPath>
     </Reference>
     <Reference Include="ECommons">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\package\ECommons.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\package\ECommons.dll</HintPath>
     </Reference>
     <Reference Include="Dalamud.Bindings.ImGui">
-      <HintPath>D:\a\_temp\automatic-hunting-inspect-5d1da44edbc843dfb41fbaa701a9374b\dalamud\Dalamud.Bindings.ImGui.dll</HintPath>
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\Dalamud.Bindings.ImGui.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="InteropGenerator.Runtime">
+      <HintPath>D:\a\_temp\automatic-hunting-inspect-ce461113b17d4e639b6bdf8542fd11ef\dalamud\InteropGenerator.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
 </Project>

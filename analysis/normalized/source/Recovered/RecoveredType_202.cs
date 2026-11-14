@@ -27,15 +27,15 @@ public sealed class RecoveredType_202
 	{
 	}
 
-	internal static readonly RecoveredType_204 field_1193/* Not supported: data(30 00 48 00 45 00 4C 00 49 00 54 00 31 00) */;
+	internal static readonly RecoveredType_204 field_1193 = System.Runtime.InteropServices.MemoryMarshal.Read<RecoveredType_204>(new byte[] { 0x30, 0x00, 0x48, 0x00, 0x45, 0x00, 0x4C, 0x00, 0x49, 0x00, 0x54, 0x00, 0x31, 0x00 });
 
-	internal static readonly RecoveredType_206 field_1194/* Not supported: data(0C FF 02 30 01 30 1B FF 1A FF 1F FF 01 FF 09 FF 0B 30 0D 30 0F 30 11 30 1D 20 19 20 26 20 B7 00 25 00 03 21) */;
+	internal static readonly RecoveredType_206 field_1194 = System.Runtime.InteropServices.MemoryMarshal.Read<RecoveredType_206>(new byte[] { 0x0C, 0xFF, 0x02, 0x30, 0x01, 0x30, 0x1B, 0xFF, 0x1A, 0xFF, 0x1F, 0xFF, 0x01, 0xFF, 0x09, 0xFF, 0x0B, 0x30, 0x0D, 0x30, 0x0F, 0x30, 0x11, 0x30, 0x1D, 0x20, 0x19, 0x20, 0x26, 0x20, 0xB7, 0x00, 0x25, 0x00, 0x03, 0x21 });
 
-	internal static readonly RecoveredType_203 field_1195/* Not supported: data(00 00 80 3F 00 00 80 3F 00 00 00 40) */;
+	internal static readonly RecoveredType_203 field_1195 = System.Runtime.InteropServices.MemoryMarshal.Read<RecoveredType_203>(new byte[] { 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x40 });
 
-	internal static readonly RecoveredType_205 field_1196/* Not supported: data(2D 00 00 00 33 00 00 00 19 00 00 00 1E 00 00 00 21 00 00 00 26 00 00 00 27 00 00 00 1A 00 00 00) */;
+	internal static readonly RecoveredType_205 field_1196 = System.Runtime.InteropServices.MemoryMarshal.Read<RecoveredType_205>(new byte[] { 0x2D, 0x00, 0x00, 0x00, 0x33, 0x00, 0x00, 0x00, 0x19, 0x00, 0x00, 0x00, 0x1E, 0x00, 0x00, 0x00, 0x21, 0x00, 0x00, 0x00, 0x26, 0x00, 0x00, 0x00, 0x27, 0x00, 0x00, 0x00, 0x1A, 0x00, 0x00, 0x00 });
 
-	internal static readonly RecoveredType_203 field_1197/* Not supported: data(03 00 00 00 04 00 00 00 05 00 00 00) */;
+	internal static readonly RecoveredType_203 field_1197 = System.Runtime.InteropServices.MemoryMarshal.Read<RecoveredType_203>(new byte[] { 0x03, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00 });
 
 	internal static ReadOnlySpan<TMethod1> Method_1213<TMethod0, TMethod1>(in TMethod0 arg0, int arg1)
 	{
@@ -47,3 +47,4 @@ public sealed class RecoveredType_202
 		return ref Unsafe.Add(ref Unsafe.As<TMethod0, TMethod1>(ref arg0), arg1);
 	}
 }
+

@@ -1,1 +1,1 @@
-Global reference trial build exit code: 1
+Global reference trial build exit code: 0
