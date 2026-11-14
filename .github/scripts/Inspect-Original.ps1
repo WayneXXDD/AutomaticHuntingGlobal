@@ -97,12 +97,29 @@ foreach ($file in Get-ChildItem -LiteralPath $normalizedSource -Recurse -File) {
     Copy-Item -LiteralPath $file.FullName -Destination $destination
 }
 Copy-Item -LiteralPath ([IO.Path]::ChangeExtension($normalizedDll, '.names.json')) -Destination (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/metadata-names.json')
+foreach ($file in Get-ChildItem -LiteralPath $normalizedOutput -Filter '*.cs' -Recurse -File) {
+    $text = Get-Content -LiteralPath $file.FullName -Raw
+    $restored = [regex]::Replace($text, 'internal static readonly (\w+) (\w+)/\* Not supported: data\(([0-9A-Fa-f ]+)\) \*/;', {
+        param($match)
+        $bytes = ($match.Groups[3].Value.Trim() -split '\s+' | ForEach-Object { '0x' + $_ }) -join ', '
+        'internal static readonly ' + $match.Groups[1].Value + ' ' + $match.Groups[2].Value + ' = System.Runtime.InteropServices.MemoryMarshal.Read<' + $match.Groups[1].Value + '>(new byte[] { ' + $bytes + ' });'
+    })
+    if ($restored -cne $text) { Set-Content -LiteralPath $file.FullName -Value $restored -Encoding utf8 }
+}
 [xml]$project = Get-Content -LiteralPath (Join-Path $normalizedOutput 'AutomaticHunting.csproj') -Raw
 foreach ($reference in $project.SelectNodes('/Project/ItemGroup/Reference')) {
     if ($null -eq $reference) { continue }
     if ($reference.Include -eq 'ECommons') { $reference.HintPath = Join-Path $package 'ECommons.dll' }
     else { $reference.HintPath = Join-Path $dalamud.Directory.FullName ($reference.Include + '.dll') }
 }
+$group = $project.CreateElement('ItemGroup')
+$reference = $project.CreateElement('Reference')
+$reference.SetAttribute('Include', 'InteropGenerator.Runtime')
+$hint = $project.CreateElement('HintPath')
+$hint.InnerText = Join-Path $dalamud.Directory.FullName 'InteropGenerator.Runtime.dll'
+[void]$reference.AppendChild($hint)
+[void]$group.AppendChild($reference)
+[void]$project.Project.AppendChild($group)
 $project.Save((Join-Path $normalizedOutput 'AutomaticHunting.csproj'))
 dotnet build (Join-Path $normalizedOutput 'AutomaticHunting.csproj') -c Release -p:NuGetAudit=false *> (Join-Path $taskRoot 'compile.log')
 $buildExit = $LASTEXITCODE

@@ -40,7 +40,9 @@ foreach (var type in types) {
     foreach (var property in type.Properties) Rename(property, "Property_" + property.MetadataToken.RID);
     foreach (var ev in type.Events) Rename(ev, "Event_" + ev.MetadataToken.RID);
     foreach (var method in type.Methods) {
-        if (!method.IsConstructor) Rename(method, "Method_" + method.MetadataToken.RID);
+        var stateMachineOverride = method.Overrides.FirstOrDefault(o => o.DeclaringType.FullName == "System.Runtime.CompilerServices.IAsyncStateMachine");
+        if (stateMachineOverride != null) method.Name = stateMachineOverride.Name;
+        else if (!method.IsConstructor) Rename(method, "Method_" + method.MetadataToken.RID);
         foreach (var p in method.GenericParameters) p.Name = "TMethod" + p.Position;
         foreach (var p in method.Parameters) p.Name = "arg" + p.Index;
     }
