@@ -78,3 +78,35 @@ The original author attribution is retained. No additional license grant is made
 These sources have not yet been ported or verified in Global FFXIV. Do not install this analysis as a plugin.
 '@ | Set-Content -LiteralPath (Join-Path $output 'README.md') -Encoding utf8
 Get-Content -LiteralPath (Join-Path $output 'provenance.json')
+
+$normalizedPackage = Join-Path $taskRoot 'normalized-package'
+[void](New-Item -ItemType Directory -Path $normalizedPackage)
+$normalizedDll = Join-Path $normalizedPackage 'AutomaticHunting.dll'
+dotnet run --project .github/tools/NormalizeMetadata/NormalizeMetadata.csproj -c Release -- $dll $normalizedDll
+if ($LASTEXITCODE -ne 0) { throw 'Metadata name recovery failed.' }
+$normalizedSource = Join-Path $taskRoot 'normalized-source'
+& $ilspy --disable-updatecheck -ds UsePrimaryConstructorSyntax=false -ds UsePrimaryConstructorSyntaxForNonRecordTypes=false -p -o $normalizedSource -r $dalamud.Directory.FullName -r $package $normalizedDll
+if ($LASTEXITCODE -ne 0) { throw 'Normalized decompilation failed.' }
+$normalizedOutput = Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/source'
+[void](New-Item -ItemType Directory -Path $normalizedOutput -Force)
+foreach ($file in Get-ChildItem -LiteralPath $normalizedSource -Recurse -File) {
+    if ($file.Extension -notin @('.cs', '.csproj', '.resx', '.json')) { continue }
+    $relative = [IO.Path]::GetRelativePath($normalizedSource, $file.FullName)
+    $destination = Join-Path $normalizedOutput $relative
+    [void](New-Item -ItemType Directory -Path ([IO.Path]::GetDirectoryName($destination)) -Force)
+    Copy-Item -LiteralPath $file.FullName -Destination $destination
+}
+Copy-Item -LiteralPath ([IO.Path]::ChangeExtension($normalizedDll, '.names.json')) -Destination (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/metadata-names.json')
+[xml]$project = Get-Content -LiteralPath (Join-Path $normalizedOutput 'AutomaticHunting.csproj') -Raw
+foreach ($reference in $project.Project.ItemGroup.Reference) {
+    if ($null -eq $reference) { continue }
+    if ($reference.Include -eq 'ECommons') { $reference.HintPath = Join-Path $package 'ECommons.dll' }
+    else { $reference.HintPath = Join-Path $dalamud.Directory.FullName ($reference.Include + '.dll') }
+}
+$project.Save((Join-Path $normalizedOutput 'AutomaticHunting.csproj'))
+dotnet build (Join-Path $normalizedOutput 'AutomaticHunting.csproj') -c Release -p:NuGetAudit=false *> (Join-Path $taskRoot 'compile.log')
+$buildExit = $LASTEXITCODE
+Get-Content -LiteralPath (Join-Path $taskRoot 'compile.log')
+Copy-Item -LiteralPath (Join-Path $taskRoot 'compile.log') -Destination (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/compile.log')
+"Global reference trial build exit code: $buildExit" | Set-Content -LiteralPath (Join-Path $env:GITHUB_WORKSPACE 'analysis/normalized/build-result.txt')
+# The trial may fail; retain the diagnostics for source restoration. No plugin package is published.

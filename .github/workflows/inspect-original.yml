@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/inspect-original.yml'
       - '.github/scripts/Inspect-Original.ps1'
+      - '.github/tools/NormalizeMetadata/**'
 permissions:
   contents: write
 concurrency:
@@ -26,7 +27,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: AutomaticHunting-original-analysis
-          path: analysis/original/
+          path: analysis/
           retention-days: 14
           if-no-files-found: error
       - name: Save inspection sources
@@ -34,7 +35,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -- analysis/original
+          git add -- analysis
           git diff --cached --quiet
           if ($LASTEXITCODE -eq 0) { exit 0 }
           if ($LASTEXITCODE -ne 1) { throw 'Unable to inspect staged source changes.' }
