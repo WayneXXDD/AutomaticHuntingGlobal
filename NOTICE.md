@@ -1,3 +1,6 @@
+修改版名稱：AutomaticHunting Global
+維護者：WayneXXDD
+
 原插件：AutomaticHunting 2.4.5.0
 原作者：SFY
 原始發行位置：https://github.com/Whswa-river/River/releases/tag/AutomaticHunting-2.4.5.0
