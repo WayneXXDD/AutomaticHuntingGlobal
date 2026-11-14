@@ -558,7 +558,7 @@ public sealed class AdvancedPage : SettingsPage
 		text.AppendLiteral(", ");
 		text.AppendFormatted(localPlayerPosition.Value.Z, "0.0");
 		text.AppendLiteral(")");
-		TraditionalText.Text(text);
+		ImGui.Text(text);
 		Vector3? lastFlagPosition = Plugin.LastFlagPosition;
 		if (lastFlagPosition.HasValue)
 		{
@@ -569,7 +569,7 @@ public sealed class AdvancedPage : SettingsPage
 			text2.AppendLiteral(", ");
 			text2.AppendFormatted(lastFlagPosition.Value.Z, "0.0");
 			text2.AppendLiteral(")");
-			TraditionalText.Text(text2);
+			ImGui.Text(text2);
 			ImU8String text3 = new ImU8String(6, 1);
 			text3.AppendLiteral("  距離 ");
 			text3.AppendFormatted(value, "0.0");

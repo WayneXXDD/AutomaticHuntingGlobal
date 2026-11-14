@@ -283,7 +283,7 @@ public sealed class UiConfirm
 				text.AppendLiteral("請輸入「");
 				text.AppendFormatted(ConfirmWord);
 				text.AppendLiteral("」以確認");
-				TraditionalText.TextUnformatted(text);
+				ImGui.TextUnformatted(text);
 				ImGui.SetNextItemWidth(-1f);
 				ImGui.InputText("##confirmWord", ref field_1118, 32);
 				ImGui.Spacing();
@@ -325,7 +325,7 @@ public sealed class UiConfirm
 				text2.AppendLiteral("請輸入「");
 				text2.AppendFormatted(ConfirmWord);
 				text2.AppendLiteral("」以確認");
-				TraditionalText.TextUnformatted(text2);
+				ImGui.TextUnformatted(text2);
 				ImGui.PopStyleColor();
 			}
 			ImGui.EndPopup();

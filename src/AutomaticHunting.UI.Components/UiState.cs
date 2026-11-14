@@ -45,8 +45,8 @@ public static class UiState
 		{
 			return string.Empty;
 		}
-		return arg0.Replace('★', '◆').Replace('⚠', '✕').Replace('⚙', '▸')
-			.Replace('↻', '✓');
+		return arg0.Replace('★', '◆').Replace('⚠', '!').Replace('⚙', '>')
+			.Replace('↻', '+');
 	}
 
 	public static bool IsRestricted(AutomaticHunting arg0)

@@ -87,7 +87,7 @@ public sealed class OverviewPage : SettingsPage
 		{
 			text = "未知";
 		}
-		TraditionalText.TextUnformatted(text);
+		ImGui.TextUnformatted(text);
 		UiForm.Row("車頭");
 		TraditionalText.TextUnformatted(string.IsNullOrWhiteSpace(Config.LeaderName) ? "未設定" : Config.LeaderName);
 		UiForm.Row("導航狀態");
@@ -106,7 +106,7 @@ public sealed class OverviewPage : SettingsPage
 			ImU8String text2 = new ImU8String(1, 1);
 			text2.AppendFormatted(leaderDistance.Value, "0.0");
 			text2.AppendLiteral("m");
-			TraditionalText.Text(text2);
+			ImGui.Text(text2);
 		}
 		UiForm.End();
 	}
