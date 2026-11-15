@@ -110,3 +110,23 @@ Check(pendingFlag.TakeReady(true, 100, true).HasValue && !pendingFlag.IsWaiting,
 pendingFlag.Set(0, firstFlag);
 Check(!pendingFlag.IsWaiting, "invalid pending territory does not remain queued");
 Console.WriteLine("Passed " + assertions + " total compatibility, localization, leader and optional flag-teleport assertions.");
+
+Check(AMarkSearchPolicy.DefaultRadius == 200f, "larger default A-mark search radius");
+Check(AMarkSearchPolicy.NormalizeRadius(350f) == 350f, "custom search radius retained");
+Check(AMarkSearchPolicy.NormalizeRadius(0f) == 50f && AMarkSearchPolicy.NormalizeRadius(1000f) == 500f, "out-of-range saved search values bounded");
+foreach (var invalidRadius in new[] { float.NaN, float.PositiveInfinity, float.NegativeInfinity })
+    Check(AMarkSearchPolicy.NormalizeRadius(invalidRadius) == 200f, "invalid radius uses finite default");
+Check(AMarkSearchPolicy.ShouldScan(150f, 200f), "search begins beyond the former 100m boundary");
+Check(AMarkSearchPolicy.ShouldScan(350f, 350f) && !AMarkSearchPolicy.ShouldScan(350.1f, 350f), "custom acquisition boundary is applied");
+Check(!AMarkSearchPolicy.ShouldScan(float.NaN, 200f) && !AMarkSearchPolicy.ShouldScan(-1f, 200f), "invalid distance cannot trigger scanning");
+var arrivalSearch = new AMarkArrivalSearch();
+var arrivalTime = new DateTime(2026, 11, 15, 0, 0, 0, DateTimeKind.Utc);
+Check(arrivalSearch.Observe(49f, arrivalTime) == AMarkArrivalState.Approaching, "does not stop at the former 50m threshold");
+Check(arrivalSearch.Observe(10f, arrivalTime) == AMarkArrivalState.Approaching, "arrival threshold does not stop early");
+Check(arrivalSearch.Observe(9f, arrivalTime) == AMarkArrivalState.BeginWait, "arrival starts a load grace period");
+Check(arrivalSearch.Observe(9f, arrivalTime.AddSeconds(0.5)) == AMarkArrivalState.Waiting, "continues rescanning after first miss");
+Check(arrivalSearch.Observe(9f, arrivalTime.AddSeconds(4.9)) == AMarkArrivalState.Waiting, "does not expire before five seconds");
+Check(arrivalSearch.Observe(9f, arrivalTime.AddSeconds(5)) == AMarkArrivalState.Expired, "arrival search eventually ends");
+Check(arrivalSearch.Observe(20f, arrivalTime.AddSeconds(6)) == AMarkArrivalState.Approaching, "moving away resets arrival grace");
+Check(arrivalSearch.Observe(9f, arrivalTime.AddSeconds(7)) == AMarkArrivalState.BeginWait, "new arrival receives a fresh grace period");
+Console.WriteLine("Passed " + assertions + " total compatibility, localization, navigation and expanded A-mark search assertions.");

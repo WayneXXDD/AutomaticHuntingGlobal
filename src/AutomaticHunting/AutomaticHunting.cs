@@ -1997,7 +1997,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			return null;
 		}
 		RecoveredType_4? result = null;
-		float num = 100f;
+		float num = AMarkSearchPolicy.NormalizeRadius(Config.AMarkSearchRadius);
 		foreach (IGameObject item in ObjectTable)
 		{
 			float num2 = Method_197(localPlayerPosition.Value, item.Position);
@@ -4987,6 +4987,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			PrintEcho(flag ? "導航已開始(前往A怪真實座標)" : "導航已開始(前往標點)");
 			bool flag3 = false;
 			int num = 0;
+			var arrivalSearch = new AMarkArrivalSearch();
 			for (int j = 0; j < 240; j++)
 			{
 				await Task.Delay(500, arg1);
@@ -5001,7 +5002,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					num = j;
 					PrintEcho($"飛向標點中(距標點{num2:0.0}m)");
 				}
-				if (!flag && num2 < 100f)
+				if (!flag && AMarkSearchPolicy.ShouldScan(num2, Config.AMarkSearchRadius))
 				{
 					RecoveredType_4? recoveredType_ = await Framework.RunOnFrameworkThread((Func<RecoveredType_4?>)Method_2);
 					if (recoveredType_.HasValue)
@@ -5012,7 +5013,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 						PrintEcho("發現A怪: " + recoveredType_.Value.Name + "，切換到落點(偏移後)");
 						break;
 					}
-					if (Config.SEnabled)
+					if (Config.SEnabled && num2 < 100f)
 					{
 						RecoveredType_5? recoveredType_2 = await Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)Method_202);
 						if (recoveredType_2.HasValue)
@@ -5023,10 +5024,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 							return;
 						}
 					}
-					if (num2 < 50f)
+					switch (arrivalSearch.Observe(num2, DateTime.UtcNow))
 					{
+					case AMarkArrivalState.BeginWait:
 						Method_179("/vnav stop");
-						PrintEcho("到達標點附近未發現A怪");
+						PrintEcho("已到達標點，繼續搜尋附近 A 怪（最多等待 5 秒）");
+						break;
+					case AMarkArrivalState.Expired:
+						PrintEcho("標點附近仍未發現已載入的 A 怪，搜尋結束");
 						return;
 					}
 				}
@@ -5959,6 +5964,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 	private async Task Method_193(Vector3 arg0, CancellationTokenSource arg1, CancellationToken arg2)
 	{
 		bool landingMode = Config.LandingMode;
+		var arrivalSearch = new AMarkArrivalSearch();
 		for (int i = 0; i < 240; i++)
 		{
 			await Task.Delay(500, arg2);
@@ -5968,7 +5974,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				continue;
 			}
 			float num = Method_197(vector.Value, arg0);
-			if (num >= 100f)
+			if (!AMarkSearchPolicy.ShouldScan(num, Config.AMarkSearchRadius))
 			{
 				continue;
 			}
@@ -5980,7 +5986,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				await Method_194(recoveredType_.Value.Position, landingMode, arg1, arg2);
 				return;
 			}
-			if (Config.SEnabled)
+			if (Config.SEnabled && num < 100f)
 			{
 				RecoveredType_5? recoveredType_2 = await Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)Method_202);
 				if (recoveredType_2.HasValue)
@@ -5991,10 +5997,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					return;
 				}
 			}
-			if (num < 50f)
+			switch (arrivalSearch.Observe(num, DateTime.UtcNow))
 			{
+			case AMarkArrivalState.BeginWait:
 				Method_179("/vnav stop");
-				PrintEcho("到達地圖標記附近未發現A怪");
+				PrintEcho("已到達標點，繼續搜尋附近 A 怪（最多等待 5 秒）");
+				break;
+			case AMarkArrivalState.Expired:
+				PrintEcho("標點附近仍未發現已載入的 A 怪，搜尋結束");
 				return;
 			}
 		}

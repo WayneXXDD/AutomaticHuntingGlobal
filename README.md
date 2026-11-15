@@ -8,7 +8,7 @@
 
 `https://raw.githubusercontent.com/WayneXXDD/DalamudPlugins/main/pluginmaster.json`
 
-開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.4.5.6**，使用國際服 Dalamud API 15；仍需遊戲內實測。
+開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.4.5.7**，使用國際服 Dalamud API 15；仍需遊戲內實測。
 
 需要 **vnavmesh** 導航，以及 **Lifestream** 跨服與切換分流。使用 `/auht` 顯示狀態浮窗，`/auht setup` 開啟設定精靈，`/auht stop` 停止導航。
 
@@ -20,6 +20,12 @@
 - 關閉：不主動傳送；同張地圖仍自動飛向標點。不同地圖時保留最新標點，等待自行或接受隊伍傳送抵達後再導航。
 - 等待期間的新座標會取代舊座標；停止導航或關閉總開關會取消等待。
 - 關閉時略過自動切線及其水晶傳送重試；手動跨服與傳送工具仍可使用。
+
+## A 怪搜尋半徑
+
+在「跟車設定 → 導航與戰鬥 → A 怪搜尋半徑」調整，預設 200 公尺，範圍為 50～500 公尺；以角色為中心計算水平距離。接近標點到設定距離內即開始搜尋，每 0.5 秒檢查一次。
+
+未找到 A 怪時繼續靠近標點，到 10 公尺內會停下並最多再搜尋 5 秒。只能搜尋遊戲已載入到角色附近的怪物；加大數值不會增加遊戲載入距離，也不會自動繞圈找怪。
 
 ## 繁體中文顯示
 

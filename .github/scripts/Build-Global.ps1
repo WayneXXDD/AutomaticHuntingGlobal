@@ -84,6 +84,6 @@ if ($version -eq [version]'2.4.5.4') {
 dotnet run --project tools/VerifyPluginResources/VerifyPluginResources.csproj -c Release -p:NuGetAudit=false -- $archive (Join-Path $env:GITHUB_WORKSPACE 'src')
 if ($LASTEXITCODE -ne 0) { throw 'The packaged plugin is missing or corrupting its startup resources.' }
 $hash = (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant()
-[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='compatibility, display, search, identity, full-name leader matching, optional flag teleport and pending destinations, glyph and packaged resource regression checks'; gameTested=$false} |
+[ordered]@{version=$version.ToString(); api=15; sha256=$hash; gitCommit=$env:GITHUB_SHA; tests='compatibility, display, search, identity, full-name leader matching, optional flag teleport and pending destinations, expanded A-mark search and arrival grace, glyph and packaged resource regression checks'; gameTested=$false} |
     ConvertTo-Json | Set-Content -LiteralPath (Join-Path $distribution 'build-info.json') -Encoding utf8
 Write-Output "Verified Global package $version; SHA256 $hash"

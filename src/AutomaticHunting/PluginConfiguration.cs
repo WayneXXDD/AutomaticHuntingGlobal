@@ -265,6 +265,8 @@ public sealed class PluginConfiguration : IPluginConfiguration
 
 	public bool AutoTeleportToFlag { get; set; } = true;
 
+	public float AMarkSearchRadius { get; set; } = AMarkSearchPolicy.DefaultRadius;
+
 	public float TeleportThreshold
 	{
 		[CompilerGenerated]
