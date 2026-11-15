@@ -96,7 +96,13 @@ public sealed class FollowPage : SettingsPage
 	private void Method_913()
 	{
 		UiSection.Header("導航與戰鬥");
-		UiForm.BeginMeasured("##followNav", "飛行導航", "設定 地圖標記", "目標上空落地", "自動 BMR AI");
+		UiForm.BeginMeasured("##followNav", "自動傳送", "飛行導航", "設定 地圖標記", "目標上空落地", "自動 BMR AI");
+		UiForm.Row("自動傳送", "開啟：依標點選擇水晶傳送後導航。關閉：不主動傳送；同圖仍自動飛行，跨圖標點等待隊伍或手動傳送抵達後再導航，並略過自動切線");
+		Method_914("##AutoTeleportToFlag", Config.AutoTeleportToFlag, (bool value) =>
+		{
+			Config.AutoTeleportToFlag = value;
+			Save();
+		}, Config.AutoTeleportToFlag ? "自動傳送後導航" : "同圖導航，跨圖等待");
 		UiForm.Row("飛行導航", "使用飛行坐騎導航；關閉則使用陸上移動");
 		Method_914("##UseFlight", Config.UseFlightNavigation, (bool arg0) =>
 		{

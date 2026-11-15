@@ -263,6 +263,8 @@ public sealed class PluginConfiguration : IPluginConfiguration
 		}
 	}
 
+	public bool AutoTeleportToFlag { get; set; } = true;
+
 	public float TeleportThreshold
 	{
 		[CompilerGenerated]

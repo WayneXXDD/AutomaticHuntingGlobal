@@ -8,9 +8,18 @@
 
 `https://raw.githubusercontent.com/WayneXXDD/DalamudPlugins/main/pluginmaster.json`
 
-開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.4.5.3**，使用國際服 Dalamud API 15；仍需遊戲內實測。
+開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.4.5.6**，使用國際服 Dalamud API 15；仍需遊戲內實測。
 
 需要 **vnavmesh** 導航，以及 **Lifestream** 跨服與切換分流。使用 `/auht` 顯示狀態浮窗，`/auht setup` 開啟設定精靈，`/auht stop` 停止導航。
+
+## 自動傳送開關
+
+在「跟車設定 → 導航與戰鬥 → 自動傳送」切換，預設開啟以保留既有行為。
+
+- 開啟：選擇適合的水晶傳送，再飛向車頭的地圖標點。
+- 關閉：不主動傳送；同張地圖仍自動飛向標點。不同地圖時保留最新標點，等待自行或接受隊伍傳送抵達後再導航。
+- 等待期間的新座標會取代舊座標；停止導航或關閉總開關會取消等待。
+- 關閉時略過自動切線及其水晶傳送重試；手動跨服與傳送工具仍可使用。
 
 ## 繁體中文顯示
 

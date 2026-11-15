@@ -1529,6 +1529,10 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private RecoveredType_3? field_32;
 
+	private readonly PendingFlagTravel pendingFlagTravel = new PendingFlagTravel();
+
+	public bool IsWaitingForFlagTerritory => pendingFlagTravel.IsWaiting;
+
 	private volatile bool field_33;
 
 	private volatile bool field_34;
@@ -2563,10 +2567,19 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		Method_146();
 		if (!Config.AutomationEnabled)
 		{
+			pendingFlagTravel.Clear();
 			return;
 		}
 		Method_5();
 		bool flag = Condition[ConditionFlag.InCombat];
+		PendingFlagDestination? waitingDestination = pendingFlagTravel.IsWaiting ? pendingFlagTravel.TakeReady(
+			Config.AutoTeleportToFlag, Method_116(),
+			!flag && !IsNavigating && !Method_133() && !Condition[ConditionFlag.Casting] && GetLocalPlayerPosition().HasValue) : null;
+		if (waitingDestination.HasValue)
+		{
+			PrintEcho("已可繼續前往保留的地圖標點");
+			Method_156(waitingDestination.Value.TerritoryType, waitingDestination.Value.Position);
+		}
 		if (!flag && field_32.HasValue && !IsNavigating)
 		{
 			RecoveredType_3 value = field_32.Value;
@@ -2615,7 +2628,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_60(uint arg0)
 	{
-		if (arg0 == 0 || Config.MultiLineMaps.Count == 0)
+		if (!Config.AutoTeleportToFlag || arg0 == 0 || Config.MultiLineMaps.Count == 0)
 		{
 			return;
 		}
@@ -2669,6 +2682,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				await Task.Delay(500);
 			}
+			if (!Config.AutoTeleportToFlag) return;
 			PrintEcho("進入多線地圖: 區域已穩定，執行切線");
 			SwitchToInstance(arg0);
 		}
@@ -2817,6 +2831,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		_ = 3;
 		try
 		{
+			if (!Config.AutoTeleportToFlag) return;
 			uint field_161 = Method_116();
 			List<(uint Id, Vector3 Position, string Name)> list = await Framework.RunOnFrameworkThread(() => Method_127(field_161));
 			if (list.Count == 0)
@@ -2832,7 +2847,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			if (!(Vector3.Distance(tuple.Item2, field_162.Value) <= 60f))
 			{
 				PrintEcho("切線未生效，傳送到最近以太之光(" + tuple.Item3 + ")後重試");
-				if (await Method_123(tuple.Item1, CancellationToken.None))
+				if (await Method_123(tuple.Item1, CancellationToken.None, requireFlagAutoTeleport: true))
 				{
 					await Method_163(field_161, CancellationToken.None);
 				}
@@ -2861,6 +2876,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public string GetNavigationStageText()
 	{
+		if (IsWaitingForFlagTerritory) return "等待隊伍或手動傳送";
 		lock (field_53)
 		{
 			return field_56 switch
@@ -3315,7 +3331,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_92(uint arg0, uint arg1, Vector3 arg2)
 	{
-		if (arg0 == Method_116() && ShouldSwitchLineOnSameMap(arg0))
+		if (Config.AutoTeleportToFlag && arg0 == Method_116() && ShouldSwitchLineOnSameMap(arg0))
 		{
 			ResetInstanceKillCount();
 			Method_93(arg0, arg2);
@@ -4033,12 +4049,12 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private async Task<bool> Method_123(uint arg0, CancellationToken arg1)
+	private async Task<bool> Method_123(uint arg0, CancellationToken arg1, bool requireFlagAutoTeleport = false)
 	{
 		await field_77.WaitAsync(arg1);
 		try
 		{
-			return await Method_124(arg0, arg1);
+			return await Method_124(arg0, arg1, requireFlagAutoTeleport);
 		}
 		finally
 		{
@@ -4046,7 +4062,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private async Task<bool> Method_124(uint arg0, CancellationToken arg1)
+	private async Task<bool> Method_124(uint arg0, CancellationToken arg1, bool requireFlagAutoTeleport)
 	{
 		await Framework.RunOnFrameworkThread(() =>
 		{
@@ -4063,6 +4079,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		while (DateTime.UtcNow - dateTime < TimeSpan.FromSeconds(60L))
 		{
 			arg1.ThrowIfCancellationRequested();
+			if (requireFlagAutoTeleport && !Config.AutoTeleportToFlag) return false;
 			(bool, bool) tuple = await Framework.RunOnFrameworkThread(() =>
 			{
 				arg1.ThrowIfCancellationRequested();
@@ -4101,6 +4118,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					return (Between: false, Foreign: false);
 				}
+				if (requireFlagAutoTeleport && !Config.AutoTeleportToFlag) return (Between: false, Foreign: false);
 				field_185++;
 				bool flag = Method_119(arg0);
 				if (flag)
@@ -4650,11 +4668,33 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		return string.Empty;
 	}
 
+	private void DeferFlagUntilManualTravel(uint territory, Vector3 position)
+	{
+		lock (field_53)
+		{
+			field_54?.Cancel();
+		}
+		_ = Method_195();
+		field_32 = null;
+		field_34 = false;
+		field_43 = null;
+		field_44 = null;
+		field_45 = DateTime.MinValue;
+		pendingFlagTravel.Set(territory, position);
+		PrintEcho("自動傳送已關閉，已保留標點，等待隊伍或手動傳送到目標地圖");
+	}
+
 	private void Method_156(uint arg0, Vector3 arg1)
 	{
 		if (!Config.AutomationEnabled)
 		{
 			PrintEcho("自動狩獵未啟用，無法導航");
+			return;
+		}
+		pendingFlagTravel.Clear();
+		if (FlagTravelPolicy.Decide(Config.AutoTeleportToFlag, Method_116(), arg0) == FlagTravelAction.WaitForTerritory)
+		{
+			DeferFlagUntilManualTravel(arg0, arg1);
 			return;
 		}
 		RecoveredType_3 recoveredType_ = new RecoveredType_3(arg0, arg1);
@@ -4764,9 +4804,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			return tuple.Preparation;
 		}
-		if (await Method_123(tuple.AetheryteId, arg1))
+		if (await Method_123(tuple.AetheryteId, arg1, requireFlagAutoTeleport: true))
 		{
 			return RecoveredType_10.field_129;
+		}
+		if (!Config.AutoTeleportToFlag && !await Framework.RunOnFrameworkThread(() => Method_116() == arg0.TerritoryType))
+		{
+			await Framework.RunOnFrameworkThread(() => DeferFlagUntilManualTravel(arg0.TerritoryType, arg0.Position));
+			return RecoveredType_10.field_130;
 		}
 		if (tuple.SameTerritory)
 		{
@@ -4781,6 +4826,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 	{
 		arg1 = 0u;
 		uint num = Method_116();
+		FlagTravelAction travelAction = FlagTravelPolicy.Decide(Config.AutoTeleportToFlag, num, arg0.TerritoryType);
+		if (travelAction == FlagTravelAction.Reject) return RecoveredType_10.field_130;
+		if (travelAction == FlagTravelAction.WaitForTerritory)
+		{
+			DeferFlagUntilManualTravel(arg0.TerritoryType, arg0.Position);
+			return RecoveredType_10.field_130;
+		}
+		if (travelAction == FlagTravelAction.DirectNavigation) return RecoveredType_10.field_128;
 		Vector3? localPlayerPosition = GetLocalPlayerPosition();
 		List<(uint, Vector3, string)> list = (field_31 = Method_127(arg0.TerritoryType));
 		if (list.Count == 0)
@@ -5749,6 +5802,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_188()
 	{
+		pendingFlagTravel.Clear();
 		FinishSMonitor("已停止");
 		LastFlagPosition = null;
 		field_28 = 0u;
@@ -5813,6 +5867,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_191(uint arg0, Vector3 arg1)
 	{
+		pendingFlagTravel.Clear();
 		LastFlagPosition = arg1;
 		field_28 = arg0;
 		field_31 = Method_127(arg0);
