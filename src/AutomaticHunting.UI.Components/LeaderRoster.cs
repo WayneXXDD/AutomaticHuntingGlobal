@@ -9,7 +9,7 @@ public static class LeaderRoster
 
 	public static string Normalize(string? arg0)
 	{
-		return (arg0 ?? string.Empty).Trim();
+		return LeaderNamePolicy.Normalize(arg0);
 	}
 
 	public static bool EnsureMigrated(PluginConfiguration arg0)
@@ -32,18 +32,13 @@ public static class LeaderRoster
 		{
 			return false;
 		}
-		string[] array = text.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-		for (int i = 0; i < array.Length; i++)
+		foreach (string name in LeaderNamePolicy.ParseLegacy(arg0.LeaderName))
 		{
-			string text2 = Normalize(array[i]);
-			if (text2.Length != 0)
+			arg0.LeaderEntries.Add(new LeaderEntry
 			{
-				arg0.LeaderEntries.Add(new LeaderEntry
-				{
-					Name = text2,
-					Enabled = true
-				});
-			}
+				Name = name,
+				Enabled = true
+			});
 		}
 		SyncLeaderName(arg0);
 		return arg0.LeaderEntries.Count > 0;
@@ -68,6 +63,25 @@ public static class LeaderRoster
 			}
 		}
 		return list;
+	}
+
+	public static bool MatchesSender(PluginConfiguration config, string? sender)
+	{
+		if (config == null || string.IsNullOrWhiteSpace(sender)) return false;
+		if (config.LeaderEntries != null && config.LeaderEntries.Count > 0)
+		{
+			foreach (LeaderEntry entry in config.LeaderEntries)
+			{
+				if (entry != null && entry.Enabled && LeaderNamePolicy.Matches(sender, entry.Name))
+					return true;
+			}
+			return false;
+		}
+		foreach (string name in LeaderNamePolicy.ParseLegacy(config.LeaderName))
+		{
+			if (LeaderNamePolicy.Matches(sender, name)) return true;
+		}
+		return false;
 	}
 
 	public static bool Add(PluginConfiguration arg0, string? arg1)
@@ -173,7 +187,7 @@ public static class LeaderRoster
 	{
 		if (arg0 != null)
 		{
-			arg0.LeaderName = string.Join(" ", Active(arg0));
+			arg0.LeaderName = string.Join(" | ", Active(arg0));
 		}
 	}
 

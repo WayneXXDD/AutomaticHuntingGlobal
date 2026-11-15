@@ -3183,18 +3183,16 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		else
 		{
-			if (!Config.AutomationEnabled || string.IsNullOrWhiteSpace(Config.LeaderName))
+			if (!Config.AutomationEnabled || string.IsNullOrWhiteSpace(text))
 			{
 				return;
 			}
-			if (!Method_94(text, Config.LeaderName))
+			if (!LeaderRoster.MatchesSender(Config, text))
 			{
-				Log.Debug($"自動狩獵跟車：車頭訊息傳送者不匹配: sender='{text}' (norm='{Method_95(text ?? "")}') vs leader='{Config.LeaderName}' (norm='{Method_95(Config.LeaderName)}')");
 				return;
 			}
 			if (Config.LeaderYellOnly && arg0.LogKind != XivChatType.Shout)
 			{
-				Log.Debug($"自動狩獵跟車：忽略非喊話頻道車頭訊息 kind={arg0.LogKind}");
 				return;
 			}
 			uint arg2;
@@ -3216,6 +3214,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				text2 = $"{arg2}|{arg3}|{(int)arg4.X}|{(int)arg4.Z}";
 			}
+			Log.Debug($"自動狩獵跟車：已收到車頭座標 sender='{text}' kind={arg0.LogKind} territory={arg2} map={arg3} target={arg4}");
 			bool flag = DateTime.UtcNow - field_29 < TimeSpan.FromSeconds(60L);
 			if ((text2 == field_27) & flag)
 			{
@@ -3336,49 +3335,9 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		PrintEcho($"{Config.CurrentInstanceNumber}線A怪擊殺達標，已切換，等待副本區確認後導航");
 	}
 
-	private static bool Method_94(string? arg0, string arg1)
-	{
-		if (string.IsNullOrWhiteSpace(arg0))
-		{
-			return false;
-		}
-		string text = Method_95(arg0);
-		if (text.Length == 0)
-		{
-			return false;
-		}
-		string[] array = Method_95(arg1).Split(' ', StringSplitOptions.RemoveEmptyEntries);
-		foreach (string text2 in array)
-		{
-			if (text2.Length != 0 && string.Equals(text, text2, StringComparison.OrdinalIgnoreCase))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
 	private static string Method_95(string arg0)
 	{
-		if (string.IsNullOrEmpty(arg0))
-		{
-			return string.Empty;
-		}
-		int num = arg0.IndexOf('@');
-		if (num >= 0)
-		{
-			arg0 = arg0.Substring(0, num);
-		}
-		StringBuilder stringBuilder = new StringBuilder(arg0.Length);
-		string text = arg0;
-		foreach (char c in text)
-		{
-			if (!char.IsControl(c) && ((c != '\u00a0' && c != '\u3000') || 1 == 0))
-			{
-				stringBuilder.Append(c);
-			}
-		}
-		return stringBuilder.ToString().Trim().TrimEnd(new char[2] { '：', ':' });
+		return LeaderNamePolicy.Normalize(arg0);
 	}
 
 	private void Method_97(string arg0)
@@ -3959,16 +3918,11 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public Vector3? GetLeaderPosition()
 	{
-		if (string.IsNullOrWhiteSpace(Config.LeaderName))
-		{
-			return null;
-		}
-		string[] array = Method_95(Config.LeaderName).Split(' ', StringSplitOptions.RemoveEmptyEntries);
-		foreach (string b in array)
+		foreach (string leader in LeaderRoster.Active(Config))
 		{
 			foreach (IGameObject item in ObjectTable)
 			{
-				if (item?.Name != null && string.Equals(Method_95(item.Name.TextValue), b, StringComparison.OrdinalIgnoreCase))
+				if (item?.Name != null && LeaderNamePolicy.Matches(item.Name.TextValue, leader))
 				{
 					return item.Position;
 				}
