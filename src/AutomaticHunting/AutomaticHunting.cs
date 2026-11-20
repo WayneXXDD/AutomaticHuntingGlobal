@@ -1533,6 +1533,26 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private readonly NavigationTravelRecovery navigationTravelRecovery = new NavigationTravelRecovery();
 	private CancellationTokenSource? navigationRecoveryOwner;
+	private enum ResumeTarget { Normal, MapFlag, WorldPosition }
+
+	private bool StartRecoveredPath(ResumeTarget target, Vector3 position, CancellationToken token)
+	{
+		token.ThrowIfCancellationRequested();
+		if (!RecoveryMeshReady()) return false;
+		Vector3? endpoint = target == ResumeTarget.MapFlag
+			? PluginInterface.GetIpcSubscriber<Vector3, bool, float, Vector3?>("vnavmesh.Query.Mesh.PointOnFloor")
+				.InvokeFunc(new Vector3(position.X, 1024f, position.Z), true, 5f)
+			: position;
+		return endpoint.HasValue && (field_25?.InvokeFunc(endpoint.Value, true) ?? false);
+	}
+
+	private Task SendNavigationCommand(string command, CancellationToken token) =>
+		Framework.RunOnFrameworkThread(() =>
+		{
+			token.ThrowIfCancellationRequested();
+			GlobalCommands.Process(command);
+		});
+
 	private ICallGateSubscriber<object>? recoveryPathStop;
 	private ICallGateSubscriber<bool>? recoveryPathfindInProgress;
 
@@ -4699,13 +4719,13 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private void TrackNavigationTravel(CancellationTokenSource owner, RecoveredType_3 destination, bool manualFlag)
+	private void TrackNavigationTravel(CancellationTokenSource owner, RecoveredType_3 destination, bool manualFlag, ResumeTarget resumeTarget)
 	{
 		lock (field_53)
 		{
 			owner.Token.ThrowIfCancellationRequested();
 			if (field_54 != owner) throw new OperationCanceledException(owner.Token);
-			navigationTravelRecovery.Begin(new NavigationRecoveryDestination(destination.TerritoryType, destination.Position, manualFlag));
+			navigationTravelRecovery.Begin(new NavigationRecoveryDestination(destination.TerritoryType, destination.Position, manualFlag, resumeTarget != ResumeTarget.WorldPosition));
 			navigationRecoveryOwner = owner;
 		}
 	}
@@ -4783,14 +4803,16 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			if (!navigationTravelRecovery.HasDestination) return;
 			bool wasWaiting = navigationTravelRecovery.IsWaiting;
-			bool hasPlayer = GetLocalPlayerPosition().HasValue;
+			Vector3? playerPosition = GetLocalPlayerPosition();
+			bool hasPlayer = playerPosition.HasValue;
 			bool between = Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51];
-			bool ready = !IsNavigating && hasPlayer && !Method_133() && !Condition[ConditionFlag.Casting]
+			bool workerRunning = IsNavigating;
+			bool ready = wasWaiting && !workerRunning && hasPlayer && !Method_133() && !Condition[ConditionFlag.Casting]
 				&& RecoveryMeshReady();
 			uint currentTerritory = Method_116();
 			bool checkOldQuery = wasWaiting || between || !hasPlayer || currentTerritory != navigationTravelRecovery.DestinationTerritory;
 			step = navigationTravelRecovery.Observe(currentTerritory, between, hasPlayer, ready,
-				checkOldQuery && PreviousPathfindInProgress(), DateTime.UtcNow);
+				checkOldQuery && PreviousPathfindInProgress(), DateTime.UtcNow, workerRunning, playerPosition);
 			firstInterruption = step.StopOldPath && !wasWaiting;
 			if (step.StopOldPath)
 			{
@@ -4804,10 +4826,11 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			NavigationRecoveryDestination destination = step.Restart.Value;
 			PrintEcho("傳送完成，從目前位置重新規劃路線");
+			ResumeTarget target = destination.IsMapFlag ? ResumeTarget.MapFlag : ResumeTarget.WorldPosition;
 			if (destination.ManualFlag)
-				Method_191(destination.TerritoryType, destination.Position, resumeFromCurrentPosition: true);
+				Method_191(destination.TerritoryType, destination.Position, target);
 			else
-				Method_157(new RecoveredType_3(destination.TerritoryType, destination.Position), resumeFromCurrentPosition: true);
+				Method_157(new RecoveredType_3(destination.TerritoryType, destination.Position), target);
 		}
 	}
 
@@ -4861,7 +4884,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private void Method_157(RecoveredType_3 arg0, bool resumeFromCurrentPosition = false)
+	private void Method_157(RecoveredType_3 arg0, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
 		ClearNavigationTravelRecovery();
 		CancellationTokenSource field_195 = new CancellationTokenSource();
@@ -4884,18 +4907,18 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					{
 					}
 				}
-				await Method_158(arg0, field_195, resumeFromCurrentPosition);
+				await Method_158(arg0, field_195, resumeTarget);
 			});
 		}
 	}
 
-	private async Task Method_158(RecoveredType_3 arg0, CancellationTokenSource arg1, bool resumeFromCurrentPosition = false)
+	private async Task Method_158(RecoveredType_3 arg0, CancellationTokenSource arg1, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
 		_ = 4;
 		try
 		{
 			CancellationToken token = arg1.Token;
-			if (!resumeFromCurrentPosition)
+			if (resumeTarget == ResumeTarget.Normal)
 			{
 				switch (await Method_159(arg0, token))
 				{
@@ -4911,7 +4934,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 			}
 			token.ThrowIfCancellationRequested();
-			await Framework.RunOnFrameworkThread(() => TrackNavigationTravel(arg1, arg0, manualFlag: false));
+			await Framework.RunOnFrameworkThread(() => TrackNavigationTravel(arg1, arg0, manualFlag: false, resumeTarget: resumeTarget));
 			if (!await WaitForCleanNavigationPath(token)) return;
 			Method_196(RecoveredType_8.field_118, arg1);
 			if (!(await Method_182(token)))
@@ -4920,7 +4943,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				return;
 			}
 			await Task.Delay(100, token);
-			await Method_164(arg0, token, arg1, resumeFromCurrentPosition);
+			await Method_164(arg0, token, arg1, resumeTarget);
 		}
 		catch (OperationCanceledException)
 		{
@@ -5085,7 +5108,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private async Task Method_164(RecoveredType_3 arg0, CancellationToken arg1, CancellationTokenSource arg2, bool resumeFromCurrentPosition = false)
+	private async Task Method_164(RecoveredType_3 arg0, CancellationToken arg1, CancellationTokenSource arg2, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
 		bool landingMode = Config.LandingMode;
 		Vector3 field_209 = arg0.Position;
@@ -5100,18 +5123,17 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					flag2 = await Framework.RunOnFrameworkThread(() =>
 					{
+						arg1.ThrowIfCancellationRequested();
 						Vector3 valueOrDefault = Method_118(field_209).GetValueOrDefault(field_209);
 						ICallGateSubscriber<bool>? callGateSubscriber = field_24;
 						return callGateSubscriber != null && callGateSubscriber.InvokeFunc() && (field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false);
 					});
 				}
-				else if (resumeFromCurrentPosition)
+				else if (resumeTarget != ResumeTarget.Normal)
 				{
 					flag2 = await Framework.RunOnFrameworkThread(() =>
 					{
-						arg1.ThrowIfCancellationRequested();
-						Vector3 destination = Method_118(arg0.Position).GetValueOrDefault(arg0.Position);
-						return RecoveryMeshReady() && (field_25?.InvokeFunc(destination, arg2: true) ?? false);
+						return StartRecoveredPath(resumeTarget, arg0.Position, arg1);
 					});
 				}
 				else
@@ -5126,7 +5148,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 						PrintEcho("設定地圖地圖標記失敗");
 					}
 					await Task.Delay(150, arg1);
-					Method_179("/vnav flyflag");
+					await SendNavigationCommand("/vnav flyflag", arg1);
 					PrintEcho("開始導航: /vnav flyflag");
 					flag2 = true;
 				}
@@ -5168,7 +5190,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					RecoveredType_4? recoveredType_ = await Framework.RunOnFrameworkThread((Func<RecoveredType_4?>)Method_2);
 					if (recoveredType_.HasValue)
 					{
-						Method_179("/vnav stop");
+						await SendNavigationCommand("/vnav stop", arg1);
 						field_209 = recoveredType_.Value.Position + Method_114(recoveredType_.Value.Position);
 						await Framework.RunOnFrameworkThread(() => UpdateNavigationTravelDestination(arg2, field_209));
 						flag3 = true;
@@ -5180,7 +5202,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 						RecoveredType_5? recoveredType_2 = await Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)Method_202);
 						if (recoveredType_2.HasValue)
 						{
-							Method_179("/vnav stop");
+							await SendNavigationCommand("/vnav stop", arg1);
 							PrintEcho($"未發現A怪，發現S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，開始懸停監控");
 							await Method_165(recoveredType_2.Value, arg2, arg1);
 							return;
@@ -5189,7 +5211,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					switch (arrivalSearch.Observe(num2, DateTime.UtcNow))
 					{
 					case AMarkArrivalState.BeginWait:
-						Method_179("/vnav stop");
+						await SendNavigationCommand("/vnav stop", arg1);
 						PrintEcho("已到達標點，繼續搜尋附近 A 怪（最多等待 5 秒）");
 						break;
 					case AMarkArrivalState.Expired:
@@ -5201,7 +5223,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					continue;
 				}
-				Method_179("/vnav stop");
+				await SendNavigationCommand("/vnav stop", arg1);
 				string text = await Framework.RunOnFrameworkThread((Func<string>)Method_3);
 				if (!string.IsNullOrEmpty(text))
 				{
@@ -5230,12 +5252,12 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			if (!flag && !flag3)
 			{
-				Method_179("/vnav stop");
+				await SendNavigationCommand("/vnav stop", arg1);
 				PrintEcho("120秒未接近標點，導航結束");
 				return;
 			}
 		}
-		Method_179("/vnav stop");
+		await SendNavigationCommand("/vnav stop", arg1);
 		PrintEcho("120秒未到達A怪落點，導航結束");
 	}
 
@@ -5253,6 +5275,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				flag = await Framework.RunOnFrameworkThread(() =>
 				{
+					arg2.ThrowIfCancellationRequested();
 					Vector3? vector2 = Method_118(field_213);
 					Vector3 arg3 = (vector2.HasValue ? new Vector3(vector2.Value.X, field_213.Y, vector2.Value.Z) : field_213);
 					ICallGateSubscriber<bool>? callGateSubscriber = field_24;
@@ -5304,7 +5327,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					continue;
 				}
-				Method_179("/vnav stop");
+				await SendNavigationCommand("/vnav stop", arg2);
 				string text = await Framework.RunOnFrameworkThread(() => Method_204(field_216.Value));
 				PrintEcho($"已懸停到S怪附近({num:0.0}m)，已選中S怪:{text ?? field_216.Value.Name}，目前血量:{field_216.Value.HpPercent:0.0}%，等待血量降至{Config.SHpThreshold:0}%");
 				float num2 = -1f;
@@ -5357,6 +5380,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 							Vector3 field_218 = new Vector3(tuple.pos.X, tuple.pos.Y + Config.SHoverHeight, tuple.pos.Z);
 							bool flag3 = await Framework.RunOnFrameworkThread(() =>
 							{
+								arg2.ThrowIfCancellationRequested();
 								Vector3? vector2 = Method_118(field_218);
 								Vector3 arg3 = (vector2.HasValue ? new Vector3(vector2.Value.X, field_218.Y, vector2.Value.Z) : field_218);
 								ICallGateSubscriber<bool>? callGateSubscriber = field_24;
@@ -5427,7 +5451,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private async Task Method_166(RecoveredType_5 arg0, float arg1, CancellationToken arg2)
 	{
-		Method_179("/vnav stop");
+		await SendNavigationCommand("/vnav stop", arg2);
 		SMonitorStatus sMonitor = SMonitor;
 		if (sMonitor != null)
 		{
@@ -5455,7 +5479,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		string value = ((Method_114(arg0.Position) == Vector3.Zero) ? "" : "（含落點偏移）");
 		PrintEcho($"S怪血量{arg1:0.0}%≤{Config.SHpThreshold:0}%，尋路開怪: 前往 {arg0.Name} 座標{value}");
 		bool flag = await Method_169(arg0, arg2);
-		Method_179("/vnav stop");
+		await SendNavigationCommand("/vnav stop", arg2);
 		if (!flag)
 		{
 			PrintEcho("尋路開怪: 未到達S怪座標(失敗/超時)，原地下坐騎開怪");
@@ -5499,7 +5523,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		Vector3 field_221 = arg0.Position;
 		for (int i = 1; i <= 2; i++)
 		{
-			Vector3? vector = await Method_170(field_221, arg1: true);
+			Vector3? vector = await Method_170(field_221, true, arg1);
 			if (!vector.HasValue)
 			{
 				if (i < 2)
@@ -5549,7 +5573,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				{
 					continue;
 				}
-				Vector3? vector3 = await Method_170(field_221, arg1: true);
+				Vector3? vector3 = await Method_170(field_221, true, arg1);
 				if (vector3.HasValue)
 				{
 					value = vector3.Value;
@@ -5566,10 +5590,11 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		return false;
 	}
 
-	private async Task<Vector3?> Method_170(Vector3 arg0, bool arg1)
+	private async Task<Vector3?> Method_170(Vector3 arg0, bool arg1, CancellationToken token = default)
 	{
 		return await Framework.RunOnFrameworkThread(() =>
 		{
+			token.ThrowIfCancellationRequested();
 			if (!Method_171(arg0, arg1, out var arg2))
 			{
 				return (Vector3?)null;
@@ -6034,7 +6059,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		return true;
 	}
 
-	private void Method_191(uint arg0, Vector3 arg1, bool resumeFromCurrentPosition = false)
+	private void Method_191(uint arg0, Vector3 arg1, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
 		ClearNavigationTravelRecovery();
 		pendingFlagTravel.Clear();
@@ -6061,19 +6086,19 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					{
 					}
 				}
-				await Method_192(arg0, arg1, field_235, resumeFromCurrentPosition);
+				await Method_192(arg0, arg1, field_235, resumeTarget);
 			});
 		}
 	}
 
-	private async Task Method_192(uint arg0, Vector3 arg1, CancellationTokenSource arg2, bool resumeFromCurrentPosition = false)
+	private async Task Method_192(uint arg0, Vector3 arg1, CancellationTokenSource arg2, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
 		_ = 5;
 		try
 		{
 			CancellationToken token = arg2.Token;
 			RecoveredType_3 arg3 = new RecoveredType_3(arg0, arg1);
-			if (!resumeFromCurrentPosition)
+			if (resumeTarget == ResumeTarget.Normal)
 			{
 				switch (await Method_159(arg3, token))
 				{
@@ -6089,7 +6114,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 			}
 			token.ThrowIfCancellationRequested();
-			await Framework.RunOnFrameworkThread(() => TrackNavigationTravel(arg2, arg3, manualFlag: true));
+			await Framework.RunOnFrameworkThread(() => TrackNavigationTravel(arg2, arg3, manualFlag: true, resumeTarget: resumeTarget));
 			if (!await WaitForCleanNavigationPath(token)) return;
 			Method_196(RecoveredType_8.field_118, arg2);
 			if (!(await Method_182(token)))
@@ -6104,20 +6129,18 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				return;
 			}
 			Method_196(RecoveredType_8.field_119, arg2);
-			if (resumeFromCurrentPosition)
+			if (resumeTarget != ResumeTarget.Normal)
 			{
 				bool started = await Framework.RunOnFrameworkThread(() =>
 				{
-					token.ThrowIfCancellationRequested();
-					Vector3 destination = Method_118(arg1).GetValueOrDefault(arg1);
-					return RecoveryMeshReady() && (field_25?.InvokeFunc(destination, arg2: true) ?? false);
+					return StartRecoveredPath(resumeTarget, arg1, token);
 				});
 				if (!started) { PrintEcho("傳送後重新尋路失敗，已停止導航"); return; }
 			}
 			else
 			{
 				PrintEcho("開始導航: /vnav flyflag");
-				Method_179("/vnav flyflag");
+				await SendNavigationCommand("/vnav flyflag", token);
 			}
 			await Method_193(arg1, arg2, token);
 		}
@@ -6166,7 +6189,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			RecoveredType_4? recoveredType_ = await Framework.RunOnFrameworkThread((Func<RecoveredType_4?>)Method_2);
 			if (recoveredType_.HasValue)
 			{
-				Method_179("/vnav stop");
+				await SendNavigationCommand("/vnav stop", arg2);
 				PrintEcho("發現A怪: " + recoveredType_.Value.Name + "，切換到真實座標");
 				await Method_194(recoveredType_.Value.Position, landingMode, arg1, arg2);
 				return;
@@ -6176,7 +6199,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				RecoveredType_5? recoveredType_2 = await Framework.RunOnFrameworkThread((Func<RecoveredType_5?>)Method_202);
 				if (recoveredType_2.HasValue)
 				{
-					Method_179("/vnav stop");
+					await SendNavigationCommand("/vnav stop", arg2);
 					PrintEcho($"未發現A怪，發現S怪: {recoveredType_2.Value.Name} 血量{recoveredType_2.Value.HpPercent:0.0}%，開始懸停監控");
 					await Method_165(recoveredType_2.Value, arg1, arg2);
 					return;
@@ -6185,7 +6208,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			switch (arrivalSearch.Observe(num, DateTime.UtcNow))
 			{
 			case AMarkArrivalState.BeginWait:
-				Method_179("/vnav stop");
+				await SendNavigationCommand("/vnav stop", arg2);
 				PrintEcho("已到達標點，繼續搜尋附近 A 怪（最多等待 5 秒）");
 				break;
 			case AMarkArrivalState.Expired:
@@ -6193,7 +6216,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				return;
 			}
 		}
-		Method_179("/vnav stop");
+		await SendNavigationCommand("/vnav stop", arg2);
 		PrintEcho("到達地圖標記附近未發現A怪");
 	}
 
@@ -6207,6 +6230,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			flag = await Framework.RunOnFrameworkThread(() =>
 			{
+				arg3.ThrowIfCancellationRequested();
 				Vector3 valueOrDefault = Method_118(field_241).GetValueOrDefault(field_241);
 				ICallGateSubscriber<bool>? callGateSubscriber = field_24;
 				return callGateSubscriber != null && callGateSubscriber.InvokeFunc() && (field_25?.InvokeFunc(valueOrDefault, arg2: true) ?? false);
@@ -6235,7 +6259,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				continue;
 			}
-			Method_179("/vnav stop");
+			await SendNavigationCommand("/vnav stop", arg3);
 			string text = await Framework.RunOnFrameworkThread((Func<string>)Method_3);
 			if (!string.IsNullOrEmpty(text))
 			{

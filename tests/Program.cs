@@ -184,3 +184,31 @@ Check(travelRecovery.Observe(200, false, true, true, false, travelTime.AddSecond
 travelRecovery.Begin(new NavigationRecoveryDestination(0, System.Numerics.Vector3.Zero, false));
 Check(!travelRecovery.HasDestination, "invalid destination cannot leave recovery armed");
 Console.WriteLine("Passed " + assertions + " total compatibility, localization, navigation, search and party-teleport recovery assertions.");
+
+var delayedRoute = new NavigationTravelRecovery();
+delayedRoute.Begin(travelDestination);
+delayedRoute.Observe(200, true, false, false, false, travelTime, oldWorkerRunning: true);
+Check(delayedRoute.Observe(300, false, true, false, true, travelTime.AddMilliseconds(100)).StopOldPath,
+    "query submitted after teleport started still belongs to old worker");
+Check(delayedRoute.Observe(300, false, true, false, false, travelTime.AddMilliseconds(200)).StopOldPath,
+    "late result is stopped even in the wrong territory");
+Check(!delayedRoute.Observe(300, false, true, false, false, travelTime.AddMilliseconds(300)).StopOldPath,
+    "old result was drained once");
+var sameMap = new NavigationTravelRecovery();
+sameMap.Begin(travelDestination);
+var origin = new System.Numerics.Vector3(10, 5, 10);
+sameMap.Observe(200, false, true, false, false, travelTime, true, origin);
+Check(!sameMap.Observe(200, false, true, false, false, travelTime.AddMilliseconds(300), true, origin + new System.Numerics.Vector3(5, 0, 5)).StopOldPath,
+    "normal movement does not interrupt a route");
+Check(sameMap.Observe(200, false, true, false, false, travelTime.AddMilliseconds(600), true, origin + new System.Numerics.Vector3(200, 0, 0)).StopOldPath,
+    "same-map position jump between frames interrupts a route without a loading flag");
+var preservedTarget = new NavigationTravelRecovery();
+preservedTarget.Begin(travelDestination);
+preservedTarget.UpdateDestination(999, System.Numerics.Vector3.Zero);
+preservedTarget.Observe(200, true, false, false, false, travelTime);
+preservedTarget.Observe(200, false, true, true, false, travelTime.AddSeconds(1));
+Check(preservedTarget.Observe(200, false, true, true, false, travelTime.AddSeconds(2)).Restart == travelDestination,
+    "a late update from another territory cannot turn flag coordinates into a world destination");
+Check(updatedTravelStep.Restart.HasValue && !updatedTravelStep.Restart.Value.IsMapFlag,
+    "known monster landing height is preserved separately from a map flag");
+Console.WriteLine("Passed " + assertions + " assertions including delayed path completion and same-territory relocations.");
