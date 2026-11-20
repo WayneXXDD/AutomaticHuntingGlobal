@@ -8,7 +8,7 @@
 
 `https://raw.githubusercontent.com/WayneXXDD/DalamudPlugins/main/pluginmaster.json`
 
-開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.4.5.10**，使用國際服 Dalamud API 15；仍需遊戲內實測。
+開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.5**，使用國際服 Dalamud API 15；仍需遊戲內實測。
 
 需要 **vnavmesh** 導航，以及 **Lifestream** 跨服與切換分流。使用 `/auht` 顯示狀態浮窗，`/auht setup` 開啟設定精靈，`/auht stop` 停止導航。
 

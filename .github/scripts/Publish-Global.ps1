@@ -2,10 +2,13 @@ $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
 $manifest = Get-Content -LiteralPath 'manifest/AutomaticHunting.json' -Raw | ConvertFrom-Json
 $tag = 'v' + $manifest.AssemblyVersion
+$displayVersion = $manifest.AssemblyVersion -replace '^(\d+\.\d+)\.0\.0$', '$1'
 $repository = 'WayneXXDD/AutomaticHuntingGlobal'
 $notesPath = Join-Path $env:RUNNER_TEMP 'automatic-hunting-release.md'
 @'
 繁體中文介面的國際服狩獵跟車插件。
+
+2.5 沿用 2.4.5.10 的功能，設定視窗標題列顯示 v2.5。
 
 2.4.5.10 在設定視窗右上角新增摺疊箭頭。點一下收成標題列，再點一下恢復原本的視窗大小與分頁。
 
@@ -34,7 +37,7 @@ if ($LASTEXITCODE -eq 0) {
     $expected = 'sha256:' + (Get-FileHash -LiteralPath dist/AutomaticHunting.zip -Algorithm SHA256).Hash.ToLowerInvariant()
     if ($asset[0].digest -cne $expected) { throw 'This version already exists with different content. Increase the version; do not overwrite it.' }
 } else {
-    gh release create $tag 'dist/AutomaticHunting.zip' 'dist/build-info.json' --repo $repository --target $env:GITHUB_SHA --title "AutomaticHunting Global $($manifest.AssemblyVersion)" --notes-file $notesPath
+    gh release create $tag 'dist/AutomaticHunting.zip' 'dist/build-info.json' --repo $repository --target $env:GITHUB_SHA --title "AutomaticHunting Global $displayVersion" --notes-file $notesPath
     if ($LASTEXITCODE -ne 0) { throw 'Unable to publish the verified Global package.' }
 }
 Copy-Item -LiteralPath manifest/AutomaticHunting.json -Destination AutomaticHunting.json

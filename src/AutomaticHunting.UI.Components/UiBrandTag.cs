@@ -1,4 +1,5 @@
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Dalamud.Bindings.ImGui;
 
@@ -13,7 +14,9 @@ public static class UiBrandTag
 	private const string field_1018 = "0.0.0.0";
 
 	[CompilerGenerated]
-	private static readonly string field_1019 = FormatVersion(typeof(UiBrandTag).Assembly.GetName().Version?.ToString());
+	private static readonly string field_1019 = FormatVersion(
+		typeof(UiBrandTag).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+		?? typeof(UiBrandTag).Assembly.GetName().Version?.ToString());
 
 	public static string VersionText
 	{
