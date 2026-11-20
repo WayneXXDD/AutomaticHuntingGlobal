@@ -28,6 +28,10 @@ public static class UiState
 		{
 			return (Text: "戰鬥中", Glyph: "◆", Color: Theme.StatusDanger);
 		}
+		if (arg0.IsRecoveringAfterTravel)
+		{
+			return (Text: "等待重新規劃", Glyph: ">", Color: Theme.StatusWarning);
+		}
 		if (arg0.IsWaitingForFlagTerritory)
 		{
 			return (Text: "等待手動傳送", Glyph: ">", Color: Theme.StatusWarning);
