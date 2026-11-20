@@ -64,6 +64,15 @@ public sealed class SettingsWindow : Window
 
 	private Theme.ThemeScope? field_706;
 
+	private const float HeaderHeight = 32f;
+	private static readonly WindowSizeConstraints ExpandedConstraints = new()
+	{
+		MinimumSize = new Vector2(520f, 440f),
+		MaximumSize = new Vector2(1600f, 1200f)
+	};
+
+	private Vector2? expandedSizeBeforeFold;
+
 	public SettingsWindow(AutomaticHunting arg0)
 		: base("自動狩獵跟車###AutomaticHunting.Settings")
 	{
@@ -71,11 +80,7 @@ public sealed class SettingsWindow : Window
 		RespectCloseHotkey = false;
 		Size = new Vector2((arg0.Config.SettingsWidth > 0f) ? arg0.Config.SettingsWidth : 560f, (arg0.Config.SettingsHeight > 0f) ? arg0.Config.SettingsHeight : 680f);
 		SizeCondition = ImGuiCond.FirstUseEver;
-		SizeConstraints = new WindowSizeConstraints
-		{
-			MinimumSize = new Vector2(520f, 440f),
-			MaximumSize = new Vector2(1600f, 1200f)
-		};
+		SizeConstraints = ExpandedConstraints;
 		Flags = ImGuiWindowFlags.NoTitleBar;
 		BgAlpha = null;
 		AllowBackgroundBlur = true;
@@ -111,10 +116,20 @@ public sealed class SettingsWindow : Window
 	private void Method_759()
 	{
 		float uiScale = Theme.UiScale;
-		Method_764();
-		Method_765();
+		bool wasFolded = expandedSizeBeforeFold.HasValue;
+		if (!wasFolded)
+		{
+			// A restored size is forced only for its first frame so resizing stays available.
+			SizeCondition = ImGuiCond.FirstUseEver;
+			Method_764();
+			Method_765();
+		}
 		UiPanel.DrawWindowFrame(8f * uiScale);
 		Method_761();
+		if (wasFolded || expandedSizeBeforeFold.HasValue)
+		{
+			return;
+		}
 		field_705.Draw();
 		float num = Theme.ControlHeight + 16f * uiScale;
 		if (ImGui.BeginChild("##settingsBody", new Vector2(0f, 0f - num)))
@@ -153,8 +168,8 @@ public sealed class SettingsWindow : Window
 		float uiScale = Theme.UiScale;
 		Vector2 cursorScreenPos = ImGui.GetCursorScreenPos();
 		ImDrawListPtr windowDrawList = ImGui.GetWindowDrawList();
-		float num = 32f * uiScale;
-		float y = 44f * uiScale;
+		bool isFolded = expandedSizeBeforeFold.HasValue;
+		float num = HeaderHeight * uiScale;
 		float num2 = 18f * uiScale;
 		float num3 = cursorScreenPos.Y + (num - num2) * 0.5f;
 		windowDrawList.AddRectFilled(new Vector2(cursorScreenPos.X, num3), new Vector2(cursorScreenPos.X + 3f * uiScale, num3 + num2), Theme.U32(Theme.BrandGold), 1.5f * uiScale);
@@ -168,6 +183,36 @@ public sealed class SettingsWindow : Window
 		UiBrandTag.Draw(windowDrawList, new Vector2(x, cursorScreenPos.Y), num);
 		float num5 = 20f * uiScale;
 		Vector2 vector2 = new Vector2(Theme.ContentRightX() - num5, cursorScreenPos.Y + (num - num5) * 0.5f);
+		Vector2 foldPosition = new(vector2.X - num5 - 6f * uiScale, vector2.Y);
+		ImGui.SetCursorScreenPos(foldPosition);
+		bool toggleFold = ImGui.InvisibleButton("##toggleSettingsFold", new Vector2(num5, num5));
+		bool foldHovered = ImGui.IsItemHovered();
+		if (foldHovered)
+		{
+			windowDrawList.AddRectFilled(foldPosition, foldPosition + new Vector2(num5), Theme.U32(Theme.StateHover), 4f * uiScale);
+			TraditionalText.SetTooltip(isFolded ? "展開設定視窗" : "摺疊設定視窗");
+		}
+		Vector2 arrowCenter = foldPosition + new Vector2(num5 * 0.5f);
+		uint arrowColor = Theme.U32(foldHovered ? Theme.BrandGold : Theme.TextSecondary);
+		if (isFolded)
+		{
+			UiIcons.DrawChevronDown(windowDrawList, arrowCenter, 9f * uiScale, arrowColor);
+		}
+		else
+		{
+			UiIcons.DrawChevronUp(windowDrawList, arrowCenter, 9f * uiScale, arrowColor);
+		}
+		if (toggleFold)
+		{
+			if (isFolded)
+			{
+				RestoreExpandedSize();
+			}
+			else
+			{
+				FoldToHeader();
+			}
+		}
 		ImGui.SetCursorScreenPos(vector2);
 		bool flag = ImGui.InvisibleButton("##closeSettings", new Vector2(num5, num5));
 		bool flag2 = ImGui.IsItemHovered();
@@ -186,10 +231,46 @@ public sealed class SettingsWindow : Window
 		Vector4 item3 = tuple.Color;
 		string arg = item2 + " " + item;
 		float num6 = UiBadge.PillHeight();
-		UiBadge.PillAt(arg, item3, vector2.X - 8f * uiScale, cursorScreenPos.Y + (num - num6) * 0.5f, item3);
+		UiBadge.PillAt(arg, item3, foldPosition.X - 8f * uiScale, cursorScreenPos.Y + (num - num6) * 0.5f, item3);
 		ImGui.SetCursorScreenPos(cursorScreenPos);
-		ImGui.Dummy(new Vector2(1f, y));
-		UiSection.Divider();
+		ImGui.Dummy(new Vector2(1f, isFolded ? num : 44f * uiScale));
+		if (!isFolded)
+		{
+			UiSection.Divider();
+		}
+	}
+
+	private void FoldToHeader()
+	{
+		float scale = Theme.UiScale;
+		Vector2 expanded = ImGui.GetWindowSize() / scale;
+		expandedSizeBeforeFold = expanded;
+		// Keep the user's manually resized dimensions even if the plugin unloads while folded.
+		Size = expanded;
+		Method_764();
+		float headerAndPadding = HeaderHeight + 2f * ImGui.GetStyle().WindowPadding.Y / scale;
+		Size = new Vector2(expanded.X, headerAndPadding);
+		SizeCondition = ImGuiCond.Always;
+		SizeConstraints = null;
+		Flags |= ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse | ImGuiWindowFlags.NoSavedSettings;
+	}
+
+	private void RestoreExpandedSize()
+	{
+		if (expandedSizeBeforeFold is not Vector2 expanded)
+		{
+			return;
+		}
+		Size = expanded;
+		SizeCondition = ImGuiCond.Always;
+		SizeConstraints = ExpandedConstraints;
+		Flags = ImGuiWindowFlags.NoTitleBar;
+		expandedSizeBeforeFold = null;
+	}
+
+	public override void OnClose()
+	{
+		RestoreExpandedSize();
 	}
 
 	private void Method_762()
