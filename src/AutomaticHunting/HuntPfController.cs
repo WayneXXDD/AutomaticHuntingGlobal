@@ -171,8 +171,15 @@ public static class HuntPfController
 		ptr->StoredRecruitmentInfo.CommentString = arg0 + "\0";
 	}
 
+	public static void Stop() => field_548?.Abort();
+
 	public unsafe static void Create(string? arg0)
 	{
+		if (!GlobalCommands.AutomationAllowed())
+		{
+			Method_443("請先啟動插件");
+			return;
+		}
 		if (!ValidateComment(arg0, out string arg1))
 		{
 			Method_443(arg1);

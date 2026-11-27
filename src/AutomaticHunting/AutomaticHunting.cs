@@ -2329,6 +2329,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			bool hadNavigation = IsNavigating || IsRecoveringAfterTravel || CrossWorldInProgress || field_33 || SMonitor is { Finished: false };
 			Config.Enabled = false;
 			automationSession.Stop();
+			HuntPfController.Stop();
 			CancelCrossWorld();
 			Method_145();
 			StopNavigation(stopPath: hadNavigation);
@@ -2847,7 +2848,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				PrintEcho($"切線未確認，重發命令 /ahglobal instance {arg0}");
 				await Framework.RunOnFrameworkThread(() =>
 				{
-						token.ThrowIfCancellationRequested();
+					token.ThrowIfCancellationRequested();
 					try
 					{
 						GlobalCommands.Process($"/ahglobal instance {arg0}");
@@ -3610,6 +3611,9 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_67 = 0u;
 			field_68 = default;
 			field_69 = null;
+			field_70 = 0u;
+			field_71 = 0u;
+			field_72 = default;
 			field_63 = null;
 		}
 	}
@@ -3832,9 +3836,12 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			lock (field_62)
 			{
-				field_70 = 0u;
-				field_71 = 0u;
-				field_72 = default;
+				if (field_64 != null && field_64.Token == arg3)
+				{
+					field_70 = 0u;
+					field_71 = 0u;
+					field_72 = default;
+				}
 			}
 		}
 	}

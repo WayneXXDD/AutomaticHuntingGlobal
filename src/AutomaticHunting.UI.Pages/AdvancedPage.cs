@@ -522,6 +522,7 @@ public sealed class AdvancedPage : SettingsPage
 
 	private void Method_856()
 	{
+		Plugin.SetAutomationEnabled(false, notify: false);
 		LeaderRoster.ClearAll(Config);
 		Config.CrossWorldLeader = string.Empty;
 		Config.ManualServerName = string.Empty;
@@ -535,7 +536,6 @@ public sealed class AdvancedPage : SettingsPage
 		Config.OnboardingCompleted = false;
 		Config.OnboardingStep = 0;
 		Config.DisclaimerAccepted = false;
-		Config.Enabled = false;
 		Config.DataClearAcknowledged = true;
 		Save();
 		Plugin.PrintEcho("已清空全部設定，插件回到首次執行狀態（請重新完成設定精靈）");
