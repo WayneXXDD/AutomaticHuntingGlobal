@@ -1529,6 +1529,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private RecoveredType_3? field_32;
 
+	private readonly AutomationSession automationSession = new();
 	private readonly PendingFlagTravel pendingFlagTravel = new PendingFlagTravel();
 
 	private readonly NavigationTravelRecovery navigationTravelRecovery = new NavigationTravelRecovery();
@@ -2155,6 +2156,9 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		Config = (PluginInterface.GetPluginConfig() as PluginConfiguration) ?? new PluginConfiguration();
 		GlobalGameData.Migrate(Config);
 		ConfigService = new ConfigService(Config, PluginInterface);
+		// Start paused even when an older configuration saved Enabled=true.
+		if (Config.Enabled) { Config.Enabled = false; ConfigService.Save(); }
+		GlobalCommands.AutomationAllowed = () => Config.AutomationEnabled && !automationSession.Token.IsCancellationRequested;
 		ECommonsMain.Init(PluginInterface, this);
 		InitializeTraditionalChinese();
 		if (Config.BlacklistedAetheryteIds.Add(175u))
@@ -2266,8 +2270,9 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			PluginInterface.UiBuilder.OpenMainUi -= Method_43;
 			CommandManager.RemoveHandler("/auht");
 			field_48.Dispose();
-			StopNavigation();
-			ConfigService.Save();
+			SetAutomationEnabled(false, notify: false);
+			automationSession.Dispose();
+			GlobalCommands.AutomationAllowed = () => false;
 			Theme.PopAll();
 			traditionalFont?.Dispose();
 			ECommonsMain.Dispose();
@@ -2302,11 +2307,40 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private void Method_45(bool arg0)
+	private void Method_45(bool arg0) => SetAutomationEnabled(arg0);
+
+	public void ToggleAutomationEnabled() => SetAutomationEnabled(!Config.Enabled);
+
+	public void SetAutomationEnabled(bool enabled, bool notify = true)
 	{
-		Config.Enabled = arg0;
+		if (enabled && !Config.DisclaimerAccepted)
+		{
+			if (notify) PrintEcho("請先完成首次設定，再啟動插件");
+			OnboardingWindow.Open();
+			return;
+		}
+		if (enabled)
+		{
+			if (!automationSession.Start()) return;
+			Config.Enabled = true;
+		}
+		else
+		{
+			bool hadNavigation = IsNavigating || IsRecoveringAfterTravel || CrossWorldInProgress || field_33 || SMonitor is { Finished: false };
+			Config.Enabled = false;
+			automationSession.Stop();
+			CancelCrossWorld();
+			Method_145();
+			StopNavigation(stopPath: hadNavigation);
+			GlobalCommands.StopOwnedTravel();
+			if (field_35)
+			{
+				GlobalCommands.Process("/bmrai off");
+				field_35 = false;
+			}
+		}
 		ConfigService.Save();
-		PrintEcho(Config.Enabled ? "已啟用" : "已停用");
+		if (notify) PrintEcho(enabled ? "插件已開啟，等待車頭訊息" : "插件已關閉，已取消跟車工作");
 	}
 
 	private void Method_46()
@@ -2596,6 +2630,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 	private void Method_57(IFramework arg0)
 	{
 		ConfigService.Tick();
+		GlobalCommands.ObserveTravelCompletion();
 		Method_146();
 		if (!Config.AutomationEnabled)
 		{
@@ -2605,6 +2640,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		if (!ClientState.IsLoggedIn)
 		{
+			SetAutomationEnabled(false, notify: false);
 			pendingFlagTravel.Clear();
 			ClearNavigationTravelRecovery();
 			return;
@@ -2668,7 +2704,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_60(uint arg0)
 	{
-		if (IsRecoveringAfterTravel || !Config.AutoTeleportToFlag || arg0 == 0 || Config.MultiLineMaps.Count == 0)
+		if (!Config.AutomationEnabled || IsRecoveringAfterTravel || !Config.AutoTeleportToFlag || arg0 == 0 || Config.MultiLineMaps.Count == 0)
 		{
 			return;
 		}
@@ -2701,31 +2737,34 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private async Task Method_61(int arg0)
 	{
+		CancellationToken token = automationSession.Token;
 		_ = 4;
 		try
 		{
 			DateTime utcNow = DateTime.UtcNow;
 			while (DateTime.UtcNow - utcNow < TimeSpan.FromSeconds(45L))
 			{
-				await Task.Delay(500);
+				await Task.Delay(500, token);
 				if (!(await Framework.RunOnFrameworkThread(() => Condition[ConditionFlag.BetweenAreas] || Condition[ConditionFlag.BetweenAreas51])) && DateTime.UtcNow - utcNow > TimeSpan.FromSeconds(2L))
 				{
 					break;
 				}
 			}
-			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f));
+			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f), token);
 			for (int num = 0; num < 30; num++)
 			{
 				if (!(await Framework.RunOnFrameworkThread(() => Method_133())))
 				{
 					break;
 				}
-				await Task.Delay(500);
+				await Task.Delay(500, token);
 			}
-			if (!Config.AutoTeleportToFlag || IsRecoveringAfterTravel) return;
+			token.ThrowIfCancellationRequested();
+			if (!Config.AutomationEnabled || !Config.AutoTeleportToFlag || IsRecoveringAfterTravel) return;
 			PrintEcho("進入多線地圖: 區域已穩定，執行切線");
 			SwitchToInstance(arg0);
 		}
+		catch (OperationCanceledException) { }
 		catch (Exception exception)
 		{
 			Log.Warning(exception, "自動狩獵跟車：等待穩定後切線失敗");
@@ -2757,6 +2796,8 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void SwitchToInstance(int arg0)
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
+		CancellationToken token = automationSession.Token;
 		int num = Math.Clamp(arg0, 1, 9);
 		int currentInstanceNumber = GetCurrentInstanceNumber();
 		if (currentInstanceNumber > 0 && currentInstanceNumber == num)
@@ -2771,6 +2812,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		string field_158 = $"/ahglobal instance {num}";
 		Framework.RunOnFrameworkThread(() =>
 		{
+			if (token.IsCancellationRequested) return;
 			try
 			{
 				GlobalCommands.Process(field_158);
@@ -2788,20 +2830,24 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private async Task Method_65(int arg0)
 	{
+		CancellationToken token = automationSession.Token;
 		try
 		{
-			if (await Method_66(arg0, TimeSpan.FromSeconds(5L)))
+			token.ThrowIfCancellationRequested();
+			if (await Method_66(arg0, TimeSpan.FromSeconds(5L), token))
 			{
+				token.ThrowIfCancellationRequested();
 				Method_67(arg0);
 				return;
 			}
 			bool switchRetryAtAetheryte = Config.SwitchRetryAtAetheryte;
 			if (switchRetryAtAetheryte)
 			{
-				await Method_69();
+				await Method_69(token);
 				PrintEcho($"切線未確認，重發命令 /ahglobal instance {arg0}");
 				await Framework.RunOnFrameworkThread(() =>
 				{
+						token.ThrowIfCancellationRequested();
 					try
 					{
 						GlobalCommands.Process($"/ahglobal instance {arg0}");
@@ -2812,26 +2858,28 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 					}
 				});
 			}
-			if (await Method_66(arg0, TimeSpan.FromSeconds(switchRetryAtAetheryte ? 20 : 10)))
+			if (await Method_66(arg0, TimeSpan.FromSeconds(switchRetryAtAetheryte ? 20 : 10), token))
 			{
+				token.ThrowIfCancellationRequested();
 				Method_67(arg0);
 				return;
 			}
 			PrintEcho($"切線確認超時，真實線未達到目標 {arg0} 線");
 			Log.Warning($"自動狩獵跟車：切線確認超時(目標 {arg0} 線)");
 		}
+		catch (OperationCanceledException) { }
 		catch (Exception exception)
 		{
 			Log.Warning(exception, "自動狩獵跟車：切線確認失敗");
 		}
 	}
 
-	private async Task<bool> Method_66(int arg0, TimeSpan arg1)
+	private async Task<bool> Method_66(int arg0, TimeSpan arg1, CancellationToken token)
 	{
 		DateTime utcNow = DateTime.UtcNow;
 		while (DateTime.UtcNow - utcNow < arg1)
 		{
-			await Task.Delay(500);
+			await Task.Delay(500, token);
 			if (await Framework.RunOnFrameworkThread(() => (!Condition[ConditionFlag.BetweenAreas] && !Condition[ConditionFlag.BetweenAreas51]) ? GetCurrentInstanceNumber() : (-1)) == arg0)
 			{
 				return true;
@@ -2866,12 +2914,12 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		Method_156(value.TerritoryType, value.Position);
 	}
 
-	private async Task Method_69()
+	private async Task Method_69(CancellationToken token)
 	{
 		_ = 3;
 		try
 		{
-			if (!Config.AutoTeleportToFlag || IsRecoveringAfterTravel) return;
+			if (!Config.AutomationEnabled || !Config.AutoTeleportToFlag || IsRecoveringAfterTravel) return;
 			uint field_161 = Method_116();
 			List<(uint Id, Vector3 Position, string Name)> list = await Framework.RunOnFrameworkThread(() => Method_127(field_161));
 			if (list.Count == 0)
@@ -2883,16 +2931,18 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			{
 				return;
 			}
+			token.ThrowIfCancellationRequested();
 			(uint, Vector3, string) tuple = list.MinBy(((uint Id, Vector3 Position, string Name) arg0) => Vector3.DistanceSquared(arg0.Position, field_162.Value));
 			if (!(Vector3.Distance(tuple.Item2, field_162.Value) <= 60f))
 			{
 				PrintEcho("切線未生效，傳送到最近以太之光(" + tuple.Item3 + ")後重試");
-				if (await Method_123(tuple.Item1, CancellationToken.None, requireFlagAutoTeleport: true))
+				if (await Method_123(tuple.Item1, token, requireFlagAutoTeleport: true))
 				{
-					await Method_163(field_161, CancellationToken.None);
+					await Method_163(field_161, token);
 				}
 			}
 		}
+		catch (OperationCanceledException) { }
 		catch (Exception exception)
 		{
 			Log.Warning(exception, "自動狩獵跟車：切線重試傳送到以太之光失敗");
@@ -3098,6 +3148,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_81(IHandleableChatMessage arg0)
 	{
+		if (!Config.AutomationEnabled) return;
 		try
 		{
 			Method_86(arg0);
@@ -3485,6 +3536,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_100(string arg0, string arg1, bool arg2 = false)
 	{
+		if (!Config.AutomationEnabled) return;
 		lock (field_62)
 		{
 			if (field_65)
@@ -3503,12 +3555,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		StopNavigation();
 		ResetInstanceKillCount();
 		uint field_172 = Method_111(arg0);
-		field_64 = new CancellationTokenSource();
-		field_63 = Task.Run(() => Method_103(arg0, field_172, arg1, field_64.Token));
+		field_64 = CancellationTokenSource.CreateLinkedTokenSource(automationSession.Token);
+		CancellationToken token = field_64.Token;
+		field_63 = Task.Run(() => Method_103(arg0, field_172, arg1, token));
 	}
 
 	public void StartManualWorldTravel(string arg0, uint arg1, uint arg2, Vector3 arg3, bool arg4 = false)
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
 		if (!arg4 && IsHuntChainRunning)
 		{
 			Method_145();
@@ -3544,7 +3598,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	public void StopCrossWorld()
+	private void CancelCrossWorld()
 	{
 		lock (field_62)
 		{
@@ -3558,8 +3612,14 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_69 = null;
 			field_63 = null;
 		}
+	}
+
+	public void StopCrossWorld()
+	{
+		CancelCrossWorld();
 		Method_145();
 		StopNavigation();
+		GlobalCommands.StopOwnedTravel();
 		PrintEcho("已停止跨服流程，恢復普通車頭識別");
 	}
 
@@ -3601,7 +3661,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				return;
 			}
 			PrintEcho("執行跨服: " + arg2);
-			await Method_108(arg2);
+			await Method_108(arg2, arg3);
 			DateTime utcNow = DateTime.UtcNow;
 			DateTime utcNow2 = DateTime.UtcNow;
 			DateTime utcNow3 = DateTime.UtcNow;
@@ -3641,7 +3701,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				if (!flag4 && DateTime.UtcNow - utcNow2 > TimeSpan.FromSeconds(5L) && !flag5 && !flag6)
 				{
-					await Method_108(arg2);
+					await Method_108(arg2, arg3);
 					utcNow2 = DateTime.UtcNow;
 					num2++;
 					if (num2 == 1 || num2 % 6 == 0)
@@ -3680,17 +3740,21 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		{
 			lock (field_62)
 			{
-				field_65 = false;
-				field_66 = DateTime.MinValue;
-				field_67 = 0u;
-				field_68 = default;
-				field_69 = null;
-				field_70 = 0u;
-				field_71 = 0u;
-				field_72 = default;
-				field_64?.Dispose();
-				field_64 = null;
-				field_63 = null;
+				// An old cancelled task must not clear a newer cross-world session.
+				if (field_64 != null && field_64.Token == arg3)
+				{
+					field_65 = false;
+					field_66 = DateTime.MinValue;
+					field_67 = 0u;
+					field_68 = default;
+					field_69 = null;
+					field_70 = 0u;
+					field_71 = 0u;
+					field_72 = default;
+					field_64?.Dispose();
+					field_64 = null;
+					field_63 = null;
+				}
 			}
 		}
 	}
@@ -3729,7 +3793,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		LastFlagPosition = vector;
 		field_28 = field_174;
 		field_31 = await Framework.RunOnFrameworkThread(() => Method_127(field_174));
-		await Method_106(field_174, vector, arg2);
+		await Method_106(field_174, vector, arg2, arg0);
 	}
 
 	private async Task Method_105(uint arg0, uint arg1, Vector3 arg2, CancellationToken arg3)
@@ -3775,12 +3839,13 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private async Task Method_106(uint arg0, Vector3 arg1, string? arg2)
+	private async Task Method_106(uint arg0, Vector3 arg1, string? arg2, CancellationToken parentToken)
 	{
-		CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+		CancellationTokenSource cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(parentToken);
 		try
 		{
 			CancellationToken token = cancellationTokenSource.Token;
+			token.ThrowIfCancellationRequested();
 			RecoveredType_3 arg3 = new RecoveredType_3(arg0, arg1);
 			switch (await Method_159(arg3, token))
 			{
@@ -3794,13 +3859,13 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 				}
 				break;
 			}
-			await Method_107(TimeSpan.FromSeconds(45L));
-			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f));
+			await Method_107(TimeSpan.FromSeconds(45L), token);
+			await Task.Delay((int)(Config.WaitAfterTeleport * 1000f), token);
 			if (!string.IsNullOrWhiteSpace(arg2))
 			{
 				PrintEcho("跨服目標切線: " + arg2);
-				await Method_108(arg2);
-				await Task.Delay(3000);
+				await Method_108(arg2, token);
+				await Task.Delay(3000, token);
 			}
 			Method_196(RecoveredType_8.field_118, cancellationTokenSource);
 			if (!(await Method_182(token)))
@@ -3825,22 +3890,22 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 	}
 
-	private async Task Method_107(TimeSpan arg0)
+	private async Task Method_107(TimeSpan arg0, CancellationToken token)
 	{
 		DateTime utcNow = DateTime.UtcNow;
 		while (DateTime.UtcNow - utcNow < arg0 && await Framework.RunOnFrameworkThread(() => Method_133()))
 		{
-			await Task.Delay(500);
+			await Task.Delay(500, token);
 		}
 	}
 
-	private Task Method_108(string arg0)
+	private Task Method_108(string arg0, CancellationToken token)
 	{
 		return Framework.RunOnFrameworkThread(() =>
 		{
 			try
 			{
-				GlobalCommands.Process(arg0);
+				if (!token.IsCancellationRequested) GlobalCommands.Process(arg0);
 			}
 			catch (Exception exception)
 			{
@@ -4886,8 +4951,9 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_157(RecoveredType_3 arg0, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
+		if (!Config.AutomationEnabled) return;
 		ClearNavigationTravelRecovery();
-		CancellationTokenSource field_195 = new CancellationTokenSource();
+		CancellationTokenSource field_195 = CancellationTokenSource.CreateLinkedTokenSource(automationSession.Token);
 		lock (field_53)
 		{
 			CancellationTokenSource? cancellationTokenSource = field_54;
@@ -4974,7 +5040,11 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private async Task<RecoveredType_10> Method_159(RecoveredType_3 arg0, CancellationToken arg1)
 	{
-		(RecoveredType_10 Preparation, uint AetheryteId, bool SameTerritory) tuple = await Framework.RunOnFrameworkThread(() => (Preparation: Method_160(arg0, out var arg2), AetheryteId: arg2, SameTerritory: Method_116() == arg0.TerritoryType));
+		(RecoveredType_10 Preparation, uint AetheryteId, bool SameTerritory) tuple = await Framework.RunOnFrameworkThread(() => {
+			arg1.ThrowIfCancellationRequested();
+			RecoveredType_10 preparation = Method_160(arg0, out uint aetheryte);
+			return (Preparation: preparation, AetheryteId: aetheryte, SameTerritory: Method_116() == arg0.TerritoryType);
+		});
 		if (tuple.Preparation != RecoveredType_10.field_129)
 		{
 			return tuple.Preparation;
@@ -5633,6 +5703,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void StartTargetHpMonitor()
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
 		_ = Method_177();
 	}
 
@@ -5648,6 +5719,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void SwitchToNextInstance()
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
 		int currentInstanceNumber = GetCurrentInstanceNumber();
 		int num = ((currentInstanceNumber > 0) ? currentInstanceNumber : Config.CurrentInstanceNumber) + 1;
 		MultiLineMapConfig multiLineMapConfig = Method_58();
@@ -5683,6 +5755,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private async Task Method_177()
 	{
+		CancellationToken token = automationSession.Token;
 		_ = 1;
 		try
 		{
@@ -5700,7 +5773,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			float arg2;
 			while (true)
 			{
-				await Task.Delay(500);
+				await Task.Delay(500, token);
 				SMonitorStatus sMonitor = SMonitor;
 				if (sMonitor != null && sMonitor.Finished)
 				{
@@ -5742,9 +5815,10 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			}
 			RecoveredType_5 arg3 = new RecoveredType_5(target2.Name.TextValue, target2.Position, arg2);
 			PrintEcho($"血量{arg2:0.0}%≤{Config.SHpThreshold:0}%，開始開怪(與S怪流程一致): {Config.SDashCommand}");
-			await Method_166(arg3, arg2, CancellationToken.None);
+			await Method_166(arg3, arg2, token);
 			FinishSMonitor("已開怪");
 		}
+		catch (OperationCanceledException) { }
 		catch (Exception exception)
 		{
 			Log.Warning(exception, "自動狩獵跟車：監控目標血量失敗");
@@ -5754,6 +5828,8 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void ExecuteDashSkill()
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
+		CancellationToken token = automationSession.Token;
 		string field_228 = Config.SDashCommand?.Trim() ?? string.Empty;
 		if (string.IsNullOrWhiteSpace(field_228))
 		{
@@ -5771,6 +5847,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 		}
 		Framework.RunOnFrameworkThread(() =>
 		{
+			if (token.IsCancellationRequested) return;
 			try
 			{
 				if (field_229 == null || !Method_180(field_229))
@@ -5788,8 +5865,10 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_179(string arg0)
 	{
+		CancellationToken token = automationSession.Token;
 		Framework.RunOnFrameworkThread(() =>
 		{
+			if (token.IsCancellationRequested && arg0 != "/vnav stop") return;
 			try
 			{
 				GlobalCommands.Process(arg0);
@@ -5966,22 +6045,25 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void SummonMount()
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
 		_ = Method_186();
 	}
 
 	private async Task Method_186()
 	{
+		CancellationToken token = automationSession.Token;
 		try
 		{
-			await Method_182(CancellationToken.None);
+			await Method_182(token);
 		}
+		catch (OperationCanceledException) { }
 		catch (Exception exception)
 		{
 			Log.Warning(exception, "自動狩獵跟車：手動召喚坐騎失敗");
 		}
 	}
 
-	public void StopNavigation()
+	public void StopNavigation(bool stopPath = true)
 	{
 		lock (field_53)
 		{
@@ -5989,7 +6071,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 			field_56 = RecoveredType_8.field_116;
 			cancellationTokenSource?.Cancel();
 		}
-		Method_195();
+		if (stopPath) Method_195();
 		Method_188();
 	}
 
@@ -6061,12 +6143,13 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	private void Method_191(uint arg0, Vector3 arg1, ResumeTarget resumeTarget = ResumeTarget.Normal)
 	{
+		if (!Config.AutomationEnabled) return;
 		ClearNavigationTravelRecovery();
 		pendingFlagTravel.Clear();
 		LastFlagPosition = arg1;
 		field_28 = arg0;
 		field_31 = Method_127(arg0);
-		CancellationTokenSource field_235 = new CancellationTokenSource();
+		CancellationTokenSource field_235 = CancellationTokenSource.CreateLinkedTokenSource(automationSession.Token);
 		lock (field_53)
 		{
 			CancellationTokenSource? cancellationTokenSource = field_54;
@@ -6343,6 +6426,7 @@ public sealed partial class AutomaticHunting : IDalamudPlugin, IDisposable
 
 	public void ScanAndSelectTargetS()
 	{
+		if (!Config.AutomationEnabled) { PrintEcho("請先啟動插件"); return; }
 		string currentTerritoryName = GetCurrentTerritoryName();
 		if (string.IsNullOrWhiteSpace(currentTerritoryName))
 		{

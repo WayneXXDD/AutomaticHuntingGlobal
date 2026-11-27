@@ -119,6 +119,9 @@ public static class HudCard
 			Method_1003(arg0, num);
 		}
 		ImGui.Dummy(new Vector2(1f, 6f * uiScale));
+		AutomationPowerButton.Draw(arg0.AutomationEnabled, arg0.OnToggleEnabled,
+			new Vector2(num, (arg0.Compact ? 40f : 28f) * uiScale));
+		ImGui.Dummy(new Vector2(1f, 6f * uiScale));
 		Method_1004(arg0, num);
 		ImGui.Dummy(new Vector2(num, 0f));
 	}

@@ -8,7 +8,7 @@ $notesPath = Join-Path $env:RUNNER_TEMP 'automatic-hunting-release.md'
 @'
 繁體中文介面的國際服狩獵跟車插件。
 
-2.5 沿用 2.4.5.10 的功能，設定視窗標題列顯示 v2.5。
+2.5.0.1 新增插件總開關：小浮窗（含精簡模式）與設定視窗標題列均顯示「啟動插件／關閉插件」。每次載入與登出後先關閉，其他設定保留。關閉時停止跟車、清除待執行的標點，取消延遲切線與導航；再次啟動不會恢復舊工作。完成首次設定後也不會直接開始跟車。
 
 2.4.5.10 在設定視窗右上角新增摺疊箭頭。點一下收成標題列，再點一下恢復原本的視窗大小與分頁。
 
@@ -40,6 +40,13 @@ if ($LASTEXITCODE -eq 0) {
     gh release create $tag 'dist/AutomaticHunting.zip' 'dist/build-info.json' --repo $repository --target $env:GITHUB_SHA --title "AutomaticHunting Global $displayVersion" --notes-file $notesPath
     if ($LASTEXITCODE -ne 0) { throw 'Unable to publish the verified Global package.' }
 }
+# Verify the public download before advertising it in the plugin manifest.
+$publishedArchive = Join-Path $env:RUNNER_TEMP ('automatic-hunting-download-' + [Guid]::NewGuid().ToString('N') + '.zip')
+Invoke-WebRequest -Uri $manifest.DownloadLinkInstall -OutFile $publishedArchive -MaximumRetryCount 3 -RetryIntervalSec 5
+$publishedHash = (Get-FileHash -LiteralPath $publishedArchive -Algorithm SHA256).Hash.ToLowerInvariant()
+$builtHash = (Get-FileHash -LiteralPath dist/AutomaticHunting.zip -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($publishedHash -cne $builtHash) { throw 'The public download differs from the tested package.' }
+Write-Output "Verified public release download SHA256 $publishedHash"
 Copy-Item -LiteralPath manifest/AutomaticHunting.json -Destination AutomaticHunting.json
 git config user.name 'github-actions[bot]'
 git config user.email '41898282+github-actions[bot]@users.noreply.github.com'

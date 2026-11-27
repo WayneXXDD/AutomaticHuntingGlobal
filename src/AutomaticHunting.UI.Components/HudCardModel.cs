@@ -5,11 +5,13 @@ namespace AutomaticHunting.UI.Components;
 
 public sealed class HudCardModel
 {
-	public string StatusText = "執行中";
+	public string StatusText = "已關閉";
+
+	public bool AutomationEnabled;
 
 	public string StatusGlyph = "●";
 
-	public Vector4 StatusColor = Theme.StatusSuccess;
+	public Vector4 StatusColor = Theme.StatusIdle;
 
 	public string? ZoneName;
 

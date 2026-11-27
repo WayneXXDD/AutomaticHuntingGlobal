@@ -16,17 +16,7 @@ public sealed class HudWindow : Window
 
 		public HudWindow field_683;
 
-		internal void Method_729()
-		{
-			if (!field_682.DisclaimerAccepted)
-			{
-				field_683.field_679.PrintEcho("請先在首次設定精靈中同意免責宣告，再開啟自動狩獵");
-				return;
-			}
-			field_682.Enabled = !field_682.Enabled;
-			field_683.field_679.ConfigService.MarkDirty();
-			field_683.field_679.PrintEcho(field_682.Enabled ? "自動狩獵已啟用" : "自動狩獵已關閉");
-		}
+		internal void Method_729() => field_683.field_679.ToggleAutomationEnabled();
 
 		internal void Method_730(int arg0)
 		{
@@ -124,19 +114,8 @@ public sealed class HudWindow : Window
 			Restricted = !field_682.DisclaimerAccepted
 		};
 		hudCardModel.ToggleEnabledTooltip = (field_682.Enabled ? "右鍵：關閉自動狩獵" : "右鍵：啟用自動狩獵");
-		hudCardModel.OnToggleEnabled = () =>
-		{
-			if (!field_682.DisclaimerAccepted)
-			{
-				field_679.PrintEcho("請先在首次設定精靈中同意免責宣告，再開啟自動狩獵");
-			}
-			else
-			{
-				field_682.Enabled = !field_682.Enabled;
-				field_679.ConfigService.MarkDirty();
-				field_679.PrintEcho(field_682.Enabled ? "自動狩獵已啟用" : "自動狩獵已關閉");
-			}
-		};
+		hudCardModel.AutomationEnabled = field_682.Enabled;
+		hudCardModel.OnToggleEnabled = field_679.ToggleAutomationEnabled;
 		(string Label, Vector4 Color, float? Distance) targetInfo = field_679.GetTargetInfo();
 		string item4 = targetInfo.Label;
 		float? item5 = targetInfo.Distance;

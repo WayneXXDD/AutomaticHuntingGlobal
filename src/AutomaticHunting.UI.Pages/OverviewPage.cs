@@ -55,20 +55,9 @@ public sealed class OverviewPage : SettingsPage
 	private void Method_931()
 	{
 		UiSection.Header("自動狩獵", "總開關");
-		UiForm.BeginMeasured("##overviewEnable", field_893);
-		UiForm.Row("啟用", "關閉後不再監聽車頭，也不會自動導航");
-		bool v = Config.Enabled;
-		if (ImGui.Checkbox("##autoHuntEnabled", ref v))
-		{
-			bool enabled = Config.Enabled;
-			Config.Enabled = v;
-			Save();
-			if (v && !enabled)
-			{
-				Plugin.PrintDisclaimer();
-			}
-		}
-		UiForm.End();
+		AutomationPowerButton.Draw(Config.Enabled, Plugin.ToggleAutomationEnabled,
+			new Vector2(180f * Theme.UiScale, Theme.ControlHeight), "overview");
+		TraditionalText.TextWrapped("每次載入預設關閉。啟動後監聽車頭；關閉時取消跟車工作，其他設定會保留。");
 	}
 
 	private void Method_932()

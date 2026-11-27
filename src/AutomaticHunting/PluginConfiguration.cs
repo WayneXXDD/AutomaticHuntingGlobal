@@ -12,7 +12,7 @@ public sealed class PluginConfiguration : IPluginConfiguration
 	private int field_578 = 3;
 
 	[CompilerGenerated]
-	private bool field_579 = true;
+	private bool field_579 = false;
 
 	[CompilerGenerated]
 	private string field_580 = "";

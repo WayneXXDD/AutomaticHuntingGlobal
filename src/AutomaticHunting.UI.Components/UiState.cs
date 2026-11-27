@@ -8,6 +8,7 @@ public static class UiState
 	public static (string Text, string Glyph, Vector4 Color) RunStatus(AutomaticHunting arg0)
 	{
 		PluginConfiguration config = arg0.Config;
+		if (!config.Enabled) return (Text: "已關閉", Glyph: "□", Color: Theme.StatusIdle);
 		if (!config.OnboardingCompleted)
 		{
 			return (Text: "待設定", Glyph: "◇", Color: Theme.StatusWarning);
@@ -18,7 +19,7 @@ public static class UiState
 		}
 		if (!config.AutomationEnabled)
 		{
-			return (Text: "已停用", Glyph: "□", Color: Theme.StatusIdle);
+			return (Text: "已關閉", Glyph: "□", Color: Theme.StatusIdle);
 		}
 		if (!AutomaticHunting.IsPluginLoaded("Lifestream") || !AutomaticHunting.IsPluginLoaded("vnavmesh"))
 		{
@@ -44,7 +45,7 @@ public static class UiState
 		{
 			return (Text: "待設定車頭", Glyph: ">", Color: Theme.StatusIdle);
 		}
-		return (Text: "執行中", Glyph: "●", Color: Theme.StatusSuccess);
+		return (Text: "已開啟・待命", Glyph: "●", Color: Theme.StatusSuccess);
 	}
 
 	public static string SanitizeGlyphs(string? arg0)

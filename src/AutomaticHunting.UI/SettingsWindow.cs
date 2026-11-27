@@ -231,7 +231,10 @@ public sealed class SettingsWindow : Window
 		Vector4 item3 = tuple.Color;
 		string arg = item2 + " " + item;
 		float num6 = UiBadge.PillHeight();
-		UiBadge.PillAt(arg, item3, foldPosition.X - 8f * uiScale, cursorScreenPos.Y + (num - num6) * 0.5f, item3);
+		Vector2 powerPosition = new(foldPosition.X - 102f * uiScale, cursorScreenPos.Y + (num - 28f * uiScale) * 0.5f);
+		ImGui.SetCursorScreenPos(powerPosition);
+		AutomationPowerButton.Draw(field_699.Config.Enabled, field_699.ToggleAutomationEnabled, new Vector2(96f * uiScale, 28f * uiScale), "settings-header");
+		UiBadge.PillAt(arg, item3, powerPosition.X - 8f * uiScale, cursorScreenPos.Y + (num - num6) * 0.5f, item3);
 		ImGui.SetCursorScreenPos(cursorScreenPos);
 		ImGui.Dummy(new Vector2(1f, isFolded ? num : 44f * uiScale));
 		if (!isFolded)

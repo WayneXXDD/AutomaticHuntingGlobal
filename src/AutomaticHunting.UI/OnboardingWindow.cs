@@ -271,7 +271,7 @@ public sealed class OnboardingWindow : Window
 		TraditionalText.TextUnformatted(string.IsNullOrWhiteSpace(field_687.Config.LeaderName) ? "未設定（可稍後設定）" : field_687.Config.LeaderName);
 		UiForm.End();
 		ImGui.Dummy(new Vector2(1f, 8f * uiScale));
-		TraditionalText.TextWrapped("完成後會立即啟用自動狩獵。你隨時可以用 /auht setup 重新開啟本設定精靈，或用 /auht off 進入受限模式。");
+		TraditionalText.TextWrapped("完成後插件保持關閉；按「啟動插件」才會開始監聽車頭。可用 /auht setup 重新設定，或用 /auht off 關閉插件。");
 	}
 
 	private void Method_748()
@@ -303,7 +303,7 @@ public sealed class OnboardingWindow : Window
 			{
 				bool flag = field_689 == field_686.Length - 1;
 				bool arg1 = field_689 != 0 || field_690;
-				if (UiButton.Draw(flag ? "完成" : "下一步", UiVariant.Primary, value, flag ? "完成設定精靈並啟用插件" : "進入下一步", arg1))
+				if (UiButton.Draw(flag ? "完成" : "下一步", UiVariant.Primary, value, flag ? "完成設定精靈，插件保持關閉" : "進入下一步", arg1))
 				{
 					if (flag)
 					{
@@ -346,10 +346,10 @@ public sealed class OnboardingWindow : Window
 		config.DisclaimerAccepted = field_690;
 		config.OnboardingCompleted = true;
 		config.OnboardingStep = 0;
-		config.Enabled = field_690;
+		field_687.SetAutomationEnabled(false, notify: false);
 		config.HudVisible = true;
 		field_687.ConfigService.Save();
-		field_687.PrintEcho(field_690 ? "首次設定已完成，自動狩獵已啟用" : "首次設定已完成（受限模式）");
+		field_687.PrintEcho("首次設定已完成；按「啟動插件」開始跟車");
 		field_687.HelpWindow.IsOpen = true;
 		field_687.SettingsWindow.IsOpen = true;
 		field_687.HudWindow.IsOpen = true;
@@ -406,7 +406,7 @@ public sealed class OnboardingWindow : Window
 		}
 		bool flag = field_689 == field_686.Length - 1;
 		bool arg2 = field_689 != 0 || field_690;
-		if (UiButton.Draw(flag ? "完成" : "下一步", UiVariant.Primary, value, flag ? "完成設定精靈並啟用插件" : "進入下一步", arg2))
+		if (UiButton.Draw(flag ? "完成" : "下一步", UiVariant.Primary, value, flag ? "完成設定精靈，插件保持關閉" : "進入下一步", arg2))
 		{
 			if (flag)
 			{

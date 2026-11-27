@@ -8,9 +8,19 @@
 
 `https://raw.githubusercontent.com/WayneXXDD/DalamudPlugins/main/pluginmaster.json`
 
-開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.5**，使用國際服 Dalamud API 15；仍需遊戲內實測。
+開啟 **Get plugin testing builds（取得測試版插件）**，刷新清單後搜尋 **AutomaticHunting Global**。目前版本為 **2.5.0.1**，使用國際服 Dalamud API 15；仍需遊戲內實測。
 
 需要 **vnavmesh** 導航，以及 **Lifestream** 跨服與切換分流。使用 `/auht` 顯示狀態浮窗，`/auht setup` 開啟設定精靈，`/auht stop` 停止導航。
+
+## 插件總開關
+
+小浮窗（含精簡模式）與設定視窗標題列均有 **啟動插件／關閉插件** 按鈕，摺疊設定視窗後也能操作。狀態顯示 **已關閉**，或開啟後的 **已開啟・待命／導航中**。
+
+- 每次載入插件及登出後都預設關閉；舊設定中的啟用狀態也不會自動恢復。車頭、坐騎、位置與其他設定保留。
+- 啟動後才會監聽車頭及執行跟車。完成首次設定也會先保持關閉。
+- 關閉會取消導航、連車、血量監控及等待中的標點、切線和傳送重試；由本插件啟動且仍在執行的 Lifestream 工作也會停止。已經進入遊戲過圖的傳送無法撤回。
+- 重新開啟只接受新的工作，不會恢復關閉前的舊標點或延遲動作。
+- 指令 `/auht on`、`/auht off` 使用相同總開關；`/auht stop` 仍只停止本次導航。
 
 ## 自動傳送開關
 
